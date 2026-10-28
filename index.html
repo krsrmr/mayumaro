@@ -1,0 +1,1490 @@
+<title>마유마로 선생님</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Cormorant+Garamond:ital,wght@1,700&family=Nanum+Pen+Script&display=swap">
+<style>
+/* Layout: 일본 전자서적 스토어 상세 페이지 문법. 모바일(~899px)과 PC(900px~)가 서로 다른 구성.
+   모바일: 세로 스택 + 하단 고정 탭바. PC: 상단 검색 헤더 + 카테고리 내비 + 3단 히어로(표지/정보/구매 버튼) + 다단 푸터.
+   의도적으로 라이트 단일 테마(실제 스토어 화면 재현). 색과 로고는 가상 플랫폼 루넬 고유. */
+:root {
+  color-scheme: light;
+  --bg: #ffffff;
+  --band: #efeef2;
+  --line: #e1dee6;
+  --fg: #222027;
+  --muted: #75707e;
+  --link: #2a52c4;
+  --primary: #d63c72;
+  --primary-press: #b92f60;
+  --secondary: #3f5f99;
+  --sale: #e0442e;
+  --star: #f4a922;
+  --star-off: #d9d6de;
+  --ribbon: #ecebfa;
+  --ribbon-edge: #6c63d9;
+  --tone: #d4cfdc;
+  --tab: #8b8694;
+  --outline: #bcb8c4;
+  --font-body: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --font-logo: "Cormorant Garamond", "Times New Roman", serif;
+  /* 등장인물 페이지: 마시로의 작화 프로그램 화면 */
+  --app-bg: #1f1f22;
+  --app-panel: #2c2c30;
+  --app-panel-2: #37373c;
+  --app-edge: #151517;
+  --app-field: #45454b;
+  --app-text: #dcdce1;
+  --app-muted: #9a9aa4;
+  --app-sel: #3d6fd6;
+  --app-sel-soft: #2d3a57;
+  --app-sel-text: #a9c3f5;
+  --guide: #59b9e8;
+  --pencil-red: #d8432f;
+  --pencil-blue: #3b6fd6;
+  --font-hand: "Nanum Pen Script", "Gaegu", "Comic Sans MS", cursive;
+  /* '당신' 페이지: 커팅 매트 위의 크로키북 */
+  --mat: #2c5a4a;
+  --mat-line: rgba(255,255,255,.10);
+  --mat-line-strong: rgba(255,255,255,.22);
+  --sketch-paper: #f5f4ef;
+  --graphite: #3a3a40;
+  --kraft: #b4895a;
+  --ring: #b9bec6;
+  --marker: rgba(255,214,0,.55);
+}
+
+* { box-sizing: border-box; }
+body { background: var(--band); color: var(--fg); font-family: var(--font-body); font-size: 15px; line-height: 1.65; }
+button, input, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+[data-dead] { cursor: default; }
+a { color: var(--link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+button:focus-visible, a:focus-visible, summary:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+
+.band { background: var(--bg); margin-bottom: 12px; }
+.in { max-width: 600px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 22px; }
+h2 { font-size: 20px; font-weight: 900; line-height: 1.4; margin: 0 0 18px; text-wrap: balance; }
+.ellip2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.tri { display: inline-flex; align-items: center; gap: 6px; background: none; border: 0; padding: 0; font-size: 14px; color: var(--fg); font-weight: 500; }
+.tri::before { content: ""; border-left: 8px solid var(--sale); border-top: 5px solid transparent; border-bottom: 5px solid transparent; }
+
+/* logo */
+.logo { display: flex; align-items: center; gap: 8px; color: var(--fg); }
+.logo:hover { text-decoration: none; }
+.moon { width: 22px; height: 22px; border-radius: 50%; box-shadow: inset -7px -2px 0 0 var(--primary); transform: rotate(-20deg); flex: none; }
+.logo b { font-family: var(--font-logo); font-style: italic; font-weight: 700; font-size: 28px; line-height: 1; color: var(--primary); }
+.logo small { font-size: 11px; color: var(--muted); letter-spacing: 0.06em; }
+
+/* image slots */
+.slot { position: relative; background-color: #f7f5f9; background-image: radial-gradient(var(--tone) 1.1px, transparent 1.3px); background-size: 7px 7px; overflow: hidden; display: grid; place-items: center; max-width: 100%; }
+.slot .slot-label { background: var(--bg); color: var(--muted); font-size: 11px; padding: 3px 8px; border-radius: 99px; border: 1px solid var(--line); text-align: center; line-height: 1.45; }
+.slot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+/* shared bits */
+.ribbon { align-self: flex-start; font-size: 13px; color: var(--ribbon-edge); background: var(--ribbon); border-left: 4px solid var(--ribbon-edge); padding: 2px 34px 2px 20px; clip-path: polygon(0 0, 100% 0, calc(100% - 12px) 50%, 100% 100%, 0 100%); }
+.stars { position: relative; display: inline-block; font-size: 19px; line-height: 1; letter-spacing: 1px; color: var(--star-off); }
+.stars::before { content: "★★★★★"; position: absolute; inset: 0 auto 0 0; width: calc(var(--v) / 5 * 100%); overflow: hidden; color: var(--star); white-space: nowrap; }
+.price-old { color: var(--muted); text-decoration: line-through; font-size: 14px; }
+.price-now { color: var(--sale); font-weight: 700; font-size: 15px; }
+.price-now b { font-size: 26px; }
+.pts { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: var(--muted); }
+.pts i { display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: var(--secondary); color: #fff; font-style: normal; font-size: 11px; font-weight: 700; }
+.tag-red { align-self: flex-start; display: inline-block; border: 1.5px solid var(--sale); color: var(--sale); border-radius: 4px; font-size: 13px; padding: 0 8px; }
+.tag-gray { display: inline-block; border: 1px solid #a9a5b0; color: var(--muted); border-radius: 3px; font-size: 12px; padding: 0 6px; }
+.rank { display: inline-flex; align-items: center; gap: 4px; }
+.rank svg { width: 22px; height: 18px; fill: var(--sale); }
+.rank b { color: var(--sale); }
+.follow { border: 1px solid var(--outline); background: var(--bg); border-radius: 4px; padding: 8px 12px; font-size: 14px; white-space: nowrap; }
+.follow[aria-pressed="true"] { background: var(--fg); border-color: var(--fg); color: var(--bg); }
+
+.btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; border: 1px solid transparent; border-radius: 5px; font-weight: 700; font-size: 17px; padding: 14px 16px; color: #fff; }
+.btn svg { width: 24px; height: 24px; fill: currentColor; flex: none; }
+.btn.primary { background: var(--primary); }
+.btn.primary:active { background: var(--primary-press); }
+.btn.secondary { background: var(--secondary); }
+.btn.outline { background: var(--bg); color: var(--fg); border-color: var(--outline); font-weight: 500; }
+.btn.outline svg { fill: var(--fg); }
+.zero-dot { display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: #fff; color: var(--primary); font-size: 13px; font-weight: 900; flex: none; }
+.note { font-size: 13px; color: var(--muted); margin: 8px 0 16px; }
+
+/* ---------- mobile header ---------- */
+.sp-head { background: var(--bg); border-bottom: 1px solid var(--line); }
+.sp-head .in { display: flex; align-items: center; justify-content: space-between; padding-block: 10px; }
+.head-icons { display: flex; gap: 16px; }
+.hicon { display: flex; flex-direction: column; align-items: center; gap: 2px; background: none; border: 0; padding: 0; font-size: 11px; color: var(--muted); }
+.hicon svg { width: 24px; height: 24px; fill: var(--fg); }
+
+/* ---------- PC header ---------- */
+.pc-top { background: var(--band); font-size: 13px; }
+.pc-top .in { display: flex; align-items: center; gap: 12px; padding-block: 4px; }
+.pc-top p { margin: 0; margin-right: auto; color: var(--fg); }
+.pc-top .join { background: var(--primary); color: #fff; border: 0; border-radius: 3px; padding: 4px 26px; font-weight: 700; }
+.pc-top .login { background: var(--bg); border: 1px solid var(--outline); border-radius: 3px; padding: 3px 18px; display: inline-flex; align-items: center; gap: 6px; }
+.pc-top .login svg { width: 14px; height: 14px; fill: var(--fg); }
+.pc-head { background: var(--bg); }
+.pc-head .in { display: flex; align-items: center; gap: 14px; padding-block: 16px 10px; }
+.pc-head .logo b { font-size: 34px; }
+.filter { background: var(--bg); border: 1px solid var(--outline); border-radius: 3px; font-size: 12px; line-height: 1.3; padding: 4px 8px; }
+.search { display: flex; flex: 1; min-width: 0; max-width: 380px; border: 1px solid var(--outline); border-radius: 3px; overflow: hidden; }
+.search input { flex: 1; min-width: 0; border: 0; padding: 8px 10px; font-size: 13px; background: var(--bg); }
+.search button { border: 0; border-left: 1px solid var(--outline); background: #f2f1f4; padding: 0 16px; font-weight: 700; font-size: 13px; }
+.safe { border: 1px solid var(--outline); border-radius: 3px; padding: 8px 10px; font-size: 13px; background: var(--bg); }
+.pc-icons { display: flex; gap: 14px; margin-left: auto; }
+.pc-icons button { display: flex; flex-direction: column; align-items: center; gap: 2px; background: none; border: 0; padding: 0; font-size: 11px; color: var(--muted); position: relative; }
+.pc-icons svg { width: 26px; height: 26px; fill: #4a4651; }
+.pc-icons .get { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: var(--primary); color: #fff; font-size: 10px; font-weight: 700; padding: 0 5px; border-radius: 3px; }
+.pc-nav { background: var(--bg); border-bottom: 1px solid var(--line); }
+.pc-nav .in { display: flex; align-items: stretch; padding-block: 0; }
+.pc-nav .cats { display: flex; flex: 1; }
+.pc-nav .cats button { flex: 1; background: none; border: 0; border-left: 1px solid var(--line); padding: 10px 4px; font-size: 14px; line-height: 1.3; }
+.pc-nav .cats button:first-child { border-left: 0; }
+.pc-nav .cats button[aria-current] { color: var(--primary); font-weight: 700; box-shadow: inset 0 -3px 0 var(--primary); }
+.pc-nav .help { display: flex; align-items: center; gap: 10px; font-size: 13px; padding-left: 16px; }
+.pc-nav .help button { background: none; border: 0; padding: 0; }
+.pc-crumb { background: var(--band); font-size: 13px; }
+.pc-crumb .in { padding-block: 10px; display: flex; flex-wrap: wrap; gap: 6px 10px; }
+.pc-crumb span.sep { color: var(--muted); }
+
+/* ---------- mobile hero ---------- */
+.crumb { display: flex; align-items: center; gap: 6px; font-size: 15px; flex-wrap: wrap; }
+.title-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px; align-items: start; margin-top: 10px; }
+h1 { font-size: 22px; font-weight: 900; line-height: 1.45; margin: 0; }
+.buy { display: grid; grid-template-columns: 42% minmax(0, 1fr); gap: 16px; margin-top: 18px; }
+.cover { aspect-ratio: 7 / 10; box-shadow: 0 1px 4px rgba(0,0,0,.18); }
+.buy-info { min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+.author-link { font-size: 17px; }
+.rating { display: flex; align-items: center; gap: 6px; font-variant-numeric: tabular-nums; }
+.campaign { display: flex; align-items: center; gap: 10px; color: var(--sale); font-size: 22px; font-weight: 900; margin: 22px 0 12px; }
+.campaign .zero { background: var(--sale); color: #fff; font-size: 15px; padding: 4px 8px; border-radius: 3px; }
+
+/* ---------- PC hero ---------- */
+.pc-hero { display: grid; grid-template-columns: 220px minmax(0, 1fr) 280px; gap: 32px; }
+.pc-info { min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+.pc-info .head-line { display: flex; align-items: center; gap: 10px; font-size: 14px; }
+.pc-info h1 { font-size: 26px; line-height: 1.4; }
+.pc-info .author-link { font-size: 15px; }
+.pc-info hr { border: 0; border-top: 1px solid var(--line); margin: 4px 0; width: 100%; }
+.pc-price { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.pc-price .tag-red { align-self: center; }
+.pc-info .rating .stars { font-size: 22px; }
+.pc-info .rating { font-size: 17px; font-weight: 700; gap: 10px; }
+.pc-info .rating a { font-size: 14px; font-weight: 400; }
+.pc-info .syn { color: #48444f; font-size: 14px; line-height: 1.85; margin: 4px 0 0; }
+.pc-actions { display: flex; flex-direction: column; gap: 12px; }
+.pc-actions .btn { padding: 16px; }
+.pc-actions .app-try { align-self: flex-end; }
+.pc-tags { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 24px; }
+.pc-tags a { border: 1px solid var(--line); background: #f6f6f8; border-radius: 3px; padding: 4px 10px; font-size: 14px; }
+
+/* synopsis (mobile) */
+.syn { margin: 0; }
+.syn.clamp { display: -webkit-box; -webkit-line-clamp: 8; -webkit-box-orient: vertical; overflow: hidden; }
+.more { background: none; border: 0; padding: 0; color: var(--link); margin-top: 4px; }
+
+/* accordions */
+details.acc { border-top: 1px solid var(--line); }
+details.acc > summary { list-style: none; display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 16px; padding: 18px 0; cursor: pointer; }
+details.acc > summary::-webkit-details-marker { display: none; }
+details.acc > summary::after { content: ""; width: 12px; height: 12px; border-right: 2px solid var(--muted); border-bottom: 2px solid var(--muted); transform: rotate(45deg) translateY(-4px); transition: transform .2s; }
+details.acc[open] > summary::after { transform: rotate(-135deg) translateY(-2px); }
+.spec { display: grid; grid-template-columns: 8.5em 1em minmax(0, 1fr); row-gap: 10px; font-size: 15px; margin: 0 0 20px; }
+.spec dt { color: var(--muted); }
+.spec .colon { color: var(--muted); }
+.spec dd { margin: 0; }
+.guide { margin: 0 0 20px; padding-left: 18px; font-size: 14px; display: flex; flex-direction: column; gap: 6px; }
+
+/* characters teaser */
+.teaser { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 8px 14px; align-items: center; border: 1px solid var(--line); border-radius: 6px; padding: 12px; color: var(--fg); }
+.teaser:hover { text-decoration: none; border-color: var(--outline); background: #fbfafc; }
+.thumb { aspect-ratio: 3 / 4; border-radius: 4px; }
+.thumb img { object-position: top center; }
+.thumb .slot-label { font-size: 10px; padding: 2px 6px; }
+.t-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.pf-role { display: inline-block; font-size: 12px; font-weight: 700; color: var(--primary); border: 1px solid var(--primary); border-radius: 3px; padding: 0 6px; }
+.t-body .pf-role { align-self: flex-start; }
+.t-body strong { font-size: 17px; font-weight: 900; }
+.t-sub { font-size: 13px; color: var(--muted); }
+.t-desc { font-size: 14px; }
+.t-go { grid-column: 1 / -1; justify-self: end; color: var(--link); font-weight: 700; font-size: 14px; }
+a.tri { color: var(--fg); }
+
+/* profile page */
+a.btn, a.btn:hover { text-decoration: none; }
+a.btn.primary, a.btn.secondary { color: #fff; }
+
+/* episode list */
+.list-nav { display: flex; align-items: center; gap: 22px; font-weight: 700; font-size: 15px; border-bottom: 1px solid var(--line); padding-bottom: 14px; flex-wrap: wrap; }
+.list-nav .count { margin-left: auto; font-weight: 400; font-size: 13px; font-variant-numeric: tabular-nums; }
+.pager { display: flex; justify-content: center; padding: 18px 0; border-bottom: 1px solid var(--line); font-size: 17px; color: var(--tab); }
+.pager span { padding: 0 16px; border-left: 1px solid var(--line); }
+.pager span:first-child { border-left: 0; }
+.pager .cur { color: var(--sale); font-weight: 700; }
+.eps { list-style: none; margin: 0; padding: 0; }
+.ep { display: grid; grid-template-columns: 96px minmax(0, 1fr) 118px; grid-template-areas: "th ti ti" "th pr bt" "th sy sy"; gap: 6px 12px; padding: 16px 0; border-bottom: 1px solid var(--line); align-items: start; }
+.ep > .slot { grid-area: th; aspect-ratio: 7 / 10; }
+.ep-st { grid-area: st; }
+.ep-title { grid-area: ti; font-weight: 700; font-size: 15px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.ep-price { grid-area: pr; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; font-size: 14px; font-variant-numeric: tabular-nums; }
+.ep-price .now { color: var(--sale); }
+.ep-btns { grid-area: bt; display: flex; flex-direction: column; gap: 8px; }
+.ep-syn, .ep > details { grid-area: sy; font-size: 13px; }
+.ep-syn { margin: 0; color: #48444f; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.sbtn { display: flex; align-items: center; justify-content: center; gap: 6px; border-radius: 4px; padding: 9px 4px; font-size: 14px; border: 1px solid transparent; color: #fff; }
+.sbtn svg { width: 18px; height: 18px; fill: currentColor; }
+.sbtn.cart { background: var(--secondary); }
+.sbtn.free { background: var(--primary); }
+.sbtn.try { background: var(--bg); color: var(--fg); border-color: var(--outline); }
+.ep summary { list-style: none; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+.ep summary::-webkit-details-marker { display: none; }
+.ep summary::before { content: "▾"; display: inline-grid; place-items: center; width: 18px; height: 18px; border: 1px solid var(--muted); border-radius: 50%; font-size: 10px; color: var(--muted); }
+.ep details[open] summary::before { content: "▴"; }
+.ep details p { margin: 6px 0 0; color: var(--muted); }
+.new { color: var(--sale); font-size: 11px; font-weight: 700; border: 1px solid var(--sale); border-radius: 3px; padding: 0 4px; margin-left: 4px; vertical-align: 2px; }
+.bulk { padding-top: 20px; display: flex; flex-direction: column; }
+
+/* reviews */
+.rv-top { display: flex; flex-direction: column; }
+.rv-right { order: 1; }
+.rv-left { order: 2; }
+.rv-banner { text-align: center; color: var(--sale); font-weight: 900; font-size: 19px; margin: 0; }
+.rv-banner small { display: block; font-weight: 400; font-size: 13px; }
+.write { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: var(--bg); border: 1px solid var(--outline); border-radius: 5px; padding: 14px; font-weight: 700; font-size: 16px; margin: 16px 0 20px; }
+.write svg { width: 20px; height: 20px; fill: var(--fg); }
+.avg { display: flex; justify-content: center; align-items: center; gap: 12px; font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.avg .stars { font-size: 30px; }
+.avg small { font-size: 14px; font-weight: 400; color: var(--muted); }
+.chip-label { display: none; }
+.chips { display: flex; gap: 10px; flex-wrap: wrap; margin: 18px 0 4px; }
+.chips span { border: 1px solid var(--line); background: #f6f6f8; color: var(--link); border-radius: 4px; padding: 6px 16px; font-size: 15px; }
+.review { border-top: 1px solid var(--line); padding: 20px 0; display: flex; flex-direction: column; gap: 8px; }
+.who { display: flex; align-items: center; gap: 10px; }
+.ava { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; color: #fff; font-size: 15px; flex: none; }
+.who a { font-size: 16px; }
+.medal { width: 20px; height: 22px; }
+.rv-meta { display: flex; align-items: center; gap: 10px; }
+.review h3 { margin: 4px 0 0; font-size: 17px; font-weight: 900; }
+.review p { margin: 0; }
+.htags { display: flex; gap: 10px; flex-wrap: wrap; font-size: 14px; }
+.rv-foot { display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.like { display: inline-flex; align-items: center; background: none; border: 0; padding: 0; }
+.like svg { width: 26px; height: 26px; fill: none; stroke: var(--muted); stroke-width: 1.6; }
+.like[aria-pressed="true"] svg { fill: var(--primary); stroke: var(--primary); }
+.like .cnt { border: 1px solid var(--outline); border-radius: 4px; padding: 2px 18px; margin-left: 10px; color: var(--fg); }
+.rv-more { display: block; text-align: center; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 16px 0; width: 100%; background: none; border-left: 0; border-right: 0; color: var(--link); font-weight: 700; }
+.rv-all { display: flex; justify-content: flex-end; margin-top: 18px; }
+
+/* other works */
+.works { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.work { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.work .slot { aspect-ratio: 7 / 10; box-shadow: 0 1px 3px rgba(0,0,0,.14); }
+.work .ribbon { align-self: stretch; text-align: center; padding: 1px 0; font-size: 11px; }
+.work .t { font-size: 13px; color: var(--fg); line-height: 1.4; }
+.work .a { font-size: 13px; }
+.work .sbtn { margin-top: 4px; }
+.works-note { font-size: 13px; color: var(--muted); margin: 14px 0 0; }
+
+/* follow & share */
+.fgrid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; }
+.fcol h2 { margin-bottom: 8px; }
+.lead { margin: 0 0 12px; font-size: 14px; }
+.frow { display: grid; grid-template-columns: auto minmax(0, 1fr) 110px; gap: 12px; align-items: center; padding: 12px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.frow.plain { grid-template-columns: minmax(0, 1fr) 110px; }
+.frow .slot { width: 40px; height: 40px; border-radius: 50%; }
+.frow .slot .slot-label { display: none; }
+.frow .nm small { display: block; color: var(--muted); font-size: 12px; }
+.frow .follow { width: 100%; padding: 10px 0; }
+.f-about { display: flex; justify-content: flex-end; margin-top: 14px; }
+.share { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 22px; }
+.share button { display: flex; align-items: center; gap: 8px; background: var(--band); border: 0; border-radius: 99px; padding: 10px 18px; font-size: 14px; }
+.share svg { width: 20px; height: 20px; fill: var(--fg); }
+
+/* same genre */
+.genre-links { list-style: none; margin: 0; padding: 0 0 0 16px; display: flex; flex-direction: column; gap: 4px; font-size: 15px; }
+.genre-links span { color: var(--muted); margin: 0 8px; }
+.pagetop { display: flex; justify-content: flex-end; margin-top: 16px; font-size: 14px; }
+.pagetop button { background: none; border: 0; padding: 0; color: var(--link); }
+
+/* PC footer */
+.pc-promo { background: #f2b6c9; }
+.pc-promo .in { padding-block: 14px; }
+.pc-promo .box { background: var(--bg); border-radius: 10px; display: grid; grid-template-columns: 180px repeat(2, minmax(0, 1fr)); align-items: center; }
+.pc-promo .lead2 { color: var(--primary); font-weight: 900; font-size: 15px; line-height: 1.4; padding: 14px 20px; }
+.pc-promo button { display: flex; align-items: center; gap: 12px; text-align: left; background: none; border: 0; border-left: 1px solid var(--line); padding: 14px 20px; }
+.pc-promo .ic { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; flex: none; }
+.pc-promo .ic svg { width: 22px; height: 22px; fill: #fff; }
+.pc-promo b { display: block; font-size: 15px; }
+.pc-promo small { color: var(--muted); font-size: 12px; }
+.pc-foot { background: var(--bg); }
+.pc-foot .in { display: grid; grid-template-columns: 240px repeat(3, minmax(0, 1fr)); gap: 32px; padding-block: 32px; font-size: 13px; }
+.pc-foot h4 { margin: 0 0 6px; font-size: 14px; color: var(--muted); font-weight: 700; }
+.pc-foot ul { list-style: none; margin: 0 0 18px; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.pc-foot li { color: var(--muted); }
+.pc-foot .copy { color: var(--primary); font-weight: 700; margin: 12px 0 6px; }
+.pc-foot .desc { color: var(--muted); margin: 0; }
+
+footer.disclaimer { max-width: 600px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 8px 24px; font-size: 12px; color: var(--muted); }
+
+/* fixed UI (mobile) */
+.tabbar { position: fixed; left: 0; right: 0; bottom: 0; background: #fafafb; border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom, 0px); z-index: 20; }
+.tabbar .row { max-width: 600px; margin: 0 auto; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); padding-left: env(safe-area-inset-left, 0px); padding-right: env(safe-area-inset-right, 0px); }
+.tabbar button { background: none; border: 0; border-left: 1px solid var(--line); display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 0 6px; font-size: 11px; color: var(--tab); }
+.tabbar button:first-child { border-left: 0; }
+.tabbar svg { width: 26px; height: 26px; fill: var(--tab); }
+.totop { position: fixed; right: calc(14px + env(safe-area-inset-right, 0px)); bottom: calc(80px + env(safe-area-inset-bottom, 0px)); width: 54px; height: 54px; border-radius: 50%; border: 0; background: rgba(110,106,118,.82); display: grid; place-items: center; z-index: 21; }
+.totop svg { width: 26px; height: 26px; fill: #fff; }
+.toast { position: fixed; left: 50%; bottom: calc(150px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: rgba(34,32,39,.92); color: #fff; font-size: 14px; padding: 10px 18px; border-radius: 99px; z-index: 30; white-space: nowrap; max-width: calc(100% - 32px); overflow: hidden; text-overflow: ellipsis; }
+
+
+/* ========== 등장인물 페이지: 작화 프로그램 화면 (의도적으로 다크 단일 테마) ========== */
+body.app-mode { background: var(--app-bg); padding-bottom: 0 !important; }
+body.immersive { padding-bottom: 0 !important; }
+body.immersive .sp-head, body.immersive .pc-top, body.immersive .pc-head, body.immersive .pc-nav, body.immersive .pc-crumb,
+body.immersive .pc-promo, body.immersive .pc-foot, body.immersive footer.disclaimer, body.immersive .tabbar, body.immersive .totop { display: none !important; }
+.crt { position: fixed; inset: 0; background: #000; z-index: 200; pointer-events: none; }
+
+.app { color: var(--app-text); background: var(--app-bg); font-size: 12px; line-height: 1.5; display: flex; flex-direction: column; min-height: 100vh; }
+.app a { color: inherit; }
+.app a:hover { text-decoration: none; }
+.app-menubar { display: flex; align-items: center; gap: 16px; min-height: 32px; padding-left: max(10px, env(safe-area-inset-left, 0px)); padding-right: max(10px, env(safe-area-inset-right, 0px)); background: var(--app-edge); }
+.app-logo { display: flex; align-items: center; gap: 6px; font-weight: 700; color: #fff; white-space: nowrap; }
+.app-logo i, .splash-logo i { display: inline-grid; place-items: center; border-radius: 4px; background: linear-gradient(135deg, var(--guide), var(--app-sel)); }
+.app-logo i { width: 18px; height: 18px; }
+.app-logo i svg { width: 12px; height: 12px; fill: #fff; }
+.app-menus { display: flex; gap: 16px; }
+.app-exit { margin-left: auto; display: flex; align-items: center; gap: 8px; padding: 3px 10px; border-radius: 3px; background: var(--app-panel-2); white-space: nowrap; }
+.app-exit:hover { background: var(--app-sel); }
+.app-exit b { font-size: 14px; line-height: 1; }
+.app-cmdbar { display: flex; align-items: center; gap: 2px; min-height: 34px; padding: 0 10px; background: var(--app-panel); border-bottom: 1px solid var(--app-edge); }
+.app-cmdbar span { width: 28px; height: 26px; display: grid; place-items: center; }
+.app-cmdbar svg { width: 16px; height: 16px; fill: var(--app-muted); }
+.app-cmdbar .sep { width: 1px; height: 18px; background: var(--app-field); margin: 0 6px; }
+.app-body { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+
+.app-tools { order: 2; display: flex; gap: 2px; padding: 6px max(10px, env(safe-area-inset-left, 0px)); background: var(--app-panel); border-top: 1px solid var(--app-edge); border-bottom: 1px solid var(--app-edge); overflow-x: auto; }
+.tool { width: 36px; height: 36px; flex: none; display: grid; place-items: center; border: 0; border-radius: 4px; background: none; }
+.tool svg { width: 20px; height: 20px; fill: var(--app-text); }
+.tool:hover { background: var(--app-panel-2); }
+.tool[aria-pressed="true"] { background: var(--app-sel); }
+
+.app-sub { display: none; background: var(--app-panel); border-right: 1px solid var(--app-edge); overflow: auto; }
+.ph { margin: 0; font-size: 12px; font-weight: 700; padding: 6px 10px; background: var(--app-panel-2); border-bottom: 1px solid var(--app-edge); display: flex; justify-content: space-between; gap: 8px; color: var(--app-text); }
+.ph small { font-weight: 400; color: var(--app-muted); }
+.subtools { list-style: none; margin: 0; padding: 4px; display: flex; flex-direction: column; gap: 2px; }
+.subtools button { width: 100%; display: grid; grid-template-columns: minmax(0, 1fr) 58px; align-items: center; gap: 6px; background: none; border: 0; padding: 6px 8px; border-radius: 3px; text-align: left; color: var(--app-text); font-size: 12px; }
+.subtools button:hover { background: var(--app-panel-2); }
+.subtools button[aria-pressed="true"] { background: var(--app-sel-soft); box-shadow: inset 0 0 0 1px var(--app-sel); }
+.subtools svg { width: 58px; height: 14px; }
+.subtools path { fill: none; stroke: var(--app-text); stroke-linecap: round; }
+.prop { padding: 10px; display: flex; flex-direction: column; gap: 6px; border-bottom: 1px solid var(--app-edge); }
+.prop label { display: flex; justify-content: space-between; color: var(--app-muted); }
+.prop label output { color: var(--app-text); font-variant-numeric: tabular-nums; }
+.prop input[type="range"] { width: 100%; accent-color: var(--app-sel); }
+.wheel { position: relative; width: 132px; height: 132px; margin: 6px auto 4px; border-radius: 50%; background: conic-gradient(#f33, #ff3, #3f3, #3ff, #33f, #f3f, #f33); }
+.wheel::before { content: ""; position: absolute; inset: 14px; border-radius: 50%; background: var(--app-panel); }
+.wheel .sv { position: absolute; inset: 36px; background: linear-gradient(to top, #000, transparent), linear-gradient(to right, #fff, var(--pencil-red)); }
+.colors { display: flex; gap: 6px; justify-content: center; align-items: center; color: var(--app-muted); }
+.colors i { width: 22px; height: 22px; border: 1px solid #000; display: block; }
+
+.app-canvas-wrap { order: 1; display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+.app-tabs { display: flex; background: var(--app-panel); border-bottom: 1px solid var(--app-edge); min-width: 0; }
+.tab { display: flex; align-items: center; gap: 10px; padding: 6px 12px; background: var(--app-panel-2); border-right: 1px solid var(--app-edge); min-width: 0; max-width: 100%; }
+.tab span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tab a { color: var(--app-muted); font-size: 14px; line-height: 1; }
+.tab a:hover { color: #fff; }
+.app-canvas { flex: 1; display: grid; place-items: center; padding: 16px max(16px, env(safe-area-inset-left, 0px)); background: #4b4b51; overflow: hidden; }
+.paper { position: relative; width: 100%; max-width: 440px; aspect-ratio: 257 / 364; background: #fff; box-shadow: 0 4px 18px rgba(0,0,0,.45); container-type: inline-size; overflow: hidden; color: #222; }
+.paper.no-paper { background: repeating-conic-gradient(#dcdce0 0 25%, #fff 0 50%) 0 0 / 16px 16px; }
+.trim { position: absolute; inset: 3% 4.5%; border: 1px dashed rgba(89,185,232,.75); pointer-events: none; }
+.frame { position: absolute; inset: 6% 7.5%; border: 1px solid var(--guide); pointer-events: none; }
+.tone-layer { position: absolute; left: 7.5%; right: 7.5%; bottom: 6%; height: 40%; background-image: radial-gradient(#8e94a0 1px, transparent 1.3px); background-size: 6px 6px; -webkit-mask-image: linear-gradient(to top, #000, transparent); mask-image: linear-gradient(to top, #000, transparent); opacity: .55; pointer-events: none; }
+.paper.no-tone .tone-layer { display: none; }
+.paper .art { position: absolute; left: 9%; top: 9%; height: 76%; aspect-ratio: 1 / 2; background-color: #f4f3f6; }
+.paper .art img { object-position: top center; }
+.paper.no-line .art { filter: blur(2.5px); }
+.paper.no-color .art { filter: grayscale(1); }
+.paper.no-line.no-color .art { filter: blur(2.5px) grayscale(1); }
+.bracket { position: absolute; left: 64.5%; top: 9%; height: 76%; width: 2.2%; border: 1.5px solid var(--pencil-red); border-left: 0; pointer-events: none; }
+.paper .note { position: absolute; left: 68.5%; right: 4%; font-family: var(--font-hand); font-size: 4.1cqw; line-height: 1.12; color: var(--pencil-red); pointer-events: none; }
+.paper .note.big { font-size: 7.4cqw; }
+.paper .note.title { left: 9%; right: 4%; top: 2.2%; color: var(--pencil-blue); font-size: 4.4cqw; }
+.paper .note.foot { left: 9%; right: 4%; top: 87%; }
+.paper .n1 { top: 10%; } .paper .n2 { top: 22%; } .paper .n3 { top: 41%; } .paper .n4 { top: 56%; } .paper .n5 { top: 68%; }
+.paper.hide-notes .note, .paper.hide-notes .bracket { display: none; }
+.brush { position: absolute; left: 50%; top: 50%; width: 14px; height: 14px; border: 1.5px solid var(--pencil-blue); border-radius: 50%; transform: translate(-50%, -50%); pointer-events: none; opacity: 0; }
+.app-status { display: none; gap: 18px; padding: 4px 10px; background: var(--app-panel); border-top: 1px solid var(--app-edge); color: var(--app-muted); font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; }
+
+.app-right { order: 3; background: var(--app-panel); display: flex; flex-direction: column; }
+.panel { border-bottom: 1px solid var(--app-edge); }
+.npc-head { display: flex; align-items: center; gap: 8px; padding: 10px 10px 4px; flex-wrap: wrap; }
+.npc-head strong { font-size: 16px; color: #fff; }
+.npc-chip { font-size: 11px; color: var(--app-sel-text); border: 1px solid var(--app-sel); border-radius: 3px; padding: 0 5px; }
+.attrs { margin: 0; padding: 6px 10px 12px; display: grid; grid-template-columns: 4.2em minmax(0, 1fr); gap: 6px 8px; align-items: center; }
+.attrs dt { color: var(--app-muted); }
+.attrs dd { margin: 0; background: var(--app-bg); border: 1px solid var(--app-field); border-radius: 3px; padding: 3px 8px; color: #fff; }
+.layer-ctrl { display: flex; gap: 6px; padding: 6px 10px; align-items: center; color: var(--app-muted); }
+.field { background: var(--app-bg); border: 1px solid var(--app-field); border-radius: 3px; padding: 1px 8px; color: var(--app-text); }
+.layers { list-style: none; margin: 0; padding: 0 0 4px; }
+.layer { display: grid; grid-template-columns: 28px 42px minmax(0, 1fr) 16px; align-items: center; gap: 8px; padding: 4px 8px 4px 4px; border-top: 1px solid var(--app-edge); cursor: pointer; user-select: none; }
+.layer:hover { background: var(--app-panel-2); }
+.layer.sel { background: var(--app-sel-soft); }
+.eye { width: 26px; height: 26px; border: 0; background: none; display: grid; place-items: center; border-radius: 3px; }
+.eye:hover { background: var(--app-field); }
+.eye svg { width: 16px; height: 16px; fill: var(--app-text); }
+.eye[aria-pressed="false"] svg { opacity: .22; }
+.lthumb { width: 42px; height: 30px; background: #fff; border: 1px solid #000; display: block; }
+.lt-notes { background: linear-gradient(160deg, transparent 44%, var(--pencil-red) 45% 50%, transparent 51%), #fff; }
+.lt-line { background: linear-gradient(90deg, transparent 30%, #222 31% 34%, transparent 35% 62%, #222 63% 66%, transparent 67%), #fff; }
+.lt-color { background: linear-gradient(135deg, #f3c4cf, #c9d4f2); }
+.lt-tone { background: radial-gradient(#8e94a0 1px, transparent 1.3px) 0 0 / 5px 5px, #fff; }
+.layer.locked .lthumb { background: repeating-linear-gradient(45deg, #2a2a2e 0 4px, #3c3c42 4px 8px); }
+.lname { display: flex; flex-direction: column; min-width: 0; line-height: 1.3; }
+.lname small { color: var(--app-muted); font-size: 10px; }
+.layer.locked .lname { color: var(--app-muted); }
+.lock svg { width: 12px; height: 12px; fill: var(--app-muted); }
+.memo { padding: 12px 12px 18px; display: flex; flex-direction: column; gap: 14px; font-size: 13px; line-height: 1.7; }
+.memo h4 { margin: 0 0 4px; font-size: 12px; color: var(--app-sel-text); }
+.memo p { margin: 0; }
+.memo ul { margin: 0; padding-left: 16px; }
+.memo .say p { background: var(--app-bg); border-left: 2px solid var(--pencil-red); padding: 4px 10px; margin-top: 6px; }
+.app-mobile-exit { padding: 16px max(16px, env(safe-area-inset-left, 0px)) 28px; }
+.app .btn.outline { background: var(--app-panel-2); color: #fff; border-color: var(--app-field); }
+
+.splash { position: fixed; inset: 0; display: grid; place-items: center; z-index: 50; pointer-events: none; }
+.splash-box { width: min(360px, calc(100% - 48px)); background: #26262a; border: 1px solid #000; border-radius: 8px; padding: 24px; box-shadow: 0 10px 40px rgba(0,0,0,.6); display: flex; flex-direction: column; gap: 12px; color: var(--app-text); }
+.splash-logo { display: flex; align-items: center; gap: 12px; font-size: 20px; font-weight: 900; color: #fff; }
+.splash-logo i { width: 38px; height: 38px; border-radius: 9px; }
+.splash-logo i svg { width: 22px; height: 22px; fill: #fff; }
+.splash-logo small { display: block; font-size: 11px; font-weight: 400; color: var(--app-muted); }
+.splash .bar { height: 4px; background: #3a3a40; border-radius: 2px; overflow: hidden; }
+.splash .bar i { display: block; height: 100%; background: var(--app-sel); transform-origin: left center; }
+.splash p { margin: 0; font-size: 12px; color: var(--app-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+@media (min-width: 900px) {
+  .app { display: grid; grid-template-rows: auto auto minmax(0, 1fr); height: 100vh; height: 100dvh; min-height: 620px; }
+  .app-body { display: grid; grid-template-columns: 46px minmax(0, 1fr) 320px; }
+  .app-tools { order: 0; flex-direction: column; padding: 6px 5px; border-top: 0; border-bottom: 0; border-right: 1px solid var(--app-edge); overflow: visible; }
+  .app-canvas-wrap, .app-right { order: 0; }
+  .app-canvas { container-type: size; padding: 0; }
+  .paper { width: auto; max-width: none; height: min(calc(100cqh - 48px), calc((100cqw - 48px) * 1.4163)); }
+  .app-status { display: flex; }
+  .app-right { border-left: 1px solid var(--app-edge); overflow: auto; min-height: 0; }
+  .app-mobile-exit { display: none; }
+}
+@media (max-width: 899px) {
+  .app-menus, .app-cmdbar { display: none; }
+}
+@media (min-width: 1240px) {
+  .app-body { grid-template-columns: 46px 210px minmax(0, 1fr) 340px; }
+  .app-sub { display: block; }
+}
+
+
+/* characters teaser: two cards */
+.teasers { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
+.pf-role.you { color: var(--secondary); border-color: var(--secondary); }
+.sketch-thumb { background: var(--sketch-paper); display: grid; place-items: center; border: 1px solid var(--line); }
+.sketch-thumb svg { width: 70%; height: 90%; }
+.sketch-thumb path { fill: none; stroke: var(--graphite); stroke-width: 2.4; stroke-linecap: round; }
+
+/* ========== '당신' 페이지: 커팅 매트 위 크로키북 ========== */
+body.book-mode { background: var(--mat); }
+.veil { position: fixed; inset: 0; z-index: 200; background: var(--mat); pointer-events: none; }
+.book { min-height: 100vh; background-color: var(--mat); background-image:
+    linear-gradient(var(--mat-line-strong) 1px, transparent 1px), linear-gradient(90deg, var(--mat-line-strong) 1px, transparent 1px),
+    linear-gradient(var(--mat-line) 1px, transparent 1px), linear-gradient(90deg, var(--mat-line) 1px, transparent 1px);
+  background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 20px 40px; }
+.book-bar, .book-foot { max-width: 760px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.book-bar { margin-bottom: 30px; }
+.book-back { background: rgba(255,255,255,.92); color: var(--fg); border-radius: 99px; padding: 6px 14px; font-size: 14px; font-weight: 700; }
+.book-back:hover { text-decoration: none; background: #fff; }
+.book-label { color: rgba(255,255,255,.78); font-size: 12px; letter-spacing: .04em; }
+.book-foot { margin-top: 36px; }
+.book-foot .btn { max-width: 360px; margin: 0 auto; background: rgba(255,255,255,.95); }
+.sheets { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 44px; }
+.sheet { position: relative; background-color: var(--sketch-paper); background-image: radial-gradient(rgba(0,0,0,.035) 1px, transparent 1.2px); background-size: 3px 3px; padding: 58px max(20px, 4%) 34px; box-shadow: 0 8px 26px rgba(0,0,0,.35); transform: rotate(var(--r, 0deg)); color: var(--graphite); font-family: var(--font-hand); font-size: 22px; line-height: 1.35; }
+.rings { position: absolute; left: 0; right: 0; top: 0; height: 34px; z-index: 4; pointer-events: none;
+  background: radial-gradient(circle at 50% 22px, var(--mat) 4px, transparent 4.6px) 6px 0 / 26px 34px repeat-x; }
+.rings::before { content: ""; position: absolute; left: 6px; right: 0; top: -14px; height: 40px;
+  background: repeating-linear-gradient(90deg, transparent 0 10px, #dfe2e7 10px 12px, var(--ring) 12px 15px, #8d929a 15px 16px, transparent 16px 26px);
+  -webkit-mask-image: linear-gradient(#000 0 60%, transparent 60%); mask-image: linear-gradient(#000 0 60%, transparent 60%); }
+.book-cover { position: absolute; inset: 0; z-index: 3; background-color: var(--kraft); background-image: repeating-linear-gradient(8deg, rgba(0,0,0,.04) 0 2px, transparent 2px 5px); display: grid; place-items: center; box-shadow: 0 8px 26px rgba(0,0,0,.35); }
+.cover-label { background: #fdfcf8; border: 1px solid rgba(0,0,0,.2); padding: 18px 34px; text-align: center; font-family: var(--font-logo); color: #333; }
+.cover-label b { display: block; font-size: 34px; letter-spacing: .18em; font-style: italic; }
+.cover-label small { font-family: var(--font-body); font-size: 12px; color: #666; }
+.sheet h2 { font-size: 66px; font-weight: 400; line-height: 1; margin: 0; }
+.sheet h3 { font-size: 36px; font-weight: 400; line-height: 1.1; margin: 0 0 10px; }
+.sheet .sub { font-size: 30px; color: var(--pencil-red); margin: 8px 0 0; }
+.sheet p { margin: 0; }
+.mark { background: linear-gradient(transparent 55%, var(--marker) 55%); }
+.red { color: var(--pencil-red); }
+.gestures { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 26px 0 8px; }
+.gestures figure { margin: 0; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.gesture { width: 100%; max-width: 150px; height: auto; aspect-ratio: 120 / 200; }
+.gesture path { fill: none; stroke: var(--graphite); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.gesture path.soft { stroke-opacity: .35; stroke-width: 1.2; }
+.gestures figcaption { font-size: 20px; text-align: center; }
+.face-note { display: flex; align-items: center; gap: 14px; margin-top: 14px; flex-wrap: wrap; }
+.scribble { width: 64px; height: 64px; flex: none; border: 2px solid var(--graphite); border-radius: 50%; background: repeating-linear-gradient(-35deg, transparent 0 5px, rgba(58,58,64,.55) 5px 6.5px); }
+.check { list-style: none; padding: 0; margin: 10px 0 0; display: flex; flex-direction: column; gap: 14px; }
+.check > li { position: relative; padding-left: 34px; }
+.check > li::before { content: ""; position: absolute; left: 2px; top: .3em; width: 18px; height: 18px; border: 2px solid var(--graphite); border-radius: 3px; transform: rotate(-4deg); }
+.opts { list-style: none; padding: 0; margin: 4px 0 0; display: flex; flex-direction: column; gap: 2px; }
+.doodle { display: flex; align-items: center; gap: 12px; margin-top: 22px; justify-content: flex-end; }
+.doodle svg { width: 74px; height: 60px; }
+.doodle path, .doodle rect { fill: none; stroke: var(--graphite); stroke-width: 2; stroke-linecap: round; }
+.doodle span { font-size: 20px; color: var(--pencil-red); }
+@media (max-width: 560px) {
+  .sheet { font-size: 20px; }
+  .sheet h2 { font-size: 52px; }
+  .sheet h3 { font-size: 30px; }
+  .sheet .sub { font-size: 25px; }
+  .gestures { gap: 6px; }
+  .gestures figcaption { font-size: 17px; }
+}
+@media (min-width: 900px) {
+  .teasers { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 1000px; }
+  .teasers .teaser { max-width: none; }
+  .book { padding-block: 28px 56px; }
+}
+
+/* ---------- breakpoints ---------- */
+@media (max-width: 899px) {
+  .pc { display: none !important; }
+  body { padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px)); }
+}
+@media (max-width: 380px) {
+  .ep { grid-template-columns: 80px minmax(0, 1fr); grid-template-areas: "th ti" "th pr" "th bt" "th sy"; }
+  .ep-btns { flex-direction: row; }
+  .ep-btns .sbtn { flex: 1; }
+  .head-icons { gap: 10px; }
+}
+@media (min-width: 900px) {
+  .sp { display: none !important; }
+  .in { max-width: 1120px; }
+  .band { margin-bottom: 16px; }
+  .band > .in { padding-block: 32px; }
+  h2 { font-size: 24px; margin-bottom: 22px; }
+  .teaser { grid-template-columns: 110px minmax(0, 1fr) auto; max-width: 760px; padding: 16px; gap: 20px; }
+  .t-go { grid-column: auto; }
+
+  .list-nav { gap: 28px; }
+  .ep { grid-template-columns: 110px minmax(0, 1fr) 220px; grid-template-areas: "th st bt" "th ti bt" "th pr bt" "th sy bt"; gap: 6px 28px; padding: 18px 0; }
+  .ep-title { -webkit-line-clamp: 1; font-size: 16px; color: var(--fg); }
+  .ep-price { flex-direction: row; align-items: center; gap: 10px; }
+  .ep-btns .sbtn { padding: 10px; font-size: 15px; }
+  .pager { border-bottom: 0; }
+  .bulk { align-items: flex-end; padding-top: 4px; }
+  .bulk .btn { max-width: 420px; }
+  .rv-top { display: grid; grid-template-columns: minmax(0, 1fr) 460px; gap: 32px; align-items: start; }
+  .rv-left, .rv-right { order: 0; }
+  .avg { justify-content: flex-start; font-size: 44px; font-weight: 900; }
+  .avg .stars { font-size: 38px; }
+  .chip-label { display: block; font-size: 18px; margin: 26px 0 0; }
+  .chips { margin-top: 10px; }
+  .write { margin-bottom: 0; }
+  .works { grid-template-columns: repeat(auto-fill, 180px); gap: 28px; }
+  .fgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px; }
+  .totop { display: none; }
+  .toast { bottom: 40px; }
+  footer.disclaimer { max-width: 1120px; padding-block: 16px 32px; }
+}
+@media (min-width: 900px) and (max-width: 1099px) { .pc-icons .opt { display: none; } .pc-top p { font-size: 12px; } }
+@media (prefers-reduced-motion: reduce) { details.acc > summary::after { transition: none; } }
+</style>
+
+<!-- ===== Mobile header ===== -->
+<header class="sp sp-head">
+  <div class="in">
+    <a class="logo" href="#top" aria-label="루넬 홈"><span class="moon" aria-hidden="true"></span><b>Lunelle</b><small>ルネル</small></a>
+    <div class="head-icons">
+      <button class="hicon" type="button" data-dead tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h10v2H6v12h12v-8h2v10H4zM19.3 2.3l2.4 2.4-9 9-3.2.8.8-3.2z"/></svg>회원가입</button>
+      <button class="hicon" type="button" data-dead tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10V7a5 5 0 0 1 10 0v3h2v12H5V10zm2 0h6V7a3 3 0 0 0-6 0z"/></svg>로그인</button>
+      <button class="hicon" type="button" data-dead tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v2.4H3zm0 5.8h18v2.4H3zm0 5.8h18V19H3z"/></svg>메뉴</button>
+    </div>
+  </div>
+</header>
+
+<!-- ===== PC header ===== -->
+<div class="pc pc-top">
+  <div class="in">
+    <p>무료 만화·웹 연재·라노벨까지, 여성향 작품 120만 권 이상 배포 중!</p>
+    <button class="join" type="button" data-dead tabindex="-1">무료 회원가입</button>
+    <button class="login" type="button" data-dead tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10V7a5 5 0 0 1 10 0v3h2v12H5V10zm2 0h6V7a3 3 0 0 0-6 0z"/></svg>로그인</button>
+  </div>
+</div>
+<header class="pc pc-head">
+  <div class="in">
+    <a class="logo" href="#top" aria-label="루넬 홈"><span class="moon" aria-hidden="true"></span><b>Lunelle</b><small>ルネル</small></a>
+    <button class="filter" type="button" data-dead tabindex="-1">조건<br>검색</button>
+    <form class="search" id="search-form" role="search">
+      <input id="q" type="search" aria-label="검색어" placeholder="작품명·작가명 등을 입력해 주세요">
+      <button type="submit">검색</button>
+    </form>
+    <select class="safe" id="safe" aria-label="세이프서치"><option>세이프서치 켬</option><option selected>세이프서치 끔</option></select>
+    <div class="pc-icons">
+      <button type="button" data-toast="오늘의 출석 포인트를 받았어요"><span class="get">Get!</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20zm-2.5 5v10h2.2v-3.3h1.6a3.4 3.4 0 0 0 0-6.7zm2.2 2h1.5a1.4 1.4 0 0 1 0 2.8h-1.5z"/></svg>출석pt</button>
+      <button class="opt" type="button" data-dead tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3a9 9 0 1 1-8.5 12h2.2A7 7 0 1 0 6 9.5L8.5 12H2V5.5l2.5 2.5A9 9 0 0 1 13 3zm-1 4h2v5.2l3.5 2.1-1 1.7L12 13.3z"/></svg>열람 기록</button>
+      <button type="button" data-dead tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h3v16H3zm4.5 0h3v16h-3zM12 4.6l2.9-.8 4.1 15.4-2.9.8z"/></svg>내 책장</button>
+      <button type="button" data-dead tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h3l2.6 11h10.8L21 6H7.2L6.6 4H2zm6 15a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm9 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg>카트</button>
+      <button class="opt" type="button" data-dead tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.6 3h2.8v7.6H21v2.8h-7.6V21h-2.8v-7.6H3v-2.8h7.6z"/></svg>팔로우</button>
+      <button class="opt" type="button" data-dead tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 6h20v4a2 2 0 0 0 0 4v4H2v-4a2 2 0 0 0 0-4zm13 2v2h2V8zm0 4v2h2v-2z"/></svg>쿠폰</button>
+      <button type="button" data-dead tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9zm0 10.5c4.4 0 8 2.2 8 5V21H4v-2.5c0-2.8 3.6-5 8-5z"/></svg>마이페이지</button>
+    </div>
+  </div>
+</header>
+<nav class="pc pc-nav" aria-label="카테고리">
+  <div class="in">
+    <div class="cats">
+      <button type="button" data-dead tabindex="-1">종합</button>
+      <button type="button" aria-current="page">여성향</button>
+      <button type="button" data-dead tabindex="-1">TL</button>
+      <button type="button" data-dead tabindex="-1">BL</button>
+      <button type="button" data-dead tabindex="-1">오토나</button>
+      <button type="button" data-dead tabindex="-1">웹 연재</button>
+      <button type="button" data-dead tabindex="-1">라노벨</button>
+      <button type="button" data-dead tabindex="-1">랭킹</button>
+    </div>
+    <div class="help"><button type="button" data-dead tabindex="-1">처음 오신 분</button><span aria-hidden="true">|</span><button type="button" data-dead tabindex="-1">이용 가이드</button></div>
+  </div>
+</nav>
+<div class="pc pc-crumb">
+  <div class="in"><a href="#top">전자서적·만화 루넬</a><span class="sep">›</span><a href="#details">여성향</a><span class="sep">›</span><a href="#details">로맨스 코미디</a><span class="sep">›</span><a href="#details">요아카리 코믹스</a><span class="sep">›</span><a href="#top">마유마로 선생님 ~실례지만, 당신으로 에로만화 그려도 괜찮을까요?~</a><span class="sep crumb-p" hidden>›</span><span class="crumb-p" hidden>등장인물 프로필</span></div>
+</div>
+
+<div id="view-work">
+<!-- ===== Hero ===== -->
+<section class="band" id="top">
+  <!-- mobile hero -->
+  <div class="in sp">
+    <div class="crumb">
+      <a href="#details">여성향</a><span>&gt;</span><a href="#details">로맨스 코미디</a>
+      <span class="rank"><svg viewBox="0 0 24 20" aria-hidden="true"><path d="M2 6l5 4 5-8 5 8 5-4-2 12H4z"/></svg><b>1위</b></span>
+    </div>
+    <div class="title-row">
+      <h1>마유마로 선생님 ~실례지만, 당신으로 에로만화 그려도 괜찮을까요?~ (1)</h1>
+      <button class="follow" type="button" aria-pressed="false" data-follow>+ 팔로우</button>
+    </div>
+    <div class="buy">
+      <div class="slot cover" data-img="keyVisual"><span class="slot-label">표지<br>마시로 키비주얼</span></div>
+      <div class="buy-info">
+        <span class="ribbon">여성향</span>
+        <a class="author-link" href="#follow">마유마로</a>
+        <a class="tri" href="#profile">등장인물 프로필</a>
+        <div class="rating"><span class="stars" style="--v:4.6" aria-label="별점 4.6">★★★★★</span>4.6 <a href="#reviews">(128)</a></div>
+        <span class="price-old">220엔 (세금 포함)</span>
+        <span class="price-now"><b>0</b>엔 (세금 포함) 11/4까지</span>
+        <span class="pts"><i>P</i>0pt</span>
+        <span class="tag-red">무료</span>
+      </div>
+    </div>
+    <div class="campaign"><span class="zero">¥0</span>무료 캠페인 중</div>
+    <button class="btn primary" type="button" data-scroll="list"><span class="zero-dot">¥0</span>무료로 읽기</button>
+  </div>
+
+  <!-- PC hero -->
+  <div class="in pc">
+    <div class="pc-hero">
+      <div class="slot cover" data-img="keyVisual"><span class="slot-label">표지<br>마시로 키비주얼</span></div>
+      <div class="pc-info">
+        <div class="head-line"><span class="rank"><svg viewBox="0 0 24 20" aria-hidden="true"><path d="M2 6l5 4 5-8 5 8 5-4-2 12H4z"/></svg>로맨스 코미디 <b>1위</b></span><span class="tag-gray">연재 중</span></div>
+        <h1>마유마로 선생님 ~실례지만, 당신으로 에로만화 그려도 괜찮을까요?~ (1)</h1>
+        <span class="ribbon">여성향</span>
+        <a class="author-link" href="#follow">마유마로</a>
+        <hr>
+        <div class="pc-price"><span class="price-old">220엔 (세금 포함)</span><span class="price-now"><b>0</b>엔 (세금 포함) 11/4까지</span><span class="pts"><i>P</i>0pt</span><span class="tag-red">무료</span></div>
+        <div class="rating">4.6 <span class="stars" style="--v:4.6" aria-label="별점 4.6">★★★★★</span><a href="#reviews">128건</a></div>
+        <p class="syn">“시, 신고만은… 제발 봐주이소…!” 요즘 성인 웹코믹 랭킹을 휩쓴 화제작의 작가는, 마시멜로 프로필 사진이 귀여운 인기 작가 '마유마로 선생님'. 그런데 요즘, 캠퍼스에서 자꾸 누군가의 시선이 느껴진다. 189cm는 되어 보이는 덩치 큰 남자가 이쪽을 훔쳐보다가 눈만 마주치면 허둥지둥 도망가는 것. 참다못해 불러 세운 날, 그가 떨어뜨린 크로키북 속에는 당신의 얼굴, 그리고 얼마 전 읽은 그 만화의 원고가 있었다…!? 소심하고 음침한 덩치남 작가와, 그의 뮤즈가 되어버린 당신의 엉뚱한 로맨스 코미디. ※이 작품은 유저노트로 마유마로 선생님의 연재 장르(BL/TL/상업지)를 고를 수 있습니다.</p>
+      </div>
+      <div class="pc-actions">
+        <button class="btn primary" type="button" data-scroll="list"><span class="zero-dot">¥0</span>무료로 읽기</button>
+        <button class="btn secondary" type="button" data-cart><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h3l2.6 11h10.8L21 6H7.2L6.6 4H2zm6 15a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm9 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg>카트에 넣기</button>
+        <button class="btn outline" type="button" aria-pressed="false" data-follow>+ 팔로우하기</button>
+        <button class="btn outline" type="button" data-dead tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20zm-1.2 2.1A8 8 0 0 0 4.1 11h3.4c.1-2.6.6-5 1.4-6.9zM12 4c-1 1.4-2 3.9-2.2 7h4.4C14 7.9 13 5.4 12 4zm1.2.1c.8 1.9 1.3 4.3 1.4 6.9h3.3a8 8 0 0 0-4.7-6.9zM4.1 13a8 8 0 0 0 4.7 6.9c-.8-1.9-1.3-4.3-1.4-6.9zm5.7 0c.2 3.1 1.2 5.6 2.2 7 1-1.4 2-3.9 2.2-7zm6.7 0c-.1 2.6-.6 5-1.4 6.9a8 8 0 0 0 4.7-6.9z"/></svg>브라우저에서 맛보기</button>
+        <a class="btn outline" href="#profile"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9zm0 10.5c4.4 0 8 2.2 8 5V21H4v-2.5c0-2.8 3.6-5 8-5z"/></svg>등장인물 프로필 보기</a>
+        <button class="tri app-try" type="button" data-dead tabindex="-1">앱에서 맛보기는 여기</button>
+      </div>
+    </div>
+    <div class="pc-tags">
+      <a href="#details">캠퍼스(여성향)</a><a href="#details">대학생(여성향)</a><a href="#details">덩치남(여성향)</a><a href="#details">하남자(여성향)</a><a href="#details">사투리(여성향)</a><a href="#details">로맨스 코미디(여성향)</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Synopsis (mobile) & details ===== -->
+<section class="band" id="details">
+  <div class="in">
+    <div class="sp" style="margin-bottom:18px">
+      <p class="syn clamp" id="syn">“시, 신고만은… 제발 봐주이소…!” 요즘 성인 웹코믹 랭킹을 휩쓴 화제작의 작가는, 마시멜로 프로필 사진이 귀여운 인기 작가 '마유마로 선생님'. 그런데 요즘, 캠퍼스에서 자꾸 누군가의 시선이 느껴진다. 189cm는 되어 보이는 덩치 큰 남자가 이쪽을 훔쳐보다가 눈만 마주치면 허둥지둥 도망가는 것. 참다못해 불러 세운 날, 그가 떨어뜨린 크로키북 속에는 당신의 얼굴, 그리고 얼마 전 읽은 그 만화의 원고가 있었다…!? 소심하고 음침한 덩치남 작가와, 그의 뮤즈가 되어버린 당신의 엉뚱한 로맨스 코미디. ※이 작품은 유저노트로 마유마로 선생님의 연재 장르(BL/TL/상업지)를 고를 수 있습니다.</p>
+      <button class="more" type="button" id="more">…더 보기</button>
+    </div>
+    <details class="acc">
+      <summary>상세 정보 보기</summary>
+      <dl class="spec">
+        <dt>카테고리</dt><dd class="colon">:</dd><dd><a href="#details">여성향</a></dd>
+        <dt>장르</dt><dd class="colon">:</dd><dd><a href="#details">로맨스 코미디</a></dd>
+        <dt>출판사</dt><dd class="colon">:</dd><dd><a href="#details">루넬</a></dd>
+        <dt>게재지·레이블</dt><dd class="colon">:</dd><dd><a href="#details">@요아카리 코믹스</a></dd>
+        <dt>타이틀</dt><dd class="colon">:</dd><dd>마유마로 선생님 ~실례지만, 당신으로 에로만화 그려도 괜찮을까요?~</dd>
+        <dt>타이틀 ID</dt><dd class="colon">:</dd><dd>30528817</dd>
+        <dt>페이지 수</dt><dd class="colon">:</dd><dd>32페이지</dd>
+        <dt>전자판 발매일</dt><dd class="colon">:</dd><dd>2026년 10월 2일</dd>
+        <dt>콘텐츠 형식</dt><dd class="colon">:</dd><dd>EPUB</dd>
+        <dt>사이즈(기준)</dt><dd class="colon">:</dd><dd>9MB</dd>
+      </dl>
+    </details>
+    <details class="acc">
+      <summary>이용 안내</summary>
+      <ul class="guide">
+        <li>유저노트로 마유마로 선생님의 연재 장르(BL / TL / 상업지)를 고를 수 있어요.</li>
+        <li>당신은 마시로가 처음으로 '그리고 싶다'고 느낀 사람이에요. 성별, 직업, 만화 취향은 자유롭게 정해주세요.</li>
+        <li>성인향 작품입니다. 마시로의 제안을 받아들일지는 언제나 당신이 정합니다.</li>
+      </ul>
+    </details>
+  </div>
+</section>
+
+<!-- ===== Characters teaser ===== -->
+<section class="band" id="characters">
+  <div class="in">
+    <h2>등장인물</h2>
+    <div class="teasers">
+    <a class="teaser" href="#profile">
+      <div class="slot thumb" data-img="fullbody"><span class="slot-label">전신</span></div>
+      <div class="t-body">
+        <span class="pf-role">메인 NPC</span>
+        <strong>마츠유카와 마시로</strong>
+        <span class="t-sub">필명 마유마로 · 21세 · 189cm</span>
+        <span class="t-desc">소심하고 음침한 덩치남. 그런데 그림 이야기만 나오면 눈빛이 바뀐다.</span>
+      </div>
+      <span class="t-go">프로필 보기 ›</span>
+    </a>
+    <a class="teaser" href="#muse">
+      <div class="thumb sketch-thumb"><svg viewBox="0 0 120 200" aria-hidden="true"><path d="M60 18c9 0 14 7 13 15-1 9-7 14-14 13-8-1-12-8-11-15 1-8 6-13 12-13"/><path d="M60 46C56 80 66 110 58 150s-2 35 2 46"/><path d="M36 58c14-6 34-6 48 0"/><path d="M44 112c10-4 22-2 32 4"/><path d="M38 58c-6 22-8 42-4 64"/><path d="M84 58c8 20 10 38 4 60"/><path d="M48 114c-2 26-4 51-6 80"/><path d="M72 116c2 24 4 52 8 78"/></svg></div>
+      <div class="t-body">
+        <span class="pf-role you">플레이어</span>
+        <strong>당신</strong>
+        <span class="t-sub">성별·설정 자유</span>
+        <span class="t-desc">마시로의… 에로시즘적 뮤즈?</span>
+      </div>
+      <span class="t-go">크로키북 열기 ›</span>
+    </a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Episode list ===== -->
+<section class="band" id="list">
+  <div class="in">
+    <h2>마유마로 선생님 ~실례지만, 당신으로 에로만화 그려도 괜찮을까요?~ 목록</h2>
+    <div class="list-nav"><span class="pc">전 5화 배포 중</span><a class="tri" href="#ep1">1화로</a><a class="tri" href="#ep5">최신화로</a><span class="count">1~5건 / 5건</span></div>
+    <ol class="eps">
+      <li class="ep" id="ep1">
+        <div class="slot" data-img="keyVisual"><span class="slot-label">1화</span></div>
+        <span class="ep-st pc"><span class="tag-gray">연재 중</span></span>
+        <a class="ep-title" href="#ep1">마유마로 선생님<span class="pc"> ~실례지만, 당신으로 에로만화 그려도 괜찮을까요?~</span> (1) 떨어진 크로키북</a>
+        <div class="ep-price"><span class="price-old">220엔 (세금 포함)</span><span class="now">0엔 (세금 포함) 11/4까지</span><span class="tag-red">무료</span></div>
+        <div class="ep-btns"><button class="sbtn cart" type="button" data-cart><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h3l2.6 11h10.8L21 6H7.2L6.6 4H2zm6 15a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm9 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg>카트에 넣기</button><button class="sbtn free" type="button" data-dead tabindex="-1">¥0 무료로 읽기</button></div>
+        <p class="ep-syn pc">자꾸 이쪽을 훔쳐보는 덩치 큰 남자. 불러 세우자 도망치던 그가 크로키북을 떨어뜨리는데…!?</p>
+        <details class="sp"><summary>줄거리 보기</summary><p>자꾸 이쪽을 훔쳐보는 덩치 큰 남자. 불러 세우자 도망치던 그가 크로키북을 떨어뜨리는데…!?</p></details>
+      </li>
+      <li class="ep">
+        <div class="slot" data-img="keyVisual"><span class="slot-label">2화</span></div>
+        <span class="ep-st pc"><span class="tag-gray">연재 중</span></span>
+        <a class="ep-title" href="#list">마유마로 선생님<span class="pc"> ~실례지만, 당신으로 에로만화 그려도 괜찮을까요?~</span> (2) 신고만은 제발</a>
+        <div class="ep-price"><span class="price-old">220엔 (세금 포함)</span><span class="now">0엔 (세금 포함) 11/4까지</span><span class="tag-red">무료</span></div>
+        <div class="ep-btns"><button class="sbtn cart" type="button" data-cart><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h3l2.6 11h10.8L21 6H7.2L6.6 4H2zm6 15a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm9 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg>카트에 넣기</button><button class="sbtn free" type="button" data-dead tabindex="-1">¥0 무료로 읽기</button></div>
+        <p class="ep-syn pc">크로키북 속 그림의 정체는? 새파랗게 질린 그는 무릎이라도 꿇을 기세로 사과하기 시작한다.</p>
+        <details class="sp"><summary>줄거리 보기</summary><p>크로키북 속 그림의 정체는? 새파랗게 질린 그는 무릎이라도 꿇을 기세로 사과하기 시작한다.</p></details>
+      </li>
+      <li class="ep">
+        <div class="slot" data-img="keyVisual"><span class="slot-label">3화</span></div>
+        <span class="ep-st pc"><span class="tag-gray">연재 중</span></span>
+        <a class="ep-title" href="#list">마유마로 선생님<span class="pc"> ~실례지만, 당신으로 에로만화 그려도 괜찮을까요?~</span> (3) 계속 그려도 될까요</a>
+        <div class="ep-price"><span class="price-old">220엔 (세금 포함)</span><span class="now">110엔 (세금 포함) 11/4까지</span><span class="tag-red">할인</span></div>
+        <div class="ep-btns"><button class="sbtn cart" type="button" data-cart><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h3l2.6 11h10.8L21 6H7.2L6.6 4H2zm6 15a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm9 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg>카트에 넣기</button><button class="sbtn try" type="button" data-dead tabindex="-1">맛보기</button></div>
+        <p class="ep-syn pc">화제작의 작가가 바로 그였다니. 한참을 망설이던 그가 조심스럽게 꺼낸 질문은…</p>
+        <details class="sp"><summary>줄거리 보기</summary><p>화제작의 작가가 바로 그였다니. 한참을 망설이던 그가 조심스럽게 꺼낸 질문은…</p></details>
+      </li>
+      <li class="ep">
+        <div class="slot" data-img="keyVisual"><span class="slot-label">4화</span></div>
+        <span class="ep-st pc"><span class="tag-gray">연재 중</span></span>
+        <a class="ep-title" href="#list">마유마로 선생님<span class="pc"> ~실례지만, 당신으로 에로만화 그려도 괜찮을까요?~</span> (4) 실례지만, 당신으로</a>
+        <div class="ep-price"><span>220엔 (세금 포함)</span></div>
+        <div class="ep-btns"><button class="sbtn cart" type="button" data-cart><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h3l2.6 11h10.8L21 6H7.2L6.6 4H2zm6 15a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm9 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg>카트에 넣기</button><button class="sbtn try" type="button" data-dead tabindex="-1">맛보기</button></div>
+        <p class="ep-syn pc">맞선이라도 보러 온 듯 차려입고 나타난 그. 떨리는 목소리로 내민 부탁은 '모델'이 되어달라는 것.</p>
+        <details class="sp"><summary>줄거리 보기</summary><p>맞선이라도 보러 온 듯 차려입고 나타난 그. 떨리는 목소리로 내민 부탁은 '모델'이 되어달라는 것.</p></details>
+      </li>
+      <li class="ep" id="ep5">
+        <div class="slot" data-img="keyVisual"><span class="slot-label">5화</span></div>
+        <span class="ep-st pc"><span class="tag-gray">연재 중</span><span class="new">NEW</span></span>
+        <a class="ep-title" href="#ep5">마유마로 선생님<span class="pc"> ~실례지만, 당신으로 에로만화 그려도 괜찮을까요?~</span> (5) 이건 어디까지나 취재라서<span class="new sp">NEW</span></a>
+        <div class="ep-price"><span>220엔 (세금 포함)</span></div>
+        <div class="ep-btns"><button class="sbtn cart" type="button" data-cart><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h3l2.6 11h10.8L21 6H7.2L6.6 4H2zm6 15a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm9 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg>카트에 넣기</button><button class="sbtn try" type="button" data-dead tabindex="-1">맛보기</button></div>
+        <p class="ep-syn pc">작중 장면을 실제로 재현해보고 싶다는 그. 이건 정말, 어디까지나 취재일 뿐일까…?</p>
+        <details class="sp"><summary>줄거리 보기</summary><p>작중 장면을 실제로 재현해보고 싶다는 그. 이건 정말, 어디까지나 취재일 뿐일까…?</p></details>
+      </li>
+    </ol>
+    <div class="pager" aria-hidden="true"><span>&lt;&lt;</span><span>&lt;</span><span class="cur">1</span><span>&gt;</span><span>&gt;&gt;</span></div>
+    <div class="bulk">
+      <button class="btn secondary" type="button" data-toast="카트에 전권을 담았어요 (무료판 제외)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h3l2.6 11h10.8L21 6H7.2L6.6 4H2zm6 15a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm9 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg>카트에 전권 담기</button>
+      <p class="note">※기간 한정 무료판, 예약 작품은 카트에 담기지 않습니다</p>
+      <div class="sp">
+        <button class="btn primary" type="button" data-toast="신간 자동 구매를 신청했어요"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.6 6.4A8 8 0 0 0 4.1 10H6.2a6 6 0 0 1 10-2.2L13 11h8V3zM6.4 17.6A8 8 0 0 0 19.9 14h-2.1a6 6 0 0 1-10 2.2L11 13H3v8z"/></svg>신간 자동 구매</button>
+        <p class="note" style="margin-bottom:0"><button class="tri" type="button" data-toast="신간이 나오면 자동으로 구매해 드리는 기능이에요">신간 자동 구매란?</button></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Reviews ===== -->
+<section class="band" id="reviews">
+  <div class="in">
+    <h2>마유마로 선생님 ~실례지만, 당신으로 에로만화 그려도 괜찮을까요?~ (1) 의 유저 리뷰</h2>
+    <div class="rv-top">
+      <div class="rv-left">
+        <div class="avg">4.6 <span class="stars" style="--v:4.6" aria-label="별점 4.6">★★★★★</span><small class="sp">(128)</small></div>
+        <p class="chip-label">감정 태그 BEST3</p>
+        <div class="chips"><span>#두근두근</span><span>#코믹</span><span>#설렘</span></div>
+      </div>
+      <div class="rv-right">
+        <p class="rv-banner">＼ 리뷰를 쓰면 포인트 선물 ／<small>※구매한 작품이 대상입니다</small></p>
+        <button class="write" type="button" data-dead tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17.2V21h3.8L18 9.8 14.2 6zM20.7 7.1a1 1 0 0 0 0-1.4l-2.4-2.4a1 1 0 0 0-1.4 0l-1.8 1.8L18.9 9z"/></svg>리뷰 쓰기</button>
+      </div>
+    </div>
+
+    <article class="review" style="margin-top:20px">
+      <div class="who"><span class="ava" style="background:#e39ab3">소</span><a href="#reviews">소금빵좋아</a><svg class="medal" viewBox="0 0 20 22" aria-label="베스트 리뷰어"><path d="M6 12l-2 10 6-3 6 3-2-10z" fill="#d9534f"/><circle cx="10" cy="8" r="7.5" fill="#f4c430"/><path d="M10 4l1.2 2.6 2.8.3-2.1 1.9.6 2.8L10 10.2 7.5 11.6l.6-2.8L6 6.9l2.8-.3z" fill="#fff"/></svg></div>
+      <div class="rv-meta"><span class="stars" style="--v:5" aria-label="별점 5">★★★★★</span><span class="tag-gray">구매함</span></div>
+      <h3>순애 장인이 그린 고수위라니</h3>
+      <p>짝사랑물만 그리시던 선생님이 이런 것도 그리실 줄은 몰랐어요. 감정선은 여전히 섬세하고 수위는 미쳤습니다. 감사합니다(오열)</p>
+      <div class="htags"><a href="#reviews">#두근두근</a><a href="#reviews">#설렘</a><a href="#reviews">#그림체최고</a></div>
+      <div class="rv-foot"><button class="like" type="button" aria-pressed="false" data-like="31"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10v11H3V10zm2 11V10l4-7c1.6 0 2.6 1.2 2.2 2.8L14.5 9H20a2 2 0 0 1 2 2.3l-1.4 7.7A2.4 2.4 0 0 1 18.2 21z"/></svg><span class="cnt">31</span></button><span>2026년 10월 21일</span></div>
+    </article>
+
+    <article class="review">
+      <div class="who"><span class="ava" style="background:#8fb3d9">밤</span><a href="#reviews">밤샘원고</a></div>
+      <div class="rv-meta"><span class="stars" style="--v:4" aria-label="별점 4">★★★★★</span><span class="tag-gray">구매함</span></div>
+      <h3>상대역 얼굴이 너무 실존 인물</h3>
+      <p>그림이 사실적이라 진짜 모델 있는 거 아니냐는 얘기까지 나와요ㅋㅋ 선생님 분명 손이 작고 귀여운 여자분일 것 같은데, 대체 어디서 이런 박력이 나오는 거죠…</p>
+      <div class="htags"><a href="#reviews">#코믹</a><a href="#reviews">#두근두근</a></div>
+      <div class="rv-foot"><button class="like" type="button" aria-pressed="false" data-like="18"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10v11H3V10zm2 11V10l4-7c1.6 0 2.6 1.2 2.2 2.8L14.5 9H20a2 2 0 0 1 2 2.3l-1.4 7.7A2.4 2.4 0 0 1 18.2 21z"/></svg><span class="cnt">18</span></button><span>2026년 10월 14일</span></div>
+    </article>
+
+    <article class="review">
+      <div class="who"><span class="ava" style="background:#a6c99a">모</span><a href="#reviews">모찌모찌</a></div>
+      <div class="rv-meta"><span class="stars" style="--v:5" aria-label="별점 5">★★★★★</span><span class="tag-gray">구매함</span></div>
+      <h3>마시멜로 선생님의 갭</h3>
+      <p>후기 만화도 SNS도 너무 귀여우신데 본편은 이렇게 야하다니. 갭에 치여서 매주 기다리고 있어요.</p>
+      <div class="htags"><a href="#reviews">#설렘</a><a href="#reviews">#갭모에</a></div>
+      <div class="rv-foot"><button class="like" type="button" aria-pressed="false" data-like="9"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10v11H3V10zm2 11V10l4-7c1.6 0 2.6 1.2 2.2 2.8L14.5 9H20a2 2 0 0 1 2 2.3l-1.4 7.7A2.4 2.4 0 0 1 18.2 21z"/></svg><span class="cnt">9</span></button><span>2026년 10월 3일</span></div>
+    </article>
+
+    <button class="rv-more" type="button" data-dead tabindex="-1">리뷰 더 보기</button>
+    <div class="rv-all"><button class="tri" type="button" data-dead tabindex="-1">모든 리뷰 보기 (128)</button></div>
+  </div>
+</section>
+
+<!-- ===== Other works ===== -->
+<section class="band" id="works">
+  <div class="in">
+    <h2>이 작가의 다른 작품</h2>
+    <div class="works">
+      <div class="work"><div class="slot" data-img="coverBL"><span class="slot-label">BL 표지</span></div><span class="ribbon">BL</span><span class="t">작품명 미정</span><a class="a" href="#follow">마유마로</a><button class="sbtn try" type="button" data-dead tabindex="-1">맛보기</button></div>
+      <div class="work"><div class="slot" data-img="coverTL"><span class="slot-label">TL 표지</span></div><span class="ribbon">TL</span><span class="t">작품명 미정</span><a class="a" href="#follow">마유마로</a><button class="sbtn try" type="button" data-dead tabindex="-1">맛보기</button></div>
+      <div class="work"><div class="slot" data-img="coverAdult"><span class="slot-label">상업지 표지</span></div><span class="ribbon">상업지</span><span class="t">작품명 미정</span><a class="a" href="#follow">마유마로</a><button class="sbtn try" type="button" data-dead tabindex="-1">맛보기</button></div>
+    </div>
+    <p class="works-note">유저노트에서 고른 장르가 마유마로 선생님의 화제작이 됩니다.</p>
+  </div>
+</section>
+
+<!-- ===== Follow & share ===== -->
+<section class="band" id="follow">
+  <div class="in">
+    <div class="fgrid">
+      <div class="fcol">
+        <h2>작품을 팔로우하기</h2>
+        <p class="lead">신간이나 세일 정보를 알려드립니다.</p>
+        <div class="frow plain"><span>마유마로 선생님 ~실례지만, 당신으로 에로만화 그려도 괜찮을까요?~</span><button class="follow" type="button" aria-pressed="false" data-follow>팔로우</button></div>
+      </div>
+      <div class="fcol">
+        <h2>작가를 팔로우하기</h2>
+        <p class="lead">신간 정보를 알려드립니다.</p>
+        <div class="frow"><div class="slot" data-img="avatar"><span class="slot-label">프사</span></div><span class="nm">마유마로<small>@mayumaro_works</small></span><button class="follow" type="button" aria-pressed="false" data-follow>팔로우</button></div>
+      </div>
+    </div>
+    <div class="f-about"><button class="tri" type="button" data-toast="팔로우한 작품과 작가의 소식을 알려드려요">팔로우 기능이란?</button></div>
+    <div class="share">
+      <span>이 작품을 공유하기</span>
+      <button type="button" id="copy-link"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.6 13.4a1 1 0 0 1 0-1.4l3.5-3.5a3 3 0 0 1 4.3 4.2l-2.2 2.2-1.4-1.4 2.2-2.2a1 1 0 0 0-1.5-1.4l-3.5 3.5a1 1 0 0 1-1.4 0zM13.4 10.6a1 1 0 0 1 0 1.4L9.9 15.5a3 3 0 0 1-4.3-4.2l2.2-2.2 1.4 1.4-2.2 2.2a1 1 0 0 0 1.5 1.4l3.5-3.5a1 1 0 0 1 1.4 0z"/></svg>링크 복사</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Same genre (PC) ===== -->
+<section class="band pc">
+  <div class="in">
+    <h2>같은 장르의 작품 찾기</h2>
+    <ul class="genre-links">
+      <li><a href="#details">여성향</a><span>&gt;</span><a href="#details">로맨스 코미디</a></li>
+      <li><a href="#details">여성향</a><span>&gt;</span><a href="#follow">마유마로</a></li>
+      <li><a href="#details">여성향</a><span>&gt;</span><a href="#details">루넬</a></li>
+      <li><a href="#details">여성향</a><span>&gt;</span><a href="#details">요아카리 코믹스</a></li>
+    </ul>
+    <div class="pagetop"><button type="button" data-top>▲ 마유마로 선생님 ~실례지만, 당신으로 에로만화 그려도 괜찮을까요?~ (1) 페이지 맨 위로</button></div>
+  </div>
+</section>
+
+</div>
+
+<!-- ===== Profile page: 마시로의 작화 프로그램 ===== -->
+<div id="view-profile" class="app" hidden>
+  <header class="app-menubar">
+    <span class="app-logo"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3l6 6-11 11H4v-6z"/></svg></i>Senbyo Paint</span>
+    <nav class="app-menus" aria-hidden="true"><span>파일</span><span>편집</span><span>페이지 관리</span><span>레이어</span><span>선택 범위</span><span>보기</span><span>필터</span><span>창</span><span>도움말</span></nav>
+    <a class="app-exit" href="#top">작품 페이지로 돌아가기 <b aria-hidden="true">×</b></a>
+  </header>
+  <div class="app-cmdbar" aria-hidden="true">
+    <span><svg viewBox="0 0 24 24"><path d="M6 2h8l5 5v15H6zm7 1.5V8h4.5z"/></svg></span>
+    <span><svg viewBox="0 0 24 24"><path d="M3 6h7l2 2h9v12H3z"/></svg></span>
+    <span><svg viewBox="0 0 24 24"><path d="M4 3h13l4 4v14H4zm3 2v5h9V5zm1 9v5h8v-5z"/></svg></span>
+    <i class="sep"></i>
+    <span><svg viewBox="0 0 24 24"><path d="M9 5L3 11l6 6v-4h6a4 4 0 0 1 0 8h-2v2h2a6 6 0 0 0 0-12H9z"/></svg></span>
+    <span><svg viewBox="0 0 24 24"><path d="M15 5l6 6-6 6v-4H9a4 4 0 0 0 0 8h2v2H9a6 6 0 0 1 0-12h6z"/></svg></span>
+    <i class="sep"></i>
+    <span><svg viewBox="0 0 24 24"><path d="M4 4h16v2H4zm0 7h16v2H4zm0 7h16v2H4z"/></svg></span>
+    <span><svg viewBox="0 0 24 24"><path d="M3 3h8v8H3zm10 0h8v8h-8zM3 13h8v8H3zm10 0h8v8h-8z"/></svg></span>
+  </div>
+
+  <div class="app-body">
+    <aside class="app-tools" aria-label="도구">
+      <button class="tool" type="button" aria-pressed="false" data-tool="G펜" title="G펜"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l5 9-5 11-5-11zm0 6.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/></svg></button>
+      <button class="tool" type="button" aria-pressed="true" data-tool="연필" title="연필"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 2.5l4.5 4.5L8 20.5 2.5 21.5 3.5 16zM5.3 16.8l-.5 2.4 2.4-.5z"/></svg></button>
+      <button class="tool" type="button" aria-pressed="false" data-tool="붓" title="붓"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 2c1 1-6 10-8 12l-2-2C12 10 19 1 20 2zM9 13l2 2c0 3-2 6-8 6 2-1 2-3 2-4s2-4 4-4z"/></svg></button>
+      <button class="tool" type="button" aria-pressed="false" data-tool="지우개" title="지우개"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3l7 7-10 10H6l-4-4zm-6 8l-4 4 3 3h3l3-3z"/></svg></button>
+      <button class="tool" type="button" aria-pressed="false" data-tool="채우기" title="채우기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 2l9 9-7 7-9-9 4-4-2-2 1.4-1.4 2 2zm-3 6l7 7 4-4H7zm13 6s2 3 2 4.5a2 2 0 0 1-4 0c0-1.5 2-4.5 2-4.5z"/></svg></button>
+      <button class="tool" type="button" aria-pressed="false" data-tool="텍스트" title="텍스트"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v4h-2V6h-5v12h2v2H9v-2h2V6H6v2H4z"/></svg></button>
+      <button class="tool" type="button" aria-pressed="false" data-tool="선택 범위" title="선택 범위"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h4v2H5v2H3zm6 0h6v2H9zm8 0h4v4h-2V5h-2zM3 9h2v6H3zm16 0h2v6h-2zM3 17h2v2h2v2H3zm16 0h2v4h-4v-2h2zM9 19h6v2H9z"/></svg></button>
+      <button class="tool" type="button" aria-pressed="false" data-tool="손바닥" title="손바닥"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 11V4.5a1.5 1.5 0 0 1 3 0V10h1V3.5a1.5 1.5 0 0 1 3 0V10h1V5.5a1.5 1.5 0 0 1 3 0V15c0 4-3 7-7 7-3 0-5-1.5-6.5-4L3 13.5a1.5 1.5 0 0 1 2.4-1.8L8 14z"/></svg></button>
+    </aside>
+
+    <aside class="app-sub" aria-label="보조 도구">
+      <h3 class="ph">보조 도구 <small id="tool-name">연필</small></h3>
+      <ul class="subtools">
+        <li><button type="button" aria-pressed="false" data-sub>진한 연필<svg viewBox="0 0 58 14" aria-hidden="true"><path d="M2 9c8-6 14 4 22-1s14-5 22 0 8 2 10 0" stroke-width="2.2"/></svg></button></li>
+        <li><button type="button" aria-pressed="true" data-sub>크로키용 연필<svg viewBox="0 0 58 14" aria-hidden="true"><path d="M2 8c10-5 16 3 26-1s16-3 28 1" stroke-width="1.2"/></svg></button></li>
+        <li><button type="button" aria-pressed="false" data-sub>샤프펜슬<svg viewBox="0 0 58 14" aria-hidden="true"><path d="M2 7c12-3 18 2 28 0s16-2 26 1" stroke-width=".8"/></svg></button></li>
+        <li><button type="button" aria-pressed="false" data-sub>빨강 색연필<svg viewBox="0 0 58 14" aria-hidden="true"><path d="M2 9c9-6 15 3 24-1s16-4 30 0" stroke-width="2" style="stroke:var(--pencil-red)"/></svg></button></li>
+      </ul>
+      <div class="prop">
+        <label for="brush-size">브러시 크기 <output id="brush-size-out">6.0</output></label>
+        <input id="brush-size" type="range" min="2" max="40" step="1" value="6">
+        <label>불투명도 <output>100</output></label>
+      </div>
+      <div class="prop">
+        <div class="wheel" aria-hidden="true"><div class="sv"></div></div>
+        <div class="colors"><i style="background:#3a3a40" title="메인 색"></i><i style="background:#fff" title="서브 색"></i><span>메인 / 서브</span></div>
+      </div>
+    </aside>
+
+    <main class="app-canvas-wrap">
+      <div class="app-tabs"><div class="tab"><span>마유마로_캐릭터시트_최종_진짜최종.snb (100%)</span><a href="#top" aria-label="파일 닫고 작품 페이지로 돌아가기">×</a></div></div>
+      <div class="app-canvas" id="canvas">
+        <div class="paper" id="paper">
+          <div class="trim"></div>
+          <div class="frame"></div>
+          <div class="tone-layer"></div>
+          <div class="slot art" data-img="fullbody"><span class="slot-label">마시로 전신<br>(1:2)</span></div>
+          <div class="bracket"></div>
+          <p class="note title">캐릭터 시트 · 마츠유카와 마시로 (21)</p>
+          <p class="note n1">← 앞머리로 눈 가리기!!</p>
+          <p class="note n2">← 늘 웅크림 (덩치 숨기려고)</p>
+          <p class="note n3 big">189cm</p>
+          <p class="note n4">← 후드는 펑퍼짐하게</p>
+          <p class="note n5">긴장하면 표준어 / 편해지면 사투리</p>
+          <p class="note foot">※비공개 시트. 절대 업로드 금지!!</p>
+          <div class="brush" id="brush" aria-hidden="true"></div>
+        </div>
+      </div>
+      <div class="app-status"><span>100%</span><span>0°</span><span>B4 · 6071 × 8598 px · 600 dpi</span><span id="pos">X 0  Y 0</span></div>
+    </main>
+
+    <aside class="app-right" aria-label="패널">
+      <section class="panel">
+        <h3 class="ph">캐릭터 속성</h3>
+        <div class="npc-head"><span class="npc-chip">메인 NPC</span><strong>마츠유카와 마시로</strong></div>
+        <dl class="attrs">
+          <dt>한자</dt><dd>真梅雨川 真白</dd>
+          <dt>필명</dt><dd>마유마로</dd>
+          <dt>나이</dt><dd>21세</dd>
+          <dt>키</dt><dd>189cm</dd>
+          <dt>소속</dt><dd>오사카예술대학 공예학과(도예) 3학년</dd>
+          <dt>출신</dt><dd>카나가와 태생, 어릴 적부터 오사카</dd>
+          <dt>거주</dt><dd>덴노지·아베노 고층 맨션 (혼자)</dd>
+          <dt>비밀</dt><dd>루넬의 인기 성인 만화 작가</dd>
+          <dt>집안</dt><dd>유카와 홀딩스 경영자의 아들</dd>
+        </dl>
+      </section>
+
+      <section class="panel">
+        <h3 class="ph">레이어</h3>
+        <div class="layer-ctrl" aria-hidden="true"><span class="field">표준</span><span class="field">100</span></div>
+        <ul class="layers" id="layers">
+          <li class="layer sel"><button class="eye" type="button" aria-pressed="true" data-toggle="hide-notes" aria-label="메모 레이어 보이기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5c5 0 9 4.5 10 7-1 2.5-5 7-10 7S3 14.5 2 12c1-2.5 5-7 10-7zm0 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/></svg></button><span class="lthumb lt-notes"></span><span class="lname">메모<small>표준 100%</small></span><span></span></li>
+          <li class="layer"><button class="eye" type="button" aria-pressed="true" data-toggle="no-line" aria-label="선화 레이어 보이기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5c5 0 9 4.5 10 7-1 2.5-5 7-10 7S3 14.5 2 12c1-2.5 5-7 10-7zm0 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/></svg></button><span class="lthumb lt-line"></span><span class="lname">선화<small>표준 100%</small></span><span></span></li>
+          <li class="layer"><button class="eye" type="button" aria-pressed="true" data-toggle="no-color" aria-label="채색 레이어 보이기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5c5 0 9 4.5 10 7-1 2.5-5 7-10 7S3 14.5 2 12c1-2.5 5-7 10-7zm0 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/></svg></button><span class="lthumb lt-color"></span><span class="lname">채색<small>곱하기 100%</small></span><span></span></li>
+          <li class="layer"><button class="eye" type="button" aria-pressed="true" data-toggle="no-tone" aria-label="스크린톤 레이어 보이기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5c5 0 9 4.5 10 7-1 2.5-5 7-10 7S3 14.5 2 12c1-2.5 5-7 10-7zm0 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/></svg></button><span class="lthumb lt-tone"></span><span class="lname">스크린톤 60선<small>표준 55%</small></span><span></span></li>
+          <li class="layer"><button class="eye" type="button" aria-pressed="true" data-toggle="no-paper" aria-label="용지 레이어 보이기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5c5 0 9 4.5 10 7-1 2.5-5 7-10 7S3 14.5 2 12c1-2.5 5-7 10-7zm0 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/></svg></button><span class="lthumb"></span><span class="lname">용지<small>표준 100%</small></span><span></span></li>
+          <li class="layer locked"><button class="eye" type="button" aria-pressed="false" data-locked aria-label="비공개 레이어 (잠김)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5c5 0 9 4.5 10 7-1 2.5-5 7-10 7S3 14.5 2 12c1-2.5 5-7 10-7zm0 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8z"/></svg></button><span class="lthumb"></span><span class="lname">비공개<small>잠김</small></span><span class="lock"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10V7a5 5 0 0 1 10 0v3h2v12H5V10zm2 0h6V7a3 3 0 0 0-6 0z"/></svg></span></li>
+        </ul>
+      </section>
+
+      <section class="panel">
+        <h3 class="ph">캐릭터 메모</h3>
+        <div class="memo">
+          <div><h4>외모</h4><p>큰 덩치를 감추듯 늘 웅크린 자세. 눈을 가리는 앞머리에 펑퍼짐한 후드를 즐겨 입는다.</p></div>
+          <div><h4>성격</h4><ul>
+            <li>소심하고 음침하다. 상처를 잘 받고 쉽게 울먹인다.</li>
+            <li>그림 이야기만 나오면 눈빛이 바뀌고 말이 빨라진다.</li>
+            <li>크로키북을 건드리면 순간 무서워진다. 그리고 곧바로 사과한다.</li>
+            <li>약속이 생기면 맞선 보러 가듯 과하게 꾸미고 나온다.</li>
+          </ul></div>
+          <div><h4>작가로서</h4><ul>
+            <li>고교 시절 익명 투고로 데뷔. 얼굴과 성별은 비공개.</li>
+            <li>원래 별명은 '짝사랑물 전문가'. 감정 묘사가 특기다.</li>
+            <li>처음 그린 고수위작이 대박이 났다. 모델이 있다는 건 비밀.</li>
+            <li>귀여운 필명과 정갈한 SNS 말투 덕에 모두가 여성 작가로 알고 있다.</li>
+          </ul></div>
+          <div class="say"><h4>말투</h4><p style="background:none;border:0;padding:0;margin:0">기본은 경상도 사투리(칸사이벤). 긴장하면 어색한 표준어 존댓말로 더듬는다.</p>
+            <p>"저, 저기요… 죄송합니다… 그, 그게 아니라…"</p>
+            <p>"아이다, 그런 거 아이라꼬!"</p>
+            <p>"실례지만… 당신으로 에로만화 그려도… 괜찮을까요…?"</p>
+          </div>
+          <div><h4>집안</h4><ul>
+            <li>아버지는 중견 대기업 '유카와 홀딩스'의 경영자.</li>
+            <li>미대 진학과 함께 가업에서 제외됐다. 독립시키듯 집을 사주고 내보냈다.</li>
+            <li>아들이 에로만화 작가라는 걸 알면 집안이 뒤집어진다. 그래서 필사적으로 숨기는 중.</li>
+            <li>성씨 한자는 처음 보면 아무도 못 읽는다. 읽어도 다들 같은 성씨인가 보다 한다.</li>
+          </ul></div>
+          <div><h4>SNS</h4><p>작가 계정 @mayumaro_works · 사담계는 비공개</p></div>
+        </div>
+      </section>
+    </aside>
+  </div>
+
+  <div class="app-mobile-exit"><a class="btn outline" href="#top">작품 페이지로 돌아가기</a></div>
+
+  <div class="splash" id="splash" hidden>
+    <div class="splash-box">
+      <div class="splash-logo"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3l6 6-11 11H4v-6z"/></svg></i><span>Senbyo Paint<small>ver 4.2.0</small></span></div>
+      <div class="bar"><i></i></div>
+      <p>마유마로_캐릭터시트_최종_진짜최종.snb 여는 중…</p>
+    </div>
+  </div>
+</div>
+<div class="crt" id="crt" hidden></div>
+
+<!-- ===== '당신' page: 마시로의 크로키북 ===== -->
+<div id="view-muse" class="book" hidden>
+  <div class="book-bar"><a class="book-back" href="#top">‹ 작품 페이지로 돌아가기</a><span class="book-label">마시로의 크로키북 No.7</span></div>
+  <div class="sheets">
+    <article class="sheet first" style="--r:-.6deg">
+      <div class="rings" aria-hidden="true"></div>
+      <div class="book-cover" id="cover" hidden aria-hidden="true"><span class="cover-label"><b>CROQUIS</b><small>No.7 · M. Matsuyukawa</small></span></div>
+      <header>
+        <h2 class="hand-line">당신</h2>
+        <p class="hand-line sub">마시로의… 에로시즘적 뮤즈?</p>
+      </header>
+      <div class="gestures">
+        <figure><svg class="gesture" viewBox="0 0 120 200" aria-hidden="true"><path d="M60 18c9 0 14 7 13 15-1 9-7 14-14 13-8-1-12-8-11-15 1-8 6-13 12-13"/><path class="soft" d="M40 30c6-12 34-14 42 2"/><path d="M60 46C56 80 66 110 58 150s-2 35 2 46"/><path d="M36 58c14-6 34-6 48 0"/><path d="M44 112c10-4 22-2 32 4"/><path d="M38 58c-6 22-8 42-4 64"/><path d="M84 58c8 20 10 38 4 60"/><path d="M48 114c-2 26-4 51-6 80"/><path d="M72 116c2 24 4 52 8 78"/></svg><figcaption class="hand-line">10/2 교양 수업</figcaption></figure>
+        <figure><svg class="gesture" viewBox="0 0 120 200" aria-hidden="true"><path d="M46 40c9-2 15 5 14 13-1 8-8 12-15 11-7-1-11-8-9-14 1-5 5-9 10-10"/><path d="M52 64c8 26 18 46 14 68"/><path d="M34 70c14-6 30-6 44 2"/><path d="M78 72c14 14 18 28 6 38l-22 2"/><path d="M36 72c-6 20 4 34 22 38"/><path d="M50 130c12-2 24 0 34 6"/><path d="M84 136c14 0 22 4 28 10"/><path d="M112 146c-2 20-4 36-4 50"/><path d="M56 132c16 8 30 18 38 24"/><path d="M94 156c-4 16-8 30-10 40"/><path class="soft" d="M22 150h96"/></svg><figcaption class="hand-line">10/9 학생 식당</figcaption></figure>
+        <figure><svg class="gesture" viewBox="0 0 120 200" aria-hidden="true"><path d="M66 20c8 0 13 6 12 14-1 8-7 12-13 11-7-1-11-7-10-13 1-7 5-12 11-12"/><path d="M64 46c4 34-4 66 0 104"/><path d="M42 60c14-6 32-6 46 2"/><path d="M44 60c-6 22-10 40-18 58"/><path d="M88 62c6 22 10 38 16 52"/><path d="M48 116c10-4 22-4 32 2"/><path d="M54 118c-4 24-12 48-20 74"/><path d="M76 120c4 24 12 48 20 70"/><path class="soft" d="M18 196h92"/></svg><figcaption class="hand-line">10/16 …또 봐버렸다</figcaption></figure>
+      </div>
+      <div class="face-note hand-line"><span class="scribble" aria-hidden="true"></span><p>얼굴 → 아직 제대로 못 그림.<br><span class="red">눈 마주칠까 봐…</span></p></div>
+    </article>
+
+    <!-- 임시 내용: 페르소나 추천 -->
+    <article class="sheet" style="--r:.5deg">
+      <div class="rings" aria-hidden="true"></div>
+      <h3 class="hand-line">페르소나 추천</h3>
+      <ul class="check">
+        <li><span class="mark">성인</span>이면 OK. 성별, 직업, 나이는 자유.</li>
+        <li>시작점 추천
+          <ul class="opts">
+            <li>① 그 만화의 열성 독자 → 작가의 정체에 기겁</li>
+            <li>② 만화를 전혀 모르는 사람 → 마시로가 더 당황</li>
+            <li>③ 같은 교양 수업을 듣는 학생 → 매주 마주침</li>
+          </ul>
+        </li>
+        <li>유저노트로 마시로의 연재 장르 고르기: <span class="mark">BL / TL / 상업지</span></li>
+        <li>프로필에 써두면 좋은 것: 마시로를 처음 본 장소, 그 만화에 대한 감상, 원하는 수위</li>
+      </ul>
+    </article>
+
+    <!-- 임시 내용: 플레이 팁 -->
+    <article class="sheet" style="--r:-.3deg">
+      <div class="rings" aria-hidden="true"></div>
+      <h3 class="hand-line">마시로 대하는 법</h3>
+      <ul class="check">
+        <li>처음엔 <span class="mark">'신고당할까 봐'</span> 잔뜩 겁먹은 상태. 천천히 다가가 주기.</li>
+        <li>편해지면 사투리가 튀어나온다. <span class="red">그게 신호!</span></li>
+        <li>제안은 거절해도 괜찮다. 바로 물러나서 사과한다.</li>
+        <li>크로키북은 함부로 만지지 말 것. (…진짜로)</li>
+      </ul>
+      <div class="doodle"><span>— 마유마로</span><svg viewBox="0 0 74 60" aria-hidden="true"><rect x="8" y="10" width="58" height="42" rx="16"/><path d="M28 30v2M46 30v2M33 40c3 2 6 2 9 0"/></svg></div>
+    </article>
+  </div>
+  <div class="book-foot"><a class="btn outline" href="#top">작품 페이지로 돌아가기</a></div>
+</div>
+<div class="veil" id="veil" hidden></div>
+
+<!-- ===== PC footer ===== -->
+<div class="pc pc-promo">
+  <div class="in">
+    <div class="box">
+      <div class="lead2">신간과 특가 소식을<br>보내드려요!</div>
+      <button type="button" data-dead tabindex="-1"><span class="ic" style="background:var(--primary)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm0 3v13h10V5zm4 14.5v1h2v-1z"/></svg></span><span><b>루넬 앱</b><small>앱 알림으로 할인 정보를 받아보세요!</small></span></button>
+      <button type="button" data-dead tabindex="-1"><span class="ic" style="background:var(--secondary)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 5h20v14H2zm2 2v.5l8 5 8-5V7zm0 2.9V17h16V9.9l-8 5z"/></svg></span><span><b>메일 매거진</b><small>최신 정보를 메일로 받아보세요!</small></span></button>
+    </div>
+  </div>
+</div>
+<div class="pc pc-foot">
+  <div class="in">
+    <div>
+      <a class="logo" href="#top" aria-label="루넬 홈"><span class="moon" aria-hidden="true"></span><b>Lunelle</b></a>
+      <p class="copy">© Lunelle</p>
+      <p class="desc">루넬(Lunelle)은 여성향 만화와 웹 연재를 배포하는 전자서점입니다.</p>
+    </div>
+    <div><h4>콘텐츠</h4><ul><li>톱 페이지</li><li>무료 만화·웹 연재</li><li>특집 목록</li><li>랭킹</li></ul></div>
+    <div><h4>루넬 안내</h4><ul><li>처음 오신 분</li><li>작품 찾기</li><li>이용 가이드</li><li>자주 묻는 질문</li><li>문의하기</li></ul></div>
+    <div><h4>루넬에 대해</h4><ul><li>회사 소개</li><li>이용 약관</li><li>개인정보 처리방침</li><li>사이트맵</li></ul></div>
+  </div>
+</div>
+
+<footer class="disclaimer">Lunelle(루넬)와 요아카리 코믹스는 가상의 플랫폼·레이블입니다. 작품, 작가, 가격, 수치, 리뷰는 모두 캐릭터 소개를 위한 픽션입니다.</footer>
+
+<!-- ===== Fixed UI (mobile) ===== -->
+<button class="totop sp" type="button" data-top aria-label="맨 위로"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v2.2H4zm8 4l7 8h-4.5v4h-5v-4H5z"/></svg></button>
+<nav class="tabbar sp" aria-label="하단 메뉴">
+  <div class="row">
+    <button type="button" data-top><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l10 8.5h-3V21h-5v-6h-4v6H5v-9.5H2z"/></svg>홈</button>
+    <button type="button" data-dead tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 3h3l2.6 11h10.8L21 6H7.2L6.6 4H2zm6 15a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm9 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/></svg>카트</button>
+    <button type="button" data-dead tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 3a7 7 0 0 1 5.6 11.2l5.1 5.1-1.4 1.4-5.1-5.1A7 7 0 1 1 10 3zm0 2a5 5 0 1 0 0 10 5 5 0 0 0 0-10z"/></svg>검색</button>
+    <button type="button" data-dead tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 4c3 0 6.5.6 10 2.5C15.5 4.6 19 4 22 4v15c-3 0-6.5.6-10 2.5C8.5 19.6 5 19 2 19zm6.2 5.5l1.6 2.3H8v1.3h2.4v.9H8v1.3h2.4V17h1.6v-1.7h2.4V14H12v-.9h2.4v-1.3h-1.8l1.6-2.3h-1.7L11.2 12l-1.3-2.5z"/></svg>무료</button>
+    <button type="button" data-dead tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3l6.5 3.5V21L5 17.5zm14 0v14.5L12.5 21V6.5z"/></svg>처음 오신 분</button>
+  </div>
+</nav>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+/* 이미지: img 폴더에 아래 이름의 webp 파일을 넣으면 플레이스홀더 대신 표시됩니다. 파일이 없으면 플레이스홀더가 그대로 남습니다. (자세한 규격은 img/README.md) */
+const IMAGES = {
+  keyVisual: "img/key-visual.webp",   /* 표지·회차 썸네일: 마시로 키비주얼 (7:10) */
+  fullbody: "img/fullbody.webp",      /* 등장인물 프로필 마시로 전신 (1:2) */
+  avatar: "img/avatar.webp",          /* 마유마로 작가 계정 프로필 (1:1) */
+  coverBL: "img/cover-bl.webp",       /* BL 화제작 표지 (7:10) */
+  coverTL: "img/cover-tl.webp",       /* TL 화제작 표지 (7:10) */
+  coverAdult: "img/cover-adult.webp"  /* 상업지 화제작 표지 (7:10) */
+};
+document.querySelectorAll("[data-img]").forEach(function (el) {
+  const src = IMAGES[el.dataset.img];
+  if (!src) return;
+  const label = el.querySelector(".slot-label");
+  const img = document.createElement("img");
+  img.alt = "";
+  img.onload = function () { if (label) label.hidden = true; };
+  img.onerror = function () { img.remove(); };
+  img.src = src;
+  el.appendChild(img);
+});
+
+const toastEl = document.getElementById("toast");
+let toastTimer;
+function toast(msg) {
+  toastEl.textContent = msg;
+  toastEl.hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function () { toastEl.hidden = true; }, 2000);
+}
+document.querySelectorAll("[data-toast]").forEach(function (b) {
+  b.addEventListener("click", function () { toast(b.dataset.toast); });
+});
+document.querySelectorAll("[data-cart]").forEach(function (b) {
+  b.addEventListener("click", function () { toast("카트에 담았어요"); });
+});
+/* 작품 팔로우 버튼들은 서로 상태를 맞춤 (히어로·하단 팔로우 영역) */
+const followBtns = Array.from(document.querySelectorAll("[data-follow]"));
+followBtns.forEach(function (b) { b.dataset.base = b.textContent; });
+followBtns.forEach(function (b) {
+  b.addEventListener("click", function () {
+    const on = b.getAttribute("aria-pressed") !== "true";
+    b.setAttribute("aria-pressed", String(on));
+    b.textContent = on ? "팔로우 중" : b.dataset.base;
+    toast(on ? "팔로우했어요" : "팔로우를 해제했어요");
+  });
+});
+document.querySelectorAll("[data-like]").forEach(function (b) {
+  const n = Number(b.dataset.like);
+  const cnt = b.querySelector(".cnt");
+  b.addEventListener("click", function () {
+    const on = b.getAttribute("aria-pressed") !== "true";
+    b.setAttribute("aria-pressed", String(on));
+    cnt.textContent = on ? n + 1 : n;
+  });
+});
+
+const syn = document.getElementById("syn");
+const more = document.getElementById("more");
+more.addEventListener("click", function () {
+  const open = syn.classList.toggle("clamp") === false;
+  more.textContent = open ? "접기" : "…더 보기";
+});
+
+document.querySelectorAll("[data-scroll]").forEach(function (b) {
+  b.addEventListener("click", function () {
+    document.getElementById(b.dataset.scroll).scrollIntoView({ behavior: "smooth" });
+  });
+});
+/* 페이지 전환: #profile 이면 등장인물 페이지(작화 프로그램 화면), 그 외에는 작품 페이지.
+   작품 페이지는 애니메이션 없이 동작하고, 등장인물 페이지로 넘어가고 나올 때만 GSAP 연출이 들어간다. */
+const viewWork = document.getElementById("view-work");
+const viewProfile = document.getElementById("view-profile");
+const viewMuse = document.getElementById("view-muse");
+const crt = document.getElementById("crt");
+const splash = document.getElementById("splash");
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function canAnimate() { return typeof window.gsap !== "undefined" && !reduceMotion; }
+let currentView = null;
+let running = null;
+
+function setView(v) {
+  viewWork.hidden = v !== "work";
+  viewProfile.hidden = v !== "profile";
+  viewMuse.hidden = v !== "muse";
+  document.body.classList.toggle("app-mode", v === "profile");
+  document.body.classList.toggle("book-mode", v === "muse");
+  document.body.classList.toggle("immersive", v !== "work");
+  document.querySelectorAll(".crumb-p").forEach(function (el) { el.hidden = v !== "profile"; });
+}
+function scrollToHashTarget() {
+  const id = location.hash.slice(1);
+  const target = id && id !== "profile" && id !== "muse" ? document.getElementById(id) : null;
+  if (target) target.scrollIntoView(); else window.scrollTo(0, 0);
+}
+function originY() { return (window.innerHeight / 2 - viewProfile.getBoundingClientRect().top) + "px"; }
+
+function enterProfile() {
+  const g = window.gsap;
+  const parts = viewProfile.querySelectorAll(".app-menubar, .app-cmdbar, .app-tools, .app-sub, .app-tabs, .app-status, .app-right .panel, .app-mobile-exit");
+  const paper = document.getElementById("paper");
+  const art = paper.querySelector(".art");
+  const notes = paper.querySelectorAll(".note, .bracket");
+  const brush = document.getElementById("brush");
+  const layers = viewProfile.querySelectorAll(".layer");
+  const tl = g.timeline();
+  function skip() { tl.progress(1); }
+  crt.hidden = false;
+  tl.fromTo(crt, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2, ease: "power1.in" })
+    .add(function () {
+      setView("profile");
+      window.scrollTo(0, 0);
+      g.set(parts, { autoAlpha: 0, y: 10 });
+      g.set(paper, { autoAlpha: 0 });
+      splash.hidden = false;
+      g.set(splash, { autoAlpha: 1 });
+      g.set(viewProfile, { transformOrigin: "50% " + originY(), scaleX: 0.02, scaleY: 0.004, filter: "brightness(6)" });
+      g.set(crt, { autoAlpha: 0 });
+      crt.hidden = true;
+      viewProfile.addEventListener("pointerdown", skip);
+    })
+    .to(viewProfile, { scaleX: 1, duration: 0.18, ease: "power2.out" })
+    .to(viewProfile, { scaleY: 1, filter: "brightness(1)", duration: 0.5, ease: "expo.out" })
+    .set(viewProfile, { clearProps: "transform,filter,transformOrigin" })
+    .fromTo(".splash-box", { autoAlpha: 0, scale: 0.94 }, { autoAlpha: 1, scale: 1, duration: 0.25 }, "-=0.25")
+    .fromTo(".splash .bar i", { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: "power1.inOut" })
+    .to(splash, { autoAlpha: 0, duration: 0.2 })
+    .add(function () { splash.hidden = true; })
+    .to(parts, { autoAlpha: 1, y: 0, duration: 0.35, stagger: 0.05, ease: "power2.out" })
+    .fromTo(paper, { autoAlpha: 0, scale: 0.96 }, { autoAlpha: 1, scale: 1, duration: 0.35, ease: "power2.out" }, "-=0.3")
+    .fromTo(art, { clipPath: "inset(0% 0% 100% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.9, ease: "none" })
+    .fromTo(brush, { autoAlpha: 1, left: "12%", top: "10%" }, { keyframes: [
+        { left: "60%", top: "22%" }, { left: "14%", top: "36%" }, { left: "60%", top: "50%" },
+        { left: "14%", top: "64%" }, { left: "56%", top: "80%" } ], duration: 0.9, ease: "none" }, "<")
+    .to(brush, { autoAlpha: 0, duration: 0.2 })
+    .from(notes, { autoAlpha: 0, scale: 0.7, rotation: function () { return g.utils.random(-8, 8); }, duration: 0.3, stagger: 0.07, ease: "back.out(2)" }, "-=0.35")
+    .from(layers, { x: 14, autoAlpha: 0, duration: 0.25, stagger: 0.04 }, "<")
+    .add(function () {
+      viewProfile.removeEventListener("pointerdown", skip);
+      g.set([parts, paper, art, notes, layers], { clearProps: "opacity,visibility,transform,clipPath" });
+      splash.hidden = true;
+    });
+  return tl;
+}
+
+function exitProfile() {
+  const g = window.gsap;
+  const tl = g.timeline();
+  tl.set(viewProfile, { transformOrigin: "50% " + originY() })
+    .to(viewProfile, { scaleY: 0.004, filter: "brightness(5)", duration: 0.28, ease: "power3.in" })
+    .to(viewProfile, { scaleX: 0, duration: 0.14, ease: "power2.in" })
+    .add(function () {
+      crt.hidden = false;
+      g.set(crt, { autoAlpha: 1 });
+      g.set(viewProfile, { clearProps: "transform,filter,transformOrigin" });
+      setView("work");
+      scrollToHashTarget();
+    })
+    .to(crt, { autoAlpha: 0, duration: 0.25, ease: "power1.out" })
+    .add(function () { crt.hidden = true; });
+  return tl;
+}
+
+function enterMuse() {
+  const g = window.gsap;
+  const veil = document.getElementById("veil");
+  const cover = document.getElementById("cover");
+  const sheets = Array.prototype.slice.call(viewMuse.querySelectorAll(".sheet"));
+  const first = sheets[0];
+  const rest = sheets.slice(1);
+  const bars = viewMuse.querySelectorAll(".book-bar, .book-foot");
+  const strokes = Array.prototype.slice.call(viewMuse.querySelectorAll(".gesture path"));
+  const lines = viewMuse.querySelectorAll(".sheet.first .hand-line");
+  const tl = g.timeline();
+  function skip() { tl.progress(1); }
+  veil.hidden = false;
+  tl.fromTo(veil, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.25, ease: "power1.in" })
+    .add(function () {
+      setView("muse");
+      window.scrollTo(0, 0);
+      cover.hidden = false;
+      g.set(rest, { autoAlpha: 0, y: 40 });
+      g.set(bars, { autoAlpha: 0 });
+      g.set(first, { autoAlpha: 0, y: -24, scale: 0.96 });
+      g.set(lines, { autoAlpha: 0 });
+      strokes.forEach(function (p) { const L = p.getTotalLength(); p.style.strokeDasharray = L; p.style.strokeDashoffset = L; });
+      g.set(cover, { autoAlpha: 1, rotationX: 0, transformOrigin: "50% 0%", transformPerspective: 1400 });
+      viewMuse.addEventListener("pointerdown", skip);
+    })
+    .to(veil, { autoAlpha: 0, duration: 0.3 })
+    .to(first, { autoAlpha: 1, y: 0, scale: 1, duration: 0.45, ease: "power2.out" }, "<")
+    .to(cover, { rotationX: -100, duration: 0.75, ease: "power2.inOut" }, "+=0.15")
+    .to(cover, { autoAlpha: 0, duration: 0.15 }, "-=0.15")
+    .to(lines, { autoAlpha: 1, duration: 0.25, stagger: 0.08 })
+    .to(strokes, { strokeDashoffset: 0, duration: 0.4, stagger: 0.025, ease: "power1.inOut" }, "-=0.5")
+    .to(rest, { autoAlpha: 1, y: 0, duration: 0.45, stagger: 0.12, ease: "power2.out" }, "-=0.5")
+    .to(bars, { autoAlpha: 1, duration: 0.3 }, "<")
+    .add(function () {
+      viewMuse.removeEventListener("pointerdown", skip);
+      cover.hidden = true;
+      veil.hidden = true;
+      strokes.forEach(function (p) { p.style.strokeDasharray = ""; p.style.strokeDashoffset = ""; });
+      g.set([first, cover].concat(rest), { clearProps: "opacity,visibility,transform" });
+      g.set([bars, lines], { clearProps: "opacity,visibility" });
+    });
+  return tl;
+}
+
+function exitMuse() {
+  const g = window.gsap;
+  const veil = document.getElementById("veil");
+  const tl = g.timeline();
+  veil.hidden = false;
+  tl.fromTo(veil, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3, ease: "power1.in" })
+    .add(function () { setView("work"); scrollToHashTarget(); })
+    .to(veil, { autoAlpha: 0, duration: 0.25 })
+    .add(function () { veil.hidden = true; });
+  return tl;
+}
+
+function viewFromHash() {
+  if (location.hash === "#profile") return "profile";
+  if (location.hash === "#muse") return "muse";
+  return "work";
+}
+function route() {
+  const want = viewFromHash();
+  if (running) { running.progress(1); running = null; }
+  if (want === currentView) { if (want === "work") scrollToHashTarget(); return; }
+  const prev = currentView;
+  currentView = want;
+  if (prev === null || !canAnimate() || (prev !== "work" && want !== "work")) {
+    setView(want);
+    if (want === "work") scrollToHashTarget(); else window.scrollTo(0, 0);
+    return;
+  }
+  if (want === "profile") running = enterProfile();
+  else if (want === "muse") running = enterMuse();
+  else running = prev === "profile" ? exitProfile() : exitMuse();
+}
+window.addEventListener("hashchange", route);
+route();
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Escape" && currentView !== "work") location.hash = "top";
+});
+
+document.querySelectorAll("[data-top]").forEach(function (b) {
+  b.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: "smooth" }); });
+});
+
+/* 작화 프로그램 화면 조작 */
+const paperEl = document.getElementById("paper");
+const brushEl = document.getElementById("brush");
+const posEl = document.getElementById("pos");
+document.querySelectorAll(".tool").forEach(function (t) {
+  t.addEventListener("click", function () {
+    document.querySelectorAll(".tool").forEach(function (o) { o.setAttribute("aria-pressed", String(o === t)); });
+    document.getElementById("tool-name").textContent = t.dataset.tool;
+  });
+});
+document.querySelectorAll("[data-sub]").forEach(function (t) {
+  t.addEventListener("click", function () {
+    document.querySelectorAll("[data-sub]").forEach(function (o) { o.setAttribute("aria-pressed", String(o === t)); });
+  });
+});
+const sizeIn = document.getElementById("brush-size");
+const sizeOut = document.getElementById("brush-size-out");
+sizeIn.addEventListener("input", function () {
+  sizeOut.textContent = Number(sizeIn.value).toFixed(1);
+  brushEl.style.width = brushEl.style.height = (Number(sizeIn.value) + 8) + "px";
+});
+paperEl.addEventListener("pointermove", function (e) {
+  if (running || e.pointerType === "touch") return;
+  const r = paperEl.getBoundingClientRect();
+  const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+  brushEl.style.left = (x * 100) + "%";
+  brushEl.style.top = (y * 100) + "%";
+  brushEl.style.opacity = "1";
+  posEl.textContent = "X " + Math.round(x * 6071) + "  Y " + Math.round(y * 8598);
+});
+paperEl.addEventListener("pointerleave", function () { brushEl.style.opacity = "0"; });
+document.querySelectorAll(".layer").forEach(function (row) {
+  row.addEventListener("click", function () {
+    document.querySelectorAll(".layer").forEach(function (o) { o.classList.toggle("sel", o === row); });
+  });
+});
+document.querySelectorAll(".eye[data-toggle]").forEach(function (eye) {
+  eye.addEventListener("click", function (e) {
+    e.stopPropagation();
+    const on = eye.getAttribute("aria-pressed") !== "true";
+    eye.setAttribute("aria-pressed", String(on));
+    paperEl.classList.toggle(eye.dataset.toggle, !on);
+  });
+});
+document.querySelector(".eye[data-locked]").addEventListener("click", function (e) {
+  e.stopPropagation();
+  toast("이 레이어는 잠겨 있어요. 아직은 열 수 없어요.");
+});
+
+document.getElementById("search-form").addEventListener("submit", function (e) {
+  e.preventDefault();
+});
+document.getElementById("copy-link").addEventListener("click", function () {
+  const url = location.href;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(function () { toast("링크를 복사했어요"); }, function () { toast(url); });
+  } else { toast(url); }
+});
+</script>
