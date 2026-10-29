@@ -784,7 +784,7 @@ body.book-mode { background: var(--mat); }
     <div class="list-nav"><span class="pc">전 5화 배포 중</span><a class="tri" href="#ep1">1화로</a><a class="tri" href="#ep5">최신화로</a><span class="count">1~5건 / 5건</span></div>
     <ol class="eps">
       <li class="ep" id="ep1">
-        <div class="slot" data-img="keyVisual"><span class="slot-label">1화</span></div>
+        <div class="slot" data-img="ep1" data-fallback="keyVisual"><span class="slot-label">1화</span></div>
         <span class="ep-st pc"><span class="tag-gray">연재 중</span></span>
         <a class="ep-title" href="#ep1">마유마로 선생님<span class="pc"> ~실례지만, 당신으로 에로만화 그려도 괜찮을까요?~</span> (1) 떨어진 크로키북</a>
         <div class="ep-price"><span class="price-old">220엔 (세금 포함)</span><span class="now">0엔 (세금 포함) 11/4까지</span><span class="tag-red">무료</span></div>
@@ -793,7 +793,7 @@ body.book-mode { background: var(--mat); }
         <details class="sp"><summary>줄거리 보기</summary><p>자꾸 이쪽을 훔쳐보는 덩치 큰 남자. 불러 세우자 도망치던 그가 크로키북을 떨어뜨리는데…!?</p></details>
       </li>
       <li class="ep">
-        <div class="slot" data-img="keyVisual"><span class="slot-label">2화</span></div>
+        <div class="slot" data-img="ep2" data-fallback="keyVisual"><span class="slot-label">2화</span></div>
         <span class="ep-st pc"><span class="tag-gray">연재 중</span></span>
         <a class="ep-title" href="#list">마유마로 선생님<span class="pc"> ~실례지만, 당신으로 에로만화 그려도 괜찮을까요?~</span> (2) 신고만은 제발</a>
         <div class="ep-price"><span class="price-old">220엔 (세금 포함)</span><span class="now">0엔 (세금 포함) 11/4까지</span><span class="tag-red">무료</span></div>
@@ -802,7 +802,7 @@ body.book-mode { background: var(--mat); }
         <details class="sp"><summary>줄거리 보기</summary><p>크로키북 속 그림의 정체는? 새파랗게 질린 그는 무릎이라도 꿇을 기세로 사과하기 시작한다.</p></details>
       </li>
       <li class="ep">
-        <div class="slot" data-img="keyVisual"><span class="slot-label">3화</span></div>
+        <div class="slot" data-img="ep3" data-fallback="keyVisual"><span class="slot-label">3화</span></div>
         <span class="ep-st pc"><span class="tag-gray">연재 중</span></span>
         <a class="ep-title" href="#list">마유마로 선생님<span class="pc"> ~실례지만, 당신으로 에로만화 그려도 괜찮을까요?~</span> (3) 계속 그려도 될까요</a>
         <div class="ep-price"><span class="price-old">220엔 (세금 포함)</span><span class="now">110엔 (세금 포함) 11/4까지</span><span class="tag-red">할인</span></div>
@@ -811,7 +811,7 @@ body.book-mode { background: var(--mat); }
         <details class="sp"><summary>줄거리 보기</summary><p>화제작의 작가가 바로 그였다니. 한참을 망설이던 그가 조심스럽게 꺼낸 질문은…</p></details>
       </li>
       <li class="ep">
-        <div class="slot" data-img="keyVisual"><span class="slot-label">4화</span></div>
+        <div class="slot" data-img="ep4" data-fallback="keyVisual"><span class="slot-label">4화</span></div>
         <span class="ep-st pc"><span class="tag-gray">연재 중</span></span>
         <a class="ep-title" href="#list">마유마로 선생님<span class="pc"> ~실례지만, 당신으로 에로만화 그려도 괜찮을까요?~</span> (4) 실례지만, 당신으로</a>
         <div class="ep-price"><span>220엔 (세금 포함)</span></div>
@@ -820,7 +820,7 @@ body.book-mode { background: var(--mat); }
         <details class="sp"><summary>줄거리 보기</summary><p>맞선이라도 보러 온 듯 차려입고 나타난 그. 떨리는 목소리로 내민 부탁은 '모델'이 되어달라는 것.</p></details>
       </li>
       <li class="ep" id="ep5">
-        <div class="slot" data-img="keyVisual"><span class="slot-label">5화</span></div>
+        <div class="slot" data-img="ep5" data-fallback="keyVisual"><span class="slot-label">5화</span></div>
         <span class="ep-st pc"><span class="tag-gray">연재 중</span><span class="new">NEW</span></span>
         <a class="ep-title" href="#ep5">마유마로 선생님<span class="pc"> ~실례지만, 당신으로 에로만화 그려도 괜찮을까요?~</span> (5) 이건 어디까지나 취재라서<span class="new sp">NEW</span></a>
         <div class="ep-price"><span>220엔 (세금 포함)</span></div>
@@ -1189,7 +1189,12 @@ const IMAGES = {
   avatar: "img/avatar.webp",          /* 마유마로 작가 계정 프로필 (1:1) */
   coverBL: "img/cover-bl.webp",       /* BL 화제작 표지 (7:10) */
   coverTL: "img/cover-tl.webp",       /* TL 화제작 표지 (7:10) */
-  coverAdult: "img/cover-adult.webp"  /* 상업지 화제작 표지 (7:10) */
+  coverAdult: "img/cover-adult.webp", /* 상업지 화제작 표지 (7:10) */
+  ep1: "img/ep1.webp",                /* 1화 표지 (7:10). 없으면 키비주얼 */
+  ep2: "img/ep2.webp",                /* 2화 표지 (7:10). 없으면 키비주얼 */
+  ep3: "img/ep3.webp",                /* 3화 표지 (7:10). 없으면 키비주얼 */
+  ep4: "img/ep4.webp",                /* 4화 표지 (7:10). 없으면 키비주얼 */
+  ep5: "img/ep5.webp"                 /* 5화 표지 (7:10). 없으면 키비주얼 */
 };
 document.querySelectorAll("[data-img]").forEach(function (el) {
   const src = IMAGES[el.dataset.img];
@@ -1198,7 +1203,11 @@ document.querySelectorAll("[data-img]").forEach(function (el) {
   const img = document.createElement("img");
   img.alt = "";
   img.onload = function () { if (label) label.hidden = true; };
-  img.onerror = function () { img.remove(); };
+  const fallback = IMAGES[el.dataset.fallback];
+  img.onerror = function () {
+    if (fallback && img.dataset.fellBack !== "1") { img.dataset.fellBack = "1"; img.src = fallback; }
+    else img.remove();
+  };
   img.src = src;
   el.appendChild(img);
 });
