@@ -400,6 +400,13 @@ body.immersive .pc-promo, body.immersive .pc-foot, body.immersive footer.disclai
 .tab span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .tab a { color: var(--app-muted); font-size: 14px; line-height: 1; }
 .tab a:hover { color: #fff; }
+/* 캐릭터 시트 페이지 넘기기 (1: 평소 / 2: 약속 있는 날) */
+.page-nav { margin-left: auto; display: flex; align-items: center; gap: 6px; padding: 0 8px 0 10px; color: var(--app-muted); white-space: nowrap; flex: none; }
+.page-nav b { color: var(--app-text); font-weight: 700; font-variant-numeric: tabular-nums; }
+.page-nav button { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; border: 0; border-radius: 3px; background: var(--app-panel-2); color: var(--app-text); font: inherit; }
+.page-nav button:hover { background: var(--app-sel); color: #fff; }
+.paper.has-pages .art { cursor: pointer; }
+.paper .art img { transition: none; }
 .app-canvas { flex: 1; display: grid; place-items: center; padding: 16px max(16px, env(safe-area-inset-left, 0px)); background: #4b4b51; overflow: hidden; }
 .paper { position: relative; width: 100%; max-width: 440px; aspect-ratio: 257 / 364; background: #fff; box-shadow: 0 4px 18px rgba(0,0,0,.45); container-type: inline-size; overflow: hidden; color: #222; }
 .paper.no-paper { background: repeating-conic-gradient(#dcdce0 0 25%, #fff 0 50%) 0 0 / 16px 16px; }
@@ -703,7 +710,7 @@ body.book-mode { background: var(--mat); }
         <hr>
         <div class="pc-price"><span class="price-old">220엔 (세금 포함)</span><span class="price-now"><b>0</b>엔 (세금 포함) 11/4까지</span><span class="pts"><i>P</i>0pt</span><span class="tag-red">무료</span></div>
         <div class="rating">4.6 <span class="stars" style="--v:4.6" aria-label="별점 4.6">★★★★★</span><a href="#reviews">128건</a></div>
-        <p class="syn">“시, 신고만은… 제발 봐주이소…!” 요즘 성인 웹코믹 랭킹을 휩쓴 화제작의 작가는, 마시멜로 프로필 사진이 귀여운 인기 작가 '마유마로 선생님'. 그런데 며칠 전부터, 캠퍼스에서 자꾸 누군가의 시선이 느껴진다. 189cm는 되어 보이는 덩치 큰 남자가 이쪽을 훔쳐보다가 눈만 마주치면 허둥지둥 도망가는 것. 참다못해 불러 세운 날, 그가 떨어뜨린 크로키북 속에는 당신의 얼굴, 그리고 얼마 전 읽은 그 만화의 원고가 있었다…!? 지독한 슬럼프로 연재 중단 위기라는 그는, 눈물 콧물을 쏟으며 당신에게 매달리는데…. 소심하고 음침한 덩치남 작가와, 그의 뮤즈가 되어버린 당신의 엉뚱한 로맨스 코미디. ※이 작품은 유저노트로 마유마로 선생님의 연재 장르(BL/TL/상업지)를 고를 수 있습니다.</p>
+        <p class="syn">“시, 신고만은… 제발 봐주세요…!” 요즘 성인 웹코믹 랭킹을 휩쓴 화제작의 작가는, 마시멜로 프로필 사진이 귀여운 인기 작가 '마유마로 선생님'. 그런데 며칠 전부터, 캠퍼스에서 자꾸 누군가의 시선이 느껴진다. 189cm는 되어 보이는 덩치 큰 남자가 이쪽을 훔쳐보다가 눈만 마주치면 허둥지둥 도망가는 것. 참다못해 불러 세운 날, 그가 떨어뜨린 크로키북 속에는 당신의 얼굴, 그리고 얼마 전 읽은 그 만화의 원고가 있었다…!? 지독한 슬럼프로 연재 중단 위기라는 그는, 눈물 콧물을 쏟으며 당신에게 매달리는데…. 소심하고 음침한 덩치남 작가와, 그의 뮤즈가 되어버린 당신의 엉뚱한 로맨스 코미디. ※이 작품은 유저노트로 마유마로 선생님의 연재 장르(BL/TL/상업지)를 고를 수 있습니다.</p>
       </div>
       <div class="pc-actions">
         <button class="btn primary" type="button" data-scroll="list"><span class="zero-dot">¥0</span>무료로 읽기</button>
@@ -724,7 +731,7 @@ body.book-mode { background: var(--mat); }
 <section class="band" id="details">
   <div class="in">
     <div class="sp" style="margin-bottom:18px">
-      <p class="syn clamp" id="syn">“시, 신고만은… 제발 봐주이소…!” 요즘 성인 웹코믹 랭킹을 휩쓴 화제작의 작가는, 마시멜로 프로필 사진이 귀여운 인기 작가 '마유마로 선생님'. 그런데 며칠 전부터, 캠퍼스에서 자꾸 누군가의 시선이 느껴진다. 189cm는 되어 보이는 덩치 큰 남자가 이쪽을 훔쳐보다가 눈만 마주치면 허둥지둥 도망가는 것. 참다못해 불러 세운 날, 그가 떨어뜨린 크로키북 속에는 당신의 얼굴, 그리고 얼마 전 읽은 그 만화의 원고가 있었다…!? 지독한 슬럼프로 연재 중단 위기라는 그는, 눈물 콧물을 쏟으며 당신에게 매달리는데…. 소심하고 음침한 덩치남 작가와, 그의 뮤즈가 되어버린 당신의 엉뚱한 로맨스 코미디. ※이 작품은 유저노트로 마유마로 선생님의 연재 장르(BL/TL/상업지)를 고를 수 있습니다.</p>
+      <p class="syn clamp" id="syn">“시, 신고만은… 제발 봐주세요…!” 요즘 성인 웹코믹 랭킹을 휩쓴 화제작의 작가는, 마시멜로 프로필 사진이 귀여운 인기 작가 '마유마로 선생님'. 그런데 며칠 전부터, 캠퍼스에서 자꾸 누군가의 시선이 느껴진다. 189cm는 되어 보이는 덩치 큰 남자가 이쪽을 훔쳐보다가 눈만 마주치면 허둥지둥 도망가는 것. 참다못해 불러 세운 날, 그가 떨어뜨린 크로키북 속에는 당신의 얼굴, 그리고 얼마 전 읽은 그 만화의 원고가 있었다…!? 지독한 슬럼프로 연재 중단 위기라는 그는, 눈물 콧물을 쏟으며 당신에게 매달리는데…. 소심하고 음침한 덩치남 작가와, 그의 뮤즈가 되어버린 당신의 엉뚱한 로맨스 코미디. ※이 작품은 유저노트로 마유마로 선생님의 연재 장르(BL/TL/상업지)를 고를 수 있습니다.</p>
       <button class="more" type="button" id="more">…더 보기</button>
     </div>
     <details class="acc">
@@ -997,7 +1004,7 @@ body.book-mode { background: var(--mat); }
     </aside>
 
     <main class="app-canvas-wrap">
-      <div class="app-tabs"><div class="tab"><span>마유마로_캐릭터시트_최종_진짜최종.snb (100%)</span><a href="#top" aria-label="파일 닫고 작품 페이지로 돌아가기">×</a></div></div>
+      <div class="app-tabs"><div class="tab"><span>마유마로_캐릭터시트_최종_진짜최종.snb (100%)</span><a href="#top" aria-label="파일 닫고 작품 페이지로 돌아가기">×</a></div><div class="page-nav" id="page-nav" hidden><span>페이지 <b id="page-num">1</b>/2</span><button type="button" id="page-btn" aria-label="다음 페이지로 넘기기"><span id="page-name">약속 있는 날</span> ▸</button></div></div>
       <div class="app-canvas" id="canvas">
         <div class="paper" id="paper">
           <div class="trim"></div>
@@ -1052,11 +1059,11 @@ body.book-mode { background: var(--mat); }
       <section class="panel">
         <h3 class="ph">캐릭터 메모</h3>
         <div class="memo">
-          <div><h4>외모</h4><p>큰 덩치를 감추듯 늘 웅크린 자세. 눈을 가리는 앞머리에 펑퍼짐한 후드를 즐겨 입는다.</p></div>
+          <div><h4>외모</h4><p>큰 덩치를 감추듯 늘 어깨를 움츠린다. 눈을 가리는 검은 앞머리, 알이 큰 뿔테 안경, 펑퍼짐한 후드. 쌍꺼풀 없는 진한 이목구비라, 잘 보면 조금 날티가 난다.</p></div>
           <div><h4>성격</h4><ul>
-            <li>소심하고 음침하다. 상처를 잘 받고 쉽게 울먹인다.</li>
+            <li>소심하고 심약하지만 걱정이 많고 착하다. 상처를 잘 받고 쉽게 울먹인다.</li>
             <li>그림 이야기만 나오면 눈빛이 바뀌고 말이 빨라진다.</li>
-            <li>크로키북을 건드리면 순간 무서워진다. 그리고 곧바로 사과한다.</li>
+            <li>크로키북·원고를 건드리면 순간 팔을 붙잡거나 앞을 막아선다. 그리고 곧바로 놀라 사과한다.</li>
             <li>약속이 생기면 맞선 보러 가듯 과하게 꾸미고 나온다.</li>
           </ul></div>
           <div><h4>작가로서</h4><ul>
@@ -1193,6 +1200,7 @@ body.book-mode { background: var(--mat); }
 const IMAGES = {
   keyVisual: "img/key-visual.webp",   /* 표지·회차 썸네일: 마시로 키비주얼 (7:10) */
   fullbody: "img/fullbody.webp",      /* 등장인물 프로필 마시로 전신 (1:2) */
+  fullbody2: "img/fullbody2.webp",    /* 캐릭터 시트 2페이지: 약속 있는 날 전신 (1:2). 없으면 페이지 넘기기가 숨겨진다 */
   avatar: "img/avatar.webp",          /* 마유마로 작가 계정 프로필 (1:1) */
   coverBL: "img/cover-bl.webp",       /* BL 화제작 표지 (7:10) */
   coverTL: "img/cover-tl.webp",       /* TL 화제작 표지 (7:10) */
@@ -1446,6 +1454,81 @@ document.addEventListener("keydown", function (e) {
 document.querySelectorAll("[data-top]").forEach(function (b) {
   b.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: "smooth" }); });
 });
+
+/* 캐릭터 시트 페이지 넘기기: 그림을 누르면 GSAP로 종이를 뒤집어 2페이지(약속 있는 날)로 바꾼다. */
+(function () {
+  const paper = document.getElementById("paper");
+  const art = paper.querySelector(".art");
+  const nav = document.getElementById("page-nav");
+  const numEl = document.getElementById("page-num");
+  const nameEl = document.getElementById("page-name");
+  const btn = document.getElementById("page-btn");
+  const noteEls = ["title", "n1", "n2", "n3", "n4", "n5"].map(function (c) { return paper.querySelector(".note." + c); });
+  const pages = [
+    { img: IMAGES.fullbody, name: "평소", notes: noteEls.map(function (el) { return el.textContent; }) },
+    { img: IMAGES.fullbody2, name: "약속 있는 날", notes: [
+      "캐릭터 시트 · 마시로 (약속 있는 날)",
+      "← 안경 벗음 (렌즈 첫 도전)",
+      "← 긴장하면 머리 만지작",
+      "189cm",
+      "← 키링은 하나만… 참았다",
+      "← 점원이 골라준 그대로 삼"
+    ] }
+  ];
+  let page = 0;
+  let flipping = null;
+
+  // 2페이지 그림이 있을 때만 기능을 켠다
+  const probe = new Image();
+  probe.onload = function () {
+    nav.hidden = false;
+    paper.classList.add("has-pages");
+    art.setAttribute("role", "button");
+    art.setAttribute("tabindex", "0");
+    art.setAttribute("aria-label", "다음 페이지로 넘기기");
+  };
+  probe.src = IMAGES.fullbody2;
+
+  function apply(i) {
+    const img = art.querySelector("img");
+    if (img) img.src = pages[i].img;
+    noteEls.forEach(function (el, k) { el.textContent = pages[i].notes[k]; });
+    numEl.textContent = String(i + 1);
+    nameEl.textContent = pages[(i + 1) % 2].name;
+  }
+
+  function flip() {
+    if (!paper.classList.contains("has-pages")) return;
+    if (running) return; // 화면 전환 연출 중에는 넘기지 않는다
+    if (flipping) { flipping.progress(1); return; } // 연출 중에 다시 누르면 바로 끝낸다
+    const next = (page + 1) % 2;
+    if (!canAnimate()) { page = next; apply(page); return; }
+    const g = window.gsap;
+    const notes = paper.querySelectorAll(".note, .bracket");
+    const brush = document.getElementById("brush");
+    flipping = g.timeline({ onComplete: function () {
+      g.set([paper, art, notes, brush], { clearProps: "opacity,visibility,transform,clipPath,filter" });
+      flipping = null;
+    } });
+    flipping
+      .to(paper, { rotationY: -88, scale: 0.96, filter: "brightness(1.15)", transformPerspective: 1400, transformOrigin: "50% 50%", duration: 0.26, ease: "power2.in" })
+      .add(function () { page = next; apply(page); })
+      .set(art, { clipPath: "inset(0% 0% 100% 0%)" })
+      .set(notes, { autoAlpha: 0 })
+      .fromTo(paper, { rotationY: 88 }, { rotationY: 0, scale: 1, filter: "brightness(1)", transformPerspective: 1400, duration: 0.34, ease: "back.out(1.4)" })
+      .to(art, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.6, ease: "none" })
+      .fromTo(brush, { autoAlpha: 1, left: "14%", top: "12%" }, { keyframes: [
+          { left: "58%", top: "28%" }, { left: "16%", top: "46%" }, { left: "58%", top: "64%" }, { left: "20%", top: "82%" } ],
+          duration: 0.6, ease: "none" }, "<")
+      .to(brush, { autoAlpha: 0, duration: 0.15 })
+      .fromTo(notes, { autoAlpha: 0, scale: 0.7, rotation: function () { return g.utils.random(-8, 8); } },
+        { autoAlpha: 1, scale: 1, rotation: 0, duration: 0.28, stagger: 0.06, ease: "back.out(2)" }, "-=0.3");
+  }
+
+  art.addEventListener("click", flip);
+  art.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); flip(); } });
+  btn.addEventListener("click", flip);
+})();
 
 /* 작화 프로그램 화면 조작 */
 const paperEl = document.getElementById("paper");
