@@ -283,7 +283,7 @@ a.btn.primary, a.btn.secondary { color: #fff; }
 .rv-all { display: flex; justify-content: flex-end; margin-top: 18px; }
 
 /* other works */
-.works { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.works { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; max-width: 360px; }
 .work { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
 .work .slot { aspect-ratio: 7 / 10; box-shadow: 0 1px 3px rgba(0,0,0,.14); }
 .work .ribbon { align-self: stretch; text-align: center; padding: 1px 0; font-size: 11px; }
@@ -599,7 +599,7 @@ body.book-mode { background: var(--mat); }
   .chip-label { display: block; font-size: 18px; margin: 26px 0 0; }
   .chips { margin-top: 10px; }
   .write { margin-bottom: 0; }
-  .works { grid-template-columns: repeat(auto-fill, 180px); gap: 28px; }
+  .works { grid-template-columns: repeat(auto-fill, 180px); gap: 28px; max-width: none; }
   .fgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 40px; }
   .totop { display: none; }
   .toast { bottom: 40px; }
@@ -710,7 +710,7 @@ body.book-mode { background: var(--mat); }
         <hr>
         <div class="pc-price"><span class="price-old">220엔 (세금 포함)</span><span class="price-now"><b>0</b>엔 (세금 포함) 11/4까지</span><span class="pts"><i>P</i>0pt</span><span class="tag-red">무료</span></div>
         <div class="rating">4.6 <span class="stars" style="--v:4.6" aria-label="별점 4.6">★★★★★</span><a href="#reviews">128건</a></div>
-        <p class="syn">“시, 신고만은… 제발 봐주세요…!” 요즘 성인 웹코믹 랭킹을 휩쓴 화제작의 작가는, 마시멜로 프로필 사진이 귀여운 인기 작가 '마유마로 선생님'. 그런데 며칠 전부터, 캠퍼스에서 자꾸 누군가의 시선이 느껴진다. 189cm는 되어 보이는 덩치 큰 남자가 이쪽을 훔쳐보다가 눈만 마주치면 허둥지둥 도망가는 것. 참다못해 불러 세운 날, 그가 떨어뜨린 크로키북 속에는 당신의 얼굴, 그리고 얼마 전 읽은 그 만화의 원고가 있었다…!? 지독한 슬럼프로 연재 중단 위기라는 그는, 눈물 콧물을 쏟으며 당신에게 매달리는데…. 소심하고 음침한 덩치남 작가와, 그의 뮤즈가 되어버린 당신의 엉뚱한 로맨스 코미디. ※이 작품은 유저노트로 마유마로 선생님의 연재 장르(BL/TL/상업지)를 고를 수 있습니다.</p>
+        <p class="syn">“시, 신고만은… 제발 봐주세요…!” 요즘 성인 웹코믹 랭킹을 휩쓴 화제작의 작가는, 마시멜로 프로필 사진이 귀여운 인기 작가 '마유마로 선생님'. 그런데 며칠 전부터, 캠퍼스에서 자꾸 누군가의 시선이 느껴진다. 189cm는 되어 보이는 덩치 큰 남자가 이쪽을 훔쳐보다가 눈만 마주치면 허둥지둥 도망가는 것. 참다못해 불러 세운 날, 그가 떨어뜨린 크로키북 속에는 당신의 얼굴, 그리고 얼마 전 읽은 그 만화의 원고가 있었다…!? 지독한 슬럼프로 연재 중단 위기라는 그는, 눈물 콧물을 쏟으며 당신에게 매달리는데…. 소심하고 음침한 덩치남 작가와, 그의 뮤즈가 되어버린 당신의 엉뚱한 로맨스 코미디. ※이 작품은 유저노트로 마유마로 선생님의 연재 장르(BL/TL)를 고를 수 있습니다.</p>
       </div>
       <div class="pc-actions">
         <button class="btn primary" type="button" data-scroll="list"><span class="zero-dot">¥0</span>무료로 읽기</button>
@@ -731,7 +731,7 @@ body.book-mode { background: var(--mat); }
 <section class="band" id="details">
   <div class="in">
     <div class="sp" style="margin-bottom:18px">
-      <p class="syn clamp" id="syn">“시, 신고만은… 제발 봐주세요…!” 요즘 성인 웹코믹 랭킹을 휩쓴 화제작의 작가는, 마시멜로 프로필 사진이 귀여운 인기 작가 '마유마로 선생님'. 그런데 며칠 전부터, 캠퍼스에서 자꾸 누군가의 시선이 느껴진다. 189cm는 되어 보이는 덩치 큰 남자가 이쪽을 훔쳐보다가 눈만 마주치면 허둥지둥 도망가는 것. 참다못해 불러 세운 날, 그가 떨어뜨린 크로키북 속에는 당신의 얼굴, 그리고 얼마 전 읽은 그 만화의 원고가 있었다…!? 지독한 슬럼프로 연재 중단 위기라는 그는, 눈물 콧물을 쏟으며 당신에게 매달리는데…. 소심하고 음침한 덩치남 작가와, 그의 뮤즈가 되어버린 당신의 엉뚱한 로맨스 코미디. ※이 작품은 유저노트로 마유마로 선생님의 연재 장르(BL/TL/상업지)를 고를 수 있습니다.</p>
+      <p class="syn clamp" id="syn">“시, 신고만은… 제발 봐주세요…!” 요즘 성인 웹코믹 랭킹을 휩쓴 화제작의 작가는, 마시멜로 프로필 사진이 귀여운 인기 작가 '마유마로 선생님'. 그런데 며칠 전부터, 캠퍼스에서 자꾸 누군가의 시선이 느껴진다. 189cm는 되어 보이는 덩치 큰 남자가 이쪽을 훔쳐보다가 눈만 마주치면 허둥지둥 도망가는 것. 참다못해 불러 세운 날, 그가 떨어뜨린 크로키북 속에는 당신의 얼굴, 그리고 얼마 전 읽은 그 만화의 원고가 있었다…!? 지독한 슬럼프로 연재 중단 위기라는 그는, 눈물 콧물을 쏟으며 당신에게 매달리는데…. 소심하고 음침한 덩치남 작가와, 그의 뮤즈가 되어버린 당신의 엉뚱한 로맨스 코미디. ※이 작품은 유저노트로 마유마로 선생님의 연재 장르(BL/TL)를 고를 수 있습니다.</p>
       <button class="more" type="button" id="more">…더 보기</button>
     </div>
     <details class="acc">
@@ -752,7 +752,7 @@ body.book-mode { background: var(--mat); }
     <details class="acc">
       <summary>이용 안내</summary>
       <ul class="guide">
-        <li>유저노트로 마유마로 선생님의 연재 장르(BL / TL / 상업지)를 고를 수 있어요.</li>
+        <li>유저노트로 마유마로 선생님의 연재 장르(BL / TL)를 고를 수 있어요.</li>
         <li>당신은 마시로가 처음으로 '그리고 싶다'고 느낀 사람이에요. 성별, 직업, 만화 취향은 자유롭게 정해주세요.</li>
         <li>성인향 작품입니다. 마시로의 제안을 받아들일지는 언제나 당신이 정합니다.</li>
       </ul>
@@ -908,7 +908,6 @@ body.book-mode { background: var(--mat); }
     <div class="works">
       <div class="work"><div class="slot" data-img="coverBL"><span class="slot-label">BL 표지</span></div><span class="ribbon">BL</span><span class="t">작품명 미정</span><a class="a" href="#follow">마유마로</a><button class="sbtn try" type="button" data-dead tabindex="-1">맛보기</button></div>
       <div class="work"><div class="slot" data-img="coverTL"><span class="slot-label">TL 표지</span></div><span class="ribbon">TL</span><span class="t">작품명 미정</span><a class="a" href="#follow">마유마로</a><button class="sbtn try" type="button" data-dead tabindex="-1">맛보기</button></div>
-      <div class="work"><div class="slot" data-img="coverAdult"><span class="slot-label">상업지 표지</span></div><span class="ribbon">상업지</span><span class="t">작품명 미정</span><a class="a" href="#follow">마유마로</a><button class="sbtn try" type="button" data-dead tabindex="-1">맛보기</button></div>
     </div>
     <p class="works-note">유저노트에서 고른 장르가 마유마로 선생님의 화제작이 됩니다.</p>
   </div>
@@ -1134,7 +1133,7 @@ body.book-mode { background: var(--mat); }
             <li>③ 같은 교양 수업을 듣는 학생 → 매주 마주침</li>
           </ul>
         </li>
-        <li>유저노트로 마시로의 연재 장르 고르기: <span class="mark">BL / TL / 상업지</span></li>
+        <li>유저노트로 마시로의 연재 장르 고르기: <span class="mark">BL / TL</span></li>
         <li>프로필에 써두면 좋은 것: 마시로를 처음 본 장소, 그 만화에 대한 감상, 원하는 수위</li>
       </ul>
     </article>
@@ -1204,7 +1203,6 @@ const IMAGES = {
   avatar: "img/avatar.webp",          /* 마유마로 작가 계정 프로필 (1:1) */
   coverBL: "img/cover-bl.webp",       /* BL 화제작 표지 (7:10) */
   coverTL: "img/cover-tl.webp",       /* TL 화제작 표지 (7:10) */
-  coverAdult: "img/cover-adult.webp", /* 상업지 화제작 표지 (7:10) */
   ep1: "img/ep1.webp",                /* 1화 표지 (7:10). 없으면 키비주얼 */
   ep2: "img/ep2.webp",                /* 2화 표지 (7:10). 없으면 키비주얼 */
   ep3: "img/ep3.webp",                /* 3화 표지 (7:10). 없으면 키비주얼 */
