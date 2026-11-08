@@ -251,7 +251,27 @@ p { margin: 0; }
 .facts span { font-size: 11px; font-weight: 700; letter-spacing: .08em; color: var(--primary); }
 .facts b { font-size: 15.5px; font-weight: 900; line-height: 1.4; }
 .facts small { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
-.campus-note { margin-top: 16px; font-size: 15px; line-height: 1.85; color: #3c3843; }
+.campus-note { margin-top: 14px; font-size: 13.5px; line-height: 1.7; color: var(--muted); }
+.campus-sub { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 10px; margin: 30px 0 10px; font-size: 16px; font-weight: 900; }
+.campus-sub span { font-size: 12.5px; font-weight: 500; color: var(--muted); }
+.depts { display: flex; flex-wrap: wrap; gap: 6px; }
+.depts button { display: inline-flex; align-items: center; gap: 5px; border: 1px solid var(--line); background: var(--bg); border-radius: 99px; padding: 4px 11px; font-size: 13px; line-height: 1.5; color: #3c3843; }
+.depts button:hover { border-color: var(--outline); }
+.depts button i { font-style: normal; font-size: 10.5px; font-weight: 700; color: var(--primary); }
+.depts button[aria-pressed="true"] { background: var(--fg); border-color: var(--fg); color: #fff; }
+.depts button[aria-pressed="true"] i { color: #ffb3cc; }
+.courses { margin-top: 10px; background: #f7f5fb; border-radius: 12px; padding: 12px 14px 14px; }
+.courses b { display: block; font-size: 12.5px; color: var(--muted); margin-bottom: 8px; }
+.courses ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.courses li { background: var(--bg); border: 1px solid #ebe6f1; border-radius: 6px; padding: 2px 9px; font-size: 13.5px; }
+.courses li.me { border-color: var(--primary); color: var(--primary); font-weight: 700; }
+.courses .hint { margin-top: 8px; font-size: 12.5px; color: var(--muted); }
+.cal { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.cal li { display: flex; flex-direction: column; gap: 1px; border-left: 3px solid #ecdbe4; background: #fbfafc; border-radius: 0 10px 10px 0; padding: 8px 10px 9px; }
+.cal .m { font-size: 12px; font-weight: 900; color: var(--primary); }
+.cal .e { font-size: 13.5px; line-height: 1.5; }
+.cal small { font-size: 11px; font-weight: 700; color: var(--primary); margin-top: 3px; }
+.cal li.now { border-left-color: var(--primary); background: var(--primary-soft); }
 
 /* ---------- 블록 사이 이음새 ---------- */
 .seam { height: 100px; }
@@ -408,6 +428,7 @@ p { margin: 0; }
   .kv, .memo { font-size: 14.5px; }
   .sheet-cols { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; }
   .facts { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .cal { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .art-body { padding: 24px 32px 8px; }
   .art-title { font-size: 25px; }
   .sec { font-size: 28px; }
@@ -709,7 +730,36 @@ p { margin: 0; }
       <div><span>규모</span><b>15개 학과</b><small>부지가 아주 넓다</small></div>
       <div><span>시설</span><b>극장 · 영화관</b><small>촬영소와 TV 스튜디오까지</small></div>
     </div>
-    <p class="campus-note rv">만화 코스는 캐릭터조형학과에 있지만, 마시로는 <b>공예학과(도예)</b>. 교양 수업은 학과와 상관없이 함께 듣는다.</p>
+    <h3 class="campus-sub">학과와 코스<span>예술학부 15학과 · 눌러서 코스 보기</span></h3>
+    <div class="depts rv" id="depts">
+        <button type="button" aria-pressed="false" data-name="아트사이언스학과" data-courses="사회변혁 아트|미디어아트">아트사이언스학과</button>
+        <button type="button" aria-pressed="false" data-name="미술학과" data-courses="유화|일본화|판화|조각">미술학과</button>
+        <button type="button" aria-pressed="false" data-name="디자인학과" data-courses="그래픽디자인|일러스트레이션|디지털미디어|디지털아츠|프로덕트디자인|공간디자인|디자인프로듀스">디자인학과</button>
+        <button type="button" aria-pressed="true" data-name="공예학과" data-courses="금속공예|도예|유리공예|텍스타일·염직" data-me="도예" data-note="마시로의 학과. 도예 코스 3학년.">공예학과<i>마시로</i></button>
+        <button type="button" aria-pressed="false" data-name="사진학과" data-courses="파인아트|프로페셔널|영상표현">사진학과</button>
+        <button type="button" aria-pressed="false" data-name="건축학과" data-courses="건축|환경디자인">건축학과</button>
+        <button type="button" aria-pressed="false" data-name="영상학과" data-courses="영화|영상|시나리오|영상학|애니메이션">영상학과</button>
+        <button type="button" aria-pressed="false" data-name="캐릭터조형학과" data-courses="만화|애니메이션|게임|피규어아츠" data-note="만화 코스가 있는 학과. 마시로는 이 학과가 아니다.">캐릭터조형학과<i>만화</i></button>
+        <button type="button" aria-pressed="false" data-name="문예학과" data-courses="창작(소설·시·각본)|논픽션·문예비평|출판·편집|번역">문예학과</button>
+        <button type="button" aria-pressed="false" data-name="방송학과" data-courses="제작|아나운스 음성표현|첨단미디어커뮤니케이션|성우">방송학과</button>
+        <button type="button" aria-pressed="false" data-name="예술계획학과" data-courses="아트프로듀스|이벤트프로듀스">예술계획학과</button>
+        <button type="button" aria-pressed="false" data-name="무대예술학과" data-courses="연기연출|뮤지컬|무용|팝댄스|무대미술|무대음향효과|무대조명">무대예술학과</button>
+        <button type="button" aria-pressed="false" data-name="음악학과" data-courses="음악·음향디자인|음악교육">음악학과</button>
+        <button type="button" aria-pressed="false" data-name="연주학과" data-courses="피아노|성악|관현타|팝 음악">연주학과</button>
+        <button type="button" aria-pressed="false" data-name="초등예술교육학과" data-courses="유아교육|초등교육">초등예술교육학과</button>
+    </div>
+    <div class="courses" id="courses" aria-live="polite"><b>공예학과 코스</b><ul><li>금속공예</li><li class="me">도예 · 마시로</li><li>유리공예</li><li>텍스타일·염직</li></ul><p class="hint">마시로의 학과. 도예 코스 3학년.</p></div>
+
+    <h3 class="campus-sub">학사 일정<span>4월에 학년이 바뀐다</span></h3>
+    <ol class="cal rv">
+      <li><span class="m">4월</span><span class="e">새 학년 · 전기 개강</span></li>
+      <li><span class="m">7월 하순</span><span class="e">전기 시험</span></li>
+      <li><span class="m">8~9월</span><span class="e">여름방학</span></li>
+      <li class="now"><span class="m">10월</span><span class="e">후기 개강 · 말일 무렵 학원제 '만마루'</span><small>이야기 시작 10/23</small></li>
+      <li><span class="m">1월 하순</span><span class="e">후기 시험</span></li>
+      <li><span class="m">2월</span><span class="e">봄방학 · 중순 졸업작품전</span></li>
+    </ol>
+    <p class="campus-note rv">※ 교양 수업은 학과와 상관없이 함께 듣는다.</p>
   </div>
 </section>
 
@@ -1104,6 +1154,34 @@ toTop.addEventListener("click", function () { window.scrollTo({ top: 0, behavior
   const mobile = window.matchMedia("(max-width: 719px)");
   props.addEventListener("click", function () { if (mobile.matches) props.classList.add("closed"); });
   open.addEventListener("click", function () { props.classList.remove("closed"); });
+})();
+
+/* 무대: 학과를 누르면 그 학과의 코스를 보여 준다 */
+(function () {
+  const btns = Array.from(document.querySelectorAll("#depts button"));
+  const panel = document.getElementById("courses");
+  function show(b) {
+    btns.forEach(function (o) { o.setAttribute("aria-pressed", String(o === b)); });
+    const me = b.dataset.me || "";
+    panel.textContent = "";
+    const title = document.createElement("b");
+    title.textContent = b.dataset.name + " 코스";
+    const ul = document.createElement("ul");
+    b.dataset.courses.split("|").forEach(function (c) {
+      const li = document.createElement("li");
+      li.textContent = c === me ? c + " · 마시로" : c;
+      if (c === me) li.className = "me";
+      ul.appendChild(li);
+    });
+    panel.append(title, ul);
+    if (b.dataset.note) {
+      const hint = document.createElement("p");
+      hint.className = "hint";
+      hint.textContent = b.dataset.note;
+      panel.appendChild(hint);
+    }
+  }
+  btns.forEach(function (b) { b.addEventListener("click", function () { show(b); }); });
 })();
 
 /* 유저노트 양식 복사 */
