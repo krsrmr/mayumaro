@@ -185,14 +185,19 @@ p { margin: 0; }
 
 /* ---------- 3. 인터뷰 ---------- */
 .interview { background-color: #fbf7fa; background-image: radial-gradient(#f1dbe5 1px, transparent 1.3px); background-size: 14px 14px; }
-.mag { background: var(--bg); border-radius: 16px; box-shadow: 0 10px 30px rgba(120,60,90,.10); overflow: hidden; }
-.mag-head { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 14px; align-items: center; padding: 22px 20px 18px; border-bottom: 1px dashed #ecd5df; }
-.mag-head .slot { width: 64px; height: 64px; border-radius: 50%; box-shadow: 0 0 0 3px #fff, 0 0 0 4px #f3c8d8; }
-.mag-head .slot .slot-label { display: none; }
-.mag-kicker { font-size: 11px; font-weight: 700; letter-spacing: .14em; color: var(--primary); }
-.mag-title { font-size: 18px; font-weight: 900; line-height: 1.4; margin: 2px 0; }
-.mag-by { font-size: 12.5px; color: var(--muted); }
-.qa { padding: 6px 20px 24px; }
+.article { background: var(--bg); border-radius: 16px; box-shadow: 0 10px 30px rgba(120,60,90,.10); overflow: hidden; }
+.art-hero { aspect-ratio: 2 / 1; background-color: #fde8ef; }
+.art-body { padding: 18px 20px 6px; }
+.art-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 12px; color: var(--muted); }
+.art-meta .cat { background: var(--primary); color: #fff; font-weight: 700; border-radius: 3px; padding: 0 7px; line-height: 1.7; }
+.art-meta time { margin-left: auto; font-variant-numeric: tabular-nums; }
+.art-title { font-size: 22px; font-weight: 900; line-height: 1.4; margin: 10px 0 10px; letter-spacing: -.01em; text-wrap: balance; }
+.art-lead { font-size: 15px; line-height: 1.85; color: #4a4550; }
+.byline { display: flex; align-items: center; gap: 10px; padding: 14px 0; margin-top: 14px; border-top: 1px solid #f1e8ee; border-bottom: 1px solid #f1e8ee; font-size: 13px; }
+.byline .ava-s { width: 38px; height: 38px; border-radius: 50%; flex: none; box-shadow: 0 0 0 2px #fff, 0 0 0 3px #f3c8d8; }
+.byline span:not(.slot) { color: var(--muted); }
+.byline small { display: block; font-size: 12px; color: var(--muted); }
+.qa { padding: 4px 0 18px; }
 .qa-item { padding: 18px 0 4px; border-top: 1px solid #f3eef3; }
 .qa-item:first-child { border-top: 0; }
 .q { font-weight: 900; font-size: 15px; line-height: 1.6; display: grid; grid-template-columns: 22px minmax(0, 1fr); }
@@ -202,7 +207,11 @@ p { margin: 0; }
 .inner::before { content: "↳"; font-family: var(--font-body); font-size: 13px; color: #e3a99d; margin-top: 4px; }
 .js .qa-item .inner { opacity: 0; transform: translateX(-6px) rotate(-1deg); transition: opacity .5s ease .45s, transform .5s ease .45s; }
 .js .qa-item.on .inner { opacity: 1; transform: rotate(-1deg); }
-.inner-legend { display: flex; justify-content: flex-end; gap: 14px; font-size: 12px; color: var(--muted); padding: 0 20px 18px; }
+.inner-legend { display: flex; justify-content: flex-end; gap: 14px; font-size: 12px; color: var(--muted); padding: 0 0 14px; }
+.art-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 0 16px; border-top: 1px solid #f1e8ee; }
+.art-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.art-tags span { font-size: 12.5px; color: var(--link); background: #f3f5fc; border-radius: 99px; padding: 1px 9px; }
+.art-like { font-size: 13px; color: var(--primary); font-weight: 700; white-space: nowrap; }
 .inner-legend span:last-child { font-family: var(--font-hand); color: var(--pencil-red); font-size: 17px; line-height: 1.2; }
 
 /* ---------- 4. 줄거리 ---------- */
@@ -229,16 +238,25 @@ p { margin: 0; }
 .closing { text-align: center; margin-top: 46px; }
 .closing b { display: block; font-size: clamp(21px, 6vw, 27px); font-weight: 900; line-height: 1.45; }
 .closing span { display: block; font-size: 13px; color: var(--muted); margin-top: 8px; }
-.place { display: grid; grid-template-columns: 42px minmax(0, 1fr); gap: 12px; align-items: start; background: #f7f5fb; border-radius: 14px; padding: 16px 16px 16px 14px; margin-top: 34px; }
-.place .pin { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; background: var(--bg); font-size: 20px; }
-.place h3 { margin: 0 0 4px; font-size: 15.5px; font-weight: 900; }
-.place h3 small { font-weight: 500; color: var(--muted); font-size: 12.5px; margin-left: 4px; }
-.place p { font-size: 14.5px; line-height: 1.8; color: #3c3843; }
+
+/* ---------- 무대 ---------- */
+.campus { background: var(--bg); }
+.campus .campus-head { padding-top: 40px; padding-bottom: 0; }
+.campus .sec { margin-bottom: 18px; }
+.campus-img { margin: 0 auto; max-width: 1200px; }
+.campus-img .slot { aspect-ratio: 3 / 1; background-color: #f4f2f8; }
+.campus-body { padding-top: 6px; }
+.facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.facts > div { background: #f7f5fb; border-radius: 12px; padding: 12px 14px; display: flex; flex-direction: column; gap: 2px; }
+.facts span { font-size: 11px; font-weight: 700; letter-spacing: .08em; color: var(--primary); }
+.facts b { font-size: 15.5px; font-weight: 900; line-height: 1.4; }
+.facts small { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+.campus-note { margin-top: 16px; font-size: 15px; line-height: 1.85; color: #3c3843; }
 
 /* ---------- 블록 사이 이음새 ---------- */
 .seam { height: 100px; }
 .seam.to-desk { background: linear-gradient(var(--bg), #1c1c21); }
-.seam.desk-to-light { background: linear-gradient(#1c1c21, var(--band)); }
+.seam.desk-to-light { background: linear-gradient(#1c1c21, var(--bg)); }
 
 /* ---------- 5. 캐릭터 (작업용 모니터 속 센뵤 페인트) ---------- */
 .desk { background: radial-gradient(90% 55% at 50% 45%, #363b52 0%, #25252d 55%, #1c1c21 100%); color: var(--app-text); }
@@ -296,13 +314,13 @@ p { margin: 0; }
 .memo li { position: relative; padding-left: 13px; }
 .memo li::before { content: ""; position: absolute; left: 0; top: .62em; width: 6px; height: 2px; background: var(--pencil-red); border-radius: 1px; }
 .memo b { color: #ff9b86; font-weight: 700; }
-.say { padding: 0 12px 14px; font-family: var(--font-hand); font-size: 21px; line-height: 1.2; color: #ff9b86; }
+.say { padding: 12px 12px 14px; font-family: var(--font-hand); font-size: 21px; line-height: 1.2; color: #ff9b86; }
 .statusbar { display: flex; gap: 14px; padding: 4px 10px; background: var(--app-panel); border-top: 1px solid var(--app-edge); color: var(--app-muted); font-size: 11px; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; }
 
 /* ---------- 6. 당신 (크로키북 한 장) ---------- */
-.muse { background: var(--band); }
+.muse { background: var(--bg); }
 .sheet { position: relative; background-color: var(--sketch-paper); background-image: radial-gradient(rgba(0,0,0,.035) 1px, transparent 1.2px); background-size: 3px 3px; padding: 50px max(20px, 5%) 28px; box-shadow: 0 6px 22px rgba(40,30,60,.14); color: var(--graphite); border-radius: 2px; }
-.rings { position: absolute; left: 0; right: 0; top: 0; height: 34px; pointer-events: none; background: radial-gradient(circle at 50% 22px, var(--band) 4px, transparent 4.6px) 6px 0 / 26px 34px repeat-x; }
+.rings { position: absolute; left: 0; right: 0; top: 0; height: 34px; pointer-events: none; background: radial-gradient(circle at 50% 22px, var(--bg) 4px, transparent 4.6px) 6px 0 / 26px 34px repeat-x; }
 .rings::before { content: ""; position: absolute; left: 6px; right: 0; top: -14px; height: 40px; background: repeating-linear-gradient(90deg, transparent 0 10px, #dfe2e7 10px 12px, var(--ring) 12px 15px, #8d929a 15px 16px, transparent 16px 26px); -webkit-mask-image: linear-gradient(#000 0 60%, transparent 60%); mask-image: linear-gradient(#000 0 60%, transparent 60%); }
 .sheet h3 { font-family: var(--font-hand); font-size: 54px; font-weight: 400; line-height: 1; margin: 0; }
 .sheet .sub { font-family: var(--font-hand); font-size: 27px; line-height: 1.2; color: var(--pencil-red); margin: 6px 0 0; }
@@ -389,9 +407,13 @@ p { margin: 0; }
   .who strong { font-size: 20px; }
   .kv, .memo { font-size: 14.5px; }
   .sheet-cols { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; }
+  .facts { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .art-body { padding: 24px 32px 8px; }
+  .art-title { font-size: 25px; }
   .sec { font-size: 28px; }
 }
 @media (max-width: 719px) {
+  .campus-img .slot { aspect-ratio: 2 / 1; }
   .desk .bezel { margin: 0 -10px; }
   .menubar { font-size: 11px; }
   .filetabs button { font-size: 11px; padding: 6px 10px; }
@@ -420,7 +442,7 @@ p { margin: 0; }
   .notes { border-top: 1px solid var(--app-edge); }
   .notes .ph { font-size: 10.5px; }
   .memo { font-size: 12px; gap: 6px; padding: 10px 12px 12px; }
-  .say { font-size: 19px; }
+  .say { font-size: 19px; padding-top: 10px; }
   .statusbar { font-size: 10px; }
 }
 @media (max-width: 340px) {
@@ -450,10 +472,11 @@ p { margin: 0; }
       <a href="#buzz">화제</a>
       <a href="#interview">인터뷰</a>
       <a href="#story">줄거리</a>
+      <a href="#campus">무대</a>
       <a href="#sheet">프로필</a>
       <a href="#muse">당신</a>
-      <a href="#genre">연재 장르</a>
       <a href="#guide">플레이 안내</a>
+      <a href="#genre">연재 장르</a>
     </nav>
   </div>
 </header>
@@ -560,17 +583,14 @@ p { margin: 0; }
 <section class="interview" id="interview">
   <div class="wrap">
     <p class="eyebrow">INTERVIEW</p>
-    <h2 class="sec">마유마로 선생님은<br>어떤 분이신가요?<small>공식 답변과 속마음을 함께 실었습니다</small></h2>
-    <article class="mag rv">
-      <header class="mag-head">
-        <div class="slot" data-img="avatar"><span class="slot-label">프사</span></div>
-        <div>
-          <p class="mag-kicker">LUNELLE SPECIAL</p>
-          <h3 class="mag-title">마유마로 선생님 신작 단행본 중쇄 기념 인터뷰</h3>
-          <p class="mag-by">마유마로 @mayumaro_works · 요아카리 코믹스 편집부</p>
-        </div>
-      </header>
-      <div class="qa">
+    <article class="article rv">
+      <div class="slot art-hero" data-img="interview"><span class="slot-label">인터뷰 헤더 (2:1)</span></div>
+      <div class="art-body">
+        <div class="art-meta"><span class="cat">인터뷰</span><span>요아카리 코믹스</span><time datetime="2026-10-30">2026.10.30</time></div>
+        <h2 class="art-title">마유마로 선생님 신작 단행본 중쇄 기념 인터뷰</h2>
+        <p class="art-lead">'짝사랑물의 신'이라 불리던 작가님이 발표한 초~야한 이레귤러가 SNS에서 대화제!! 단행본 중쇄를 기념해, 얼굴 없는 인기 작가 마유마로 선생님께 서면으로 이야기를 들어 보았습니다.</p>
+        <div class="byline"><span class="slot ava-s" data-img="avatar"></span><div><b>마유마로</b> <span>@mayumaro_works</span><small>글·정리 요아카리 코믹스 편집부</small></div></div>
+        <div class="qa">
         <div class="qa-item rv">
           <p class="q">마유마로 선생님은 어떤 분이신가요?</p>
           <p class="a">그림 그리는 걸 좋아하는 평범한 학생이에요🍡<br>늘 응원해 주셔서 감사합니다! (❁´◡`❁)</p>
@@ -596,8 +616,10 @@ p { margin: 0; }
           <p class="a">걱정 끼쳐드려서 죄송합니다…! 〒▽〒<br>뒷이야기도 모두 즐겁게 읽으실 수 있게, 열심히 준비하고 있어요✍️ 조금만 기다려 주세요! (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧</p>
           <p class="inner">…암것도 안 떠오른다. 이래 가다간 진짜 연재 접어야 된다…</p>
         </div>
+        </div>
+        <div class="inner-legend"><span>■ 공식 답변</span><span>↳ 속마음</span></div>
+        <div class="art-foot"><div class="art-tags"><span>#마유마로</span><span>#중쇄기념</span><span>#작가인터뷰</span></div><span class="art-like">♡ 3,284</span></div>
       </div>
-      <div class="inner-legend"><span>■ 공식 답변</span><span>↳ 속마음</span></div>
     </article>
   </div>
 </section>
@@ -619,14 +641,6 @@ p { margin: 0; }
     <div class="pull rv">
       <p class="jp" lang="ja">「す、すみません……！ あの、それ、す、捨ててください……！<br>いやッ、すてないでくだひゃぁい～～～！！！」</p>
       <p class="ko">"죄, 죄송합니다……! 저기, 그거, 버, 버려주세요……!<br>아니, 버리지 말아주세요~~~!!!"</p>
-    </div>
-
-    <div class="place rv">
-      <span class="pin" aria-hidden="true">🏫</span>
-      <div>
-        <h3>나니와종합예술대학<small>무대</small></h3>
-        <p>오사카부 미나미카와치군 가난초의 교외 캠퍼스. 오사카아베노바시역에서 긴테쓰 준급으로 약 25분, 기시역에서 무료 스쿨버스로 10분을 더 간다. 부지가 아주 넓고, 15개 학과에 극장·영화관·촬영소·TV 스튜디오까지 있다. 만화 코스는 캐릭터조형학과에 있지만 마시로는 공예학과(도예). 교양 수업은 학과와 상관없이 함께 듣는다.</p>
-      </div>
     </div>
 
     <h3 class="h3">그렇게 시작된 이상한 관계</h3>
@@ -678,6 +692,24 @@ p { margin: 0; }
       </li>
     </ol>
     <p class="closing rv"><b>우리… 언제까지<br>이런 식으로 지내는 거야?!</b><span>6화 업데이트 예정 · 미정</span></p>
+  </div>
+</section>
+
+<!-- ===== 무대: 나니와종합예술대학 ===== -->
+<section class="campus" id="campus">
+  <div class="wrap campus-head">
+    <p class="eyebrow">STAGE</p>
+    <h2 class="sec">나니와종합예술대학<small lang="ja">難波総合芸術大学</small></h2>
+  </div>
+  <figure class="campus-img rv"><div class="slot" data-img="campus"><span class="slot-label">캠퍼스 (3:1)</span></div></figure>
+  <div class="wrap campus-body">
+    <div class="facts rv">
+      <div><span>위치</span><b>오사카부 가난초</b><small>도심이 아닌 교외 캠퍼스</small></div>
+      <div><span>통학</span><b>기시역 + 스쿨버스</b><small>아베노바시역에서 긴테쓰 약 25분, 버스로 10분</small></div>
+      <div><span>규모</span><b>15개 학과</b><small>부지가 아주 넓다</small></div>
+      <div><span>시설</span><b>극장 · 영화관</b><small>촬영소와 TV 스튜디오까지</small></div>
+    </div>
+    <p class="campus-note rv">만화 코스는 캐릭터조형학과에 있지만, 마시로는 <b>공예학과(도예)</b>. 교양 수업은 학과와 상관없이 함께 듣는다.</p>
   </div>
 </section>
 
@@ -792,32 +824,7 @@ p { margin: 0; }
   </div>
 </section>
 
-<!-- ===== 7. 연재 장르 (이 작가의 다른 작품) ===== -->
-<section class="genre" id="genre">
-  <div class="wrap">
-    <p class="eyebrow">GENRE</p>
-    <h2 class="sec">마유마로의 화제작은<br>당신이 고릅니다<small>유저노트의 '연재 장르'가 그대로 간판작의 장르가 돼요</small></h2>
-    <div class="works">
-      <div class="work rv">
-        <div class="slot" data-img="coverBL"><span class="slot-label">BL 표지</span></div>
-        <span class="ribbon">BL</span>
-        <p><b>남성으로 인식한 당신</b>을 대상으로 그린 BL물. 남주가 잘생겼고 수위가 장난 아니어서 인기가 엄청납니다.</p>
-      </div>
-      <div class="work rv">
-        <div class="slot" data-img="coverTL"><span class="slot-label">TL 표지</span></div>
-        <span class="ribbon">TL</span>
-        <p><b>여성으로 인식한 당신</b>을 대상으로 그린 여성향 성인 만화. 여주인공이 예쁘고 묘사가 사실적인 데다 무지 야해서 인기가 엄청납니다.</p>
-      </div>
-    </div>
-    <ul class="tips rv">
-      <li><b>당신과 작중 주인공이 어디까지 닮았는지</b>도 정할 수 있어요. 이미지만 따왔다, 얼굴도 따왔다, 성격과 행동거지까지 따왔다 등. 정하지 않으면 그때그때 달라집니다.</li>
-      <li>BL이라고 해서 당신을 모티브로 한 캐릭터가 꼭 작중·취재에서 텀 역할을 하는 건 아니에요. TL도 마찬가지입니다. 여공남수 작품으로 정하고 갈 수도 있어요. 이 경우 마시로는 당신을 <b>탑 포지션의 사람</b>으로 보고 그린 셈입니다.</li>
-      <li>마시로의 탑/바텀은 <b>둘 다 가능</b>한 것으로 테스트했어요. 고정이 필요하면 유저노트의 '좋아하는 전개·시츄'와 '지뢰'에 적어 두면 아주 좋습니다.</li>
-    </ul>
-  </div>
-</section>
-
-<!-- ===== 8. 플레이 안내 (제작자 노트) ===== -->
+<!-- ===== 7. 플레이 안내 (제작자 노트) ===== -->
 <section class="guide" id="guide">
   <div class="wrap">
     <p class="eyebrow">HOW TO PLAY</p>
@@ -912,6 +919,31 @@ p { margin: 0; }
   </div>
 </section>
 
+<!-- ===== 8. 연재 장르 (이 작가의 다른 작품) ===== -->
+<section class="genre" id="genre">
+  <div class="wrap">
+    <p class="eyebrow">GENRE</p>
+    <h2 class="sec">마유마로의 화제작은<br>당신이 고릅니다<small>유저노트의 '연재 장르'가 그대로 간판작의 장르가 돼요</small></h2>
+    <div class="works">
+      <div class="work rv">
+        <div class="slot" data-img="coverBL"><span class="slot-label">BL 표지</span></div>
+        <span class="ribbon">BL</span>
+        <p><b>남성으로 인식한 당신</b>을 대상으로 그린 BL물. 남주가 잘생겼고 수위가 장난 아니어서 인기가 엄청납니다.</p>
+      </div>
+      <div class="work rv">
+        <div class="slot" data-img="coverTL"><span class="slot-label">TL 표지</span></div>
+        <span class="ribbon">TL</span>
+        <p><b>여성으로 인식한 당신</b>을 대상으로 그린 여성향 성인 만화. 여주인공이 예쁘고 묘사가 사실적인 데다 무지 야해서 인기가 엄청납니다.</p>
+      </div>
+    </div>
+    <ul class="tips rv">
+      <li><b>당신과 작중 주인공이 어디까지 닮았는지</b>도 정할 수 있어요. 이미지만 따왔다, 얼굴도 따왔다, 성격과 행동거지까지 따왔다 등. 정하지 않으면 그때그때 달라집니다.</li>
+      <li>BL이라고 해서 당신을 모티브로 한 캐릭터가 꼭 작중·취재에서 텀 역할을 하는 건 아니에요. TL도 마찬가지입니다. 여공남수 작품으로 정하고 갈 수도 있어요. 이 경우 마시로는 당신을 <b>탑 포지션의 사람</b>으로 보고 그린 셈입니다.</li>
+      <li>마시로의 탑/바텀은 <b>둘 다 가능</b>한 것으로 테스트했어요. 고정이 필요하면 유저노트의 '좋아하는 전개·시츄'와 '지뢰'에 적어 두면 아주 좋습니다.</li>
+    </ul>
+  </div>
+</section>
+
 </main>
 
 <footer class="foot">
@@ -942,7 +974,9 @@ const IMAGES = {
   ep3: "../img/ep3.webp",
   ep4: "../img/ep4.webp",
   ep5: "../img/ep5.webp",
-  main: "../img/main.webp"
+  main: "../img/main.webp",
+  interview: "../img/interview.webp",
+  campus: "../img/campus.webp"
 };
 document.querySelectorAll("[data-img]").forEach(function (el) {
   const src = IMAGES[el.dataset.img];
@@ -954,6 +988,7 @@ document.querySelectorAll("[data-img]").forEach(function (el) {
   const optional = el.hasAttribute("data-optional");
   /* 숨겨진 자리(선택 그림)는 지연 로딩을 쓰면 영영 불러오지 않으므로 제외 */
   if (!optional && !el.closest(".hero")) img.loading = "lazy";
+  if (el.dataset.img === "campus") { img.style.objectPosition = "32% top"; }
   const fallback = IMAGES[el.dataset.fallback];
   img.onload = function () {
     if (label) label.hidden = true;
