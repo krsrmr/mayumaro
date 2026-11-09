@@ -245,6 +245,8 @@ p { margin: 0; }
 .campus .sec { margin-bottom: 18px; }
 .campus-img { margin: 0 auto; max-width: 1200px; }
 .campus-img .slot { aspect-ratio: 3 / 1; background-color: #f4f2f8; }
+.campus-pic { margin: 30px 0 -14px; }
+.campus-pic .slot { aspect-ratio: 3 / 1; overflow: hidden; background: var(--bg); }
 .campus-body { padding-top: 6px; }
 .facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
 .facts > div { background: #f7f5fb; border-radius: 12px; padding: 12px 14px; display: flex; flex-direction: column; gap: 2px; }
@@ -747,6 +749,7 @@ p { margin: 0; }
       <div><dt>초등예술교육학과</dt><dd><span>유아교육</span> · <span>초등교육</span></dd></div>
     </dl>
 
+    <figure class="campus-pic rv"><div class="slot" data-img="classroom"><span class="slot-label">강의실 (3:1)</span></div></figure>
     <h3 class="campus-sub">학사 일정<span>4월에 학년이 바뀐다</span></h3>
     <ol class="cal rv">
       <li><span class="m">4월</span><span class="e">새 학년 · 전기 개강</span></li>
@@ -1023,7 +1026,8 @@ const IMAGES = {
   ep5: "../img/ep5.webp",
   main: "../img/main.webp",
   interview: "../img/interview.webp",
-  campus: "../img/campus.webp"
+  campus: "../img/campus.webp",
+  classroom: "../img/classroom.webp"
 };
 document.querySelectorAll("[data-img]").forEach(function (el) {
   const src = IMAGES[el.dataset.img];
