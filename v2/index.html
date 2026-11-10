@@ -390,6 +390,11 @@ p { margin: 0; }
 .model { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px 14px; font-size: 14px; align-items: baseline; }
 .model dt { font-weight: 700; color: var(--secondary); }
 .model dd { margin: 0; }
+.cmds { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px 14px; font-size: 14px; line-height: 1.7; align-items: baseline; margin: 0; }
+.cmds dt { font-weight: 700; color: var(--primary); white-space: nowrap; }
+.cmds dd { margin: 0; }
+.card h4 { font-size: 14px; margin: 16px 0 8px; color: var(--secondary); }
+.card h4:first-of-type { margin-top: 4px; }
 .widgets { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
 .widgets li { display: grid; grid-template-columns: 38px minmax(0, 1fr); gap: 12px; align-items: start; font-size: 14px; line-height: 1.7; }
 .widgets .wi { width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center; font-size: 19px; background: var(--primary-soft); }
@@ -887,7 +892,8 @@ p { margin: 0; }
         <span class="pill">본문 HTML 꾸미기<i></i></span>
         <span class="pill off">본문 자동 호출 에셋<i></i></span>
       </div>
-      <p class="muted" style="margin-top:8px">첨부 이미지는 참고 이미지입니다. 본문에 자동으로 뜨지 않아요.</p>
+      <p class="muted" style="margin-top:8px">상태창에는 숨은 항목이 많이 들어 있어요(NSFW 장면에선 상태창이 간략하게 접혀요). 상태창을 출력하지 않으면 흐름을 제대로 인식하지 못하는 지침이 많으니, 되도록 상태창을 없애는 지침은 넣지 말아 주세요.</p>
+      <p class="muted" style="margin-top:6px">첨부 이미지는 참고 이미지입니다. 본문에 자동으로 뜨지 않아요. 외부 링크로 넣는 에셋 시스템은 추가할 예정이에요.</p>
       <div class="playable"><span>HL</span><span>BL</span><span>성별 무관</span>플레이 가능</div>
     </div>
 
@@ -913,16 +919,20 @@ p { margin: 0; }
 마시로가 불러줬으면 하는 호칭: (없으면 비워두기)
 
 [연재 설정]
-*연재 장르: BL / TL 중 하나
+*연재 장르: BL / TL
 화제작 제목: (없으면 비워두기)
-주인공과의 유사성: (만화 주인공과 페르소나가 얼마나 닮았는지. 필요 없으면 항목 삭제)
+주인공과의 유사성: (만화의 주인공과 페르소나가 얼마나 닮았는지를 설정할 수 있음. 필요 없다면 항목 삭제)
 
 [취향]
-좋아하는 전개·시츄: (포지션, 플레이, 페티쉬, 성적 판타지 등)
+좋아하는 전개·시츄: (포지션, 플레이, 페티쉬, 성적 판타지 등 반영 가능)
 피하고 싶은 것(지뢰):
 진행 속도: 천천히 / 보통 / 빠르게</pre>
       </div>
       <p class="muted" style="margin-top:12px">* 표시는 꼭 적어 주세요.</p>
+      <ul class="plain" style="margin-top:10px">
+        <li><a href="#campus">학교에 대한 설정</a>은 이 페이지의 나니와종합예술대학 칸을 참고해 주세요. 실제 학교를 모티프로 이름만 바꾼 정도예요.</li>
+        <li>오사카라는 도시 자체에 대한 고증을 상세하게 지키도록 지시되어 있어요.</li>
+      </ul>
     </div>
 
     <div class="card rv">
@@ -935,10 +945,11 @@ p { margin: 0; }
     <div class="card rv">
       <h3><span class="ic">🧁</span>추천 모델과 출력량</h3>
       <dl class="model">
-        <dt>추천</dt><dd>Gemini 4 · 3.8 · 3.5</dd>
-        <dt>출력량</dt><dd>4 Argon 기준 2,000~2,500자 (사칭 없이)</dd>
+        <dt>추천</dt><dd>Gemini 4 Argon · 3.8 · 3.5</dd>
+        <dt>NSFW</dt><dd>Gemini 4 Argon</dd>
+        <dt>출력량</dt><dd>2,500자 이상 (사칭 없이) · NSFW 4,000~5,000자</dd>
       </dl>
-      <p class="muted" style="margin-top:10px">빠른 템포의 경쾌한 로코 라노벨(혹은 아니메) 느낌을 지향해서, NSFW 장면을 뺀 부분은 출력량이 그렇게 많지 않게 설정되어 있어요.</p>
+      <p class="muted" style="margin-top:10px">빠른 템포의 경쾌한 로코 라노벨(혹은 아니메) 느낌을 지향해서, NSFW 장면을 뺀 부분은 출력량이 그렇게 많지 않게 설정되어 있어요. 3.8이 개인적으로 제일 웃기게 써 줘서 애용해요.</p>
     </div>
 
     <div class="card rv">
@@ -949,6 +960,25 @@ p { margin: 0; }
         <li><span class="wi" aria-hidden="true">🌙</span><div><b>루넬 연재분</b>격주 월요일마다 새 회차가 올라와요. 시놉시스, 작가 후기, 독자 댓글이 함께 나와요. 어딘가 본 듯한 장면이 들어 있을지도 몰라요.</div></li>
       </ul>
       <p class="muted" style="margin-top:12px">그 밖에도 필요하면 AI가 알아서 화면을 꾸미도록 해 두었어요.</p>
+    </div>
+
+    <div class="card rv">
+      <h3><span class="ic">⌨️</span>명령어</h3>
+      <h4>진행 명령어</h4>
+      <dl class="cmds">
+        <dt>!교정</dt><dd>출력 문체를 재점검하고 교정합니다.</dd>
+        <dt>!취재</dt><dd>다음 취재로 빠르게 넘어갑니다.</dd>
+        <dt>!다음날</dt><dd>다음날로 넘어갑니다.</dd>
+        <dt>!이벤트</dt><dd>가장 가까운 환경 이벤트 일자로 넘어갑니다.</dd>
+        <dt>!로맨스</dt><dd>로맨스 사건을 발생시킵니다.</dd>
+      </dl>
+      <h4>위젯 호출 명령어</h4>
+      <dl class="cmds">
+        <dt>!비계</dt><dd>마시로의 SNS 비밀 계정을 몰래 훔쳐봅니다. RP에 영향 주지 않아요.</dd>
+        <dt>!노트</dt><dd>마시로의 메모 노트를 몰래 훔쳐봅니다. RP에 영향 주지 않아요.</dd>
+        <dt>!리스트</dt><dd>지금 마시로의 방에 있는 장난감들의 종류와 개수를 알려줍니다. 기본적으로 RP와 무관하게 인식되지만, 앞에 상황을 적으면(예: *박스를 뒤진다*) 이어지는 걸로 인식해요.</dd>
+        <dt>!메신저</dt><dd>LIME을 통한 문자를 진행합니다. 문자 내용은 <b>[대괄호]</b> 안에 넣으면 대충 인식해요. 유저가 끊거나 문자 상황이 끊어지면 대충 끝납니다.</dd>
+      </dl>
     </div>
 
     <div class="card rv">
@@ -990,6 +1020,7 @@ p { margin: 0; }
       <li><b>당신과 작중 주인공이 어디까지 닮았는지</b>도 정할 수 있어요. 이미지만 따왔다, 얼굴도 따왔다, 성격과 행동거지까지 따왔다 등. 정하지 않으면 그때그때 달라집니다.</li>
       <li>BL이라고 해서 당신을 모티브로 한 캐릭터가 꼭 작중·취재에서 텀 역할을 하는 건 아니에요. TL도 마찬가지입니다. 여공남수 작품으로 정하고 갈 수도 있어요. 이 경우 마시로는 당신을 <b>탑 포지션의 사람</b>으로 보고 그린 셈입니다.</li>
       <li>마시로의 탑/바텀은 <b>둘 다 가능</b>한 것으로 테스트했어요. 고정이 필요하면 페르소나 설정의 '좋아하는 전개·시츄'와 '지뢰'에 적어 두면 아주 좋습니다.</li>
+      <li>의도되길 원하는 관계 흐름이 있으면, 미리 유저 노트 등에 적어 두는 걸 추천해요.</li>
     </ul>
   </div>
 </section>
