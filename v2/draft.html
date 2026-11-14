@@ -452,14 +452,12 @@ p { margin: 0; }
 .bgm-btn, .bgm-panel { display: none; }
 .js .bgm-btn { display: inline-flex; }
 .js .bgm-panel { display: block; }
-.bgm-btn { position: fixed; left: max(14px, env(safe-area-inset-left, 0px)); bottom: max(16px, env(safe-area-inset-bottom, 0px)); z-index: 35; align-items: center; gap: 8px; height: 44px; padding: 0 15px 0 6px; border: 0; border-radius: 99px; background: rgba(34,32,39,.84); color: #fff; font-size: 13px; font-weight: 700; box-shadow: 0 6px 18px rgba(0,0,0,.2); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
-.bgm-btn::after { content: ""; position: absolute; inset: -4px; border-radius: 99px; border: 2px solid var(--primary); opacity: 0; pointer-events: none; animation: bgm-ping 1.8s ease-out 1.5s 2; }
+.bgm-btn { position: fixed; left: max(14px, env(safe-area-inset-left, 0px)); bottom: max(16px, env(safe-area-inset-bottom, 0px)); z-index: 35; align-items: center; justify-content: center; width: 48px; height: 48px; padding: 0; border: 0; border-radius: 50%; background: rgba(34,32,39,.84); color: #fff; font-size: 13px; font-weight: 700; box-shadow: 0 6px 18px rgba(0,0,0,.2); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.bgm-btn::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 2px solid var(--primary); opacity: 0; pointer-events: none; animation: bgm-ping 1.8s ease-out 1.5s 2; }
 @keyframes bgm-ping { 0% { opacity: .75; transform: scale(.97); } 100% { opacity: 0; transform: scale(1.14); } }
-.bgm-disc { width: 32px; height: 32px; border-radius: 50%; flex: none; background: radial-gradient(circle, #222027 0 2.5px, #f8c7d8 3px 8px, transparent 8.5px), repeating-radial-gradient(circle, #19171c 0 1.5px, #2c2932 1.5px 3px); box-shadow: inset 0 0 0 1px rgba(255,255,255,.12); }
+.bgm-disc { width: 34px; height: 34px; border-radius: 50%; flex: none; background: radial-gradient(circle, #222027 0 2.5px, #f8c7d8 3px 8px, transparent 8.5px), repeating-radial-gradient(circle, #19171c 0 1.5px, #2c2932 1.5px 3px); box-shadow: inset 0 0 0 1px rgba(255,255,255,.12); }
 .bgm-btn.playing .bgm-disc { animation: bgm-spin 3.2s linear infinite; }
 @keyframes bgm-spin { to { transform: rotate(360deg); } }
-.bgm-btn .eq { display: none; color: #ff9fbf; }
-.bgm-btn.playing .eq { display: inline-flex; }
 .eq { display: inline-flex; align-items: flex-end; gap: 2px; height: 12px; }
 .eq i { width: 3px; height: 100%; background: currentColor; border-radius: 1px; transform-origin: bottom; animation: bgm-eq .9s ease-in-out infinite; }
 .eq i:nth-child(2) { animation-delay: -.3s; }
@@ -467,8 +465,8 @@ p { margin: 0; }
 @keyframes bgm-eq { 0%, 100% { transform: scaleY(.3); } 50% { transform: scaleY(1); } }
 .bgm-panel { position: fixed; left: max(14px, env(safe-area-inset-left, 0px)); bottom: calc(max(16px, env(safe-area-inset-bottom, 0px)) + 54px); z-index: 45; width: min(340px, calc(100vw - 28px)); max-height: calc(100vh - 150px); max-height: calc(100dvh - 150px); overflow: auto; overscroll-behavior: contain; background: var(--bg); border-radius: 16px; box-shadow: 0 18px 50px rgba(30,20,40,.28), 0 0 0 1px rgba(0,0,0,.05); transform-origin: left bottom; transition: opacity .2s ease, transform .2s ease; }
 .bgm-panel:not(.open) { opacity: 0; transform: translateY(10px) scale(.97); pointer-events: none; }
-.bgm-head { display: flex; align-items: center; gap: 12px; padding: 14px 10px 12px 14px; background: linear-gradient(135deg, #fde3ee, #f4f2f7); }
-.bgm-cover { width: 52px; height: 52px; border-radius: 10px; flex: none; box-shadow: 0 3px 10px rgba(214,60,114,.25); }
+.bgm-head { display: flex; align-items: center; gap: 10px; padding: 10px 10px 10px 14px; background: linear-gradient(135deg, #fde3ee, #f4f2f7); }
+.bgm-cover { width: 40px; height: 40px; border-radius: 10px; flex: none; box-shadow: 0 3px 10px rgba(214,60,114,.25); }
 .bgm-ttl { flex: 1; min-width: 0; line-height: 1.4; }
 .bgm-ttl b { display: block; font-size: 15px; font-weight: 900; }
 .bgm-ttl span { display: block; font-size: 12px; color: var(--muted); }
@@ -1189,11 +1187,11 @@ p { margin: 0; }
 </footer>
 
 <!-- ===== 마시로 작업 BGM: 왼쪽 아래 버튼 + 플레이리스트 (곡 목록은 아래 스크립트의 TRACKS) ===== -->
-<button class="bgm-btn" type="button" id="bgm-btn" aria-expanded="false" aria-controls="bgm-panel"><span class="bgm-disc" aria-hidden="true"></span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span id="bgm-label">마시로 작업 BGM</span></button>
-<div class="bgm-panel" id="bgm-panel" role="dialog" aria-label="마시로의 작업용 플레이리스트" inert>
+<button class="bgm-btn" type="button" id="bgm-btn" aria-label="컨셉 BGM 열기" aria-expanded="false" aria-controls="bgm-panel"><span class="bgm-disc" aria-hidden="true"></span></button>
+<div class="bgm-panel" id="bgm-panel" role="dialog" aria-label="컨셉 BGM" inert>
   <div class="bgm-head">
     <span class="slot bgm-cover" data-img="avatar"></span>
-    <div class="bgm-ttl"><b>원고용 ♡ 무한 반복</b><span id="bgm-sub">마유마로의 비공개 플레이리스트</span></div>
+    <div class="bgm-ttl"><b>컨셉 BGM</b></div>
     <button class="bgm-x" type="button" id="bgm-x" aria-label="플레이리스트 닫기">×</button>
   </div>
   <div class="bgm-player" id="bgm-player" hidden>
@@ -1366,13 +1364,13 @@ toTop.addEventListener("click", function () { window.scrollTo({ top: 0, behavior
    곡을 누르기 전에는 유튜브를 아예 불러오지 않고, 한 곡이 끝나도 다음 곡으로 넘어가지 않습니다. */
 (function () {
   const TRACKS = [
-    { title: "シンデレラ", artist: "サイダーガール", id: "utqcdq6AqZg" },
-    { title: "Watch me!", artist: "YOASOBI", id: "evtoG-4dLM4" },
-    { title: "君じゃなきゃダメみたい", artist: "オーイシマサヨシ", id: "_NbjKXEbde4", tag: "1화" },
-    { title: "恋愛サーキュレーション", artist: "花澤香菜", id: "Y6Z1vKUguJE" },
+    { title: "センチメートル", artist: "the peggies", id: "I1hLZ2OchZ8", tag: "🥞 인트로" },
     { title: "世界は恋に落ちている", artist: "CHiCO with HoneyWorks", id: "wM4laths4-Y", tag: "🍰 인트로" },
     { title: "気まぐれロマンティック", artist: "いきものがかり", id: "5XCSt_0lwOE", tag: "🧁 인트로" },
-    { title: "センチメートル", artist: "the peggies", id: "I1hLZ2OchZ8", tag: "🥞 인트로" }
+    { title: "シンデレラ", artist: "サイダーガール", id: "utqcdq6AqZg" },
+    { title: "Watch me!", artist: "YOASOBI", id: "evtoG-4dLM4" },
+    { title: "君じゃなきゃダメみたい", artist: "オーイシマサヨシ", id: "_NbjKXEbde4" },
+    { title: "恋愛サーキュレーション", artist: "花澤香菜", id: "Y6Z1vKUguJE" }
   ];
   const btn = document.getElementById("bgm-btn");
   const panel = document.getElementById("bgm-panel");
@@ -1380,8 +1378,6 @@ toTop.addEventListener("click", function () { window.scrollTo({ top: 0, behavior
   const player = document.getElementById("bgm-player");
   const frame = document.getElementById("bgm-frame");
   const yt = document.getElementById("bgm-yt");
-  const label = document.getElementById("bgm-label");
-  document.getElementById("bgm-sub").textContent = "마유마로의 비공개 플레이리스트 · " + TRACKS.length + "곡";
   let current = -1;
 
   TRACKS.forEach(function (t, i) {
@@ -1403,7 +1399,7 @@ toTop.addEventListener("click", function () { window.scrollTo({ top: 0, behavior
   function mark() {
     rows.forEach(function (r, i) { r.classList.toggle("on", i === current); });
     btn.classList.toggle("playing", current >= 0);
-    label.textContent = current >= 0 ? "재생 중" : "마시로 작업 BGM";
+    btn.setAttribute("aria-label", current >= 0 ? "컨셉 BGM 열기 (재생 중)" : "컨셉 BGM 열기");
   }
   function play(i) {
     if (i === current) return;
