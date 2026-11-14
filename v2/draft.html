@@ -1,0 +1,1313 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>마유마로 선생님</title>
+<meta name="description" content="곤란해요, 마유마로 선생님! 실례지만… 당신으로 에로만화 그리게 해주세요.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Sans+JP:wght@700;900&family=Cormorant+Garamond:ital,wght@1,700&family=Nanum+Pen+Script&display=swap">
+<style>
+/* v2: 일체형 스크롤판.
+   한 페이지를 위에서 아래로 읽으면 작품 → 작가 → 이야기 → 인물 → 당신 → 장르 → 플레이 안내 순으로 이어진다.
+   블록마다 원래 세 화면의 옷을 입는다: 루넬 스토어(밝음) · 센뵤 페인트(어두운 작화 프로그램) · 크로키북(초록 커팅 매트).
+   테마는 블록별로 고정이라 라이트/다크 전환은 하지 않는다. */
+[hidden] { display: none !important; }
+:root {
+  color-scheme: light;
+  --bg: #ffffff;
+  --band: #f4f2f7;
+  --line: #e4e0ea;
+  --fg: #222027;
+  --muted: #75707e;
+  --link: #2a52c4;
+  --primary: #d63c72;
+  --primary-press: #b92f60;
+  --primary-soft: #fbe8ef;
+  --secondary: #3f5f99;
+  --sale: #e0442e;
+  --star: #f4a922;
+  --star-off: #d9d6de;
+  --ribbon: #ecebfa;
+  --ribbon-edge: #6c63d9;
+  --tone: #d4cfdc;
+  --outline: #bcb8c4;
+  --font-body: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --font-jp: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", var(--font-body);
+  --font-logo: "Cormorant Garamond", "Times New Roman", serif;
+  --font-hand: "Nanum Pen Script", "Gaegu", "Comic Sans MS", cursive;
+  /* 센뵤 페인트 */
+  --app-bg: #1f1f22;
+  --app-panel: #2c2c30;
+  --app-panel-2: #37373c;
+  --app-edge: #151517;
+  --app-field: #45454b;
+  --app-text: #dcdce1;
+  --app-muted: #9a9aa4;
+  --app-sel: #3d6fd6;
+  --app-sel-soft: #2d3a57;
+  --app-sel-text: #a9c3f5;
+  --guide: #59b9e8;
+  --pencil-red: #d8432f;
+  --pencil-blue: #3b6fd6;
+  /* 크로키북 */
+  --mat: #2c5a4a;
+  --mat-line: rgba(255,255,255,.10);
+  --mat-line-strong: rgba(255,255,255,.22);
+  --sketch-paper: #f5f4ef;
+  --graphite: #3a3a40;
+  --kraft: #b4895a;
+  --ring: #b9bec6;
+  --marker: rgba(255,214,0,.55);
+  --gutter: max(20px, env(safe-area-inset-left, 0px));
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 15px; line-height: 1.8; word-break: keep-all; overflow-wrap: break-word; }
+button { font: inherit; color: inherit; cursor: pointer; }
+a { color: var(--link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+:lang(ja) { font-family: var(--font-jp); }
+p { margin: 0; }
+.wrap { max-width: 720px; margin: 0 auto; padding: 76px var(--gutter); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+.center { text-align: center; }
+.hand { font-family: var(--font-hand); }
+.mark { background: linear-gradient(transparent 58%, var(--marker) 58%); }
+.red { color: var(--pencil-red); }
+
+/* 스크롤 등장 (스크립트가 있을 때만 숨겼다가 보여 준다) */
+.js .rv { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+.js .rv.on { opacity: 1; transform: none; }
+
+/* 섹션 머리 */
+.eyebrow { display: flex; align-items: center; gap: 10px; font-size: 11px; font-weight: 700; letter-spacing: .24em; color: var(--primary); margin-bottom: 8px; }
+.eyebrow::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, currentColor, transparent); opacity: .45; }
+.sec { font-size: 25px; font-weight: 900; line-height: 1.4; margin: 0 0 22px; text-wrap: balance; letter-spacing: -.01em; }
+.sec small { display: block; font-size: 14px; font-weight: 500; color: var(--muted); margin-top: 4px; letter-spacing: 0; }
+
+/* 이미지 칸 */
+.slot { position: relative; background-color: #f7f5f9; background-image: radial-gradient(var(--tone) 1.1px, transparent 1.3px); background-size: 7px 7px; overflow: hidden; display: grid; place-items: center; }
+.slot .slot-label { position: relative; background: var(--bg); color: var(--muted); font-size: 11px; padding: 3px 8px; border-radius: 99px; border: 1px solid var(--line); text-align: center; line-height: 1.45; }
+.slot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+/* ---------- 상단 고정 바 ---------- */
+.topbar { position: sticky; top: 0; z-index: 40; background: rgba(255,255,255,.93); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+.topbar .row { max-width: 760px; margin: 0 auto; height: 52px; display: flex; align-items: center; gap: 12px; padding: 0 0 0 var(--gutter); }
+.logo { display: flex; align-items: center; gap: 7px; color: var(--fg); flex: none; }
+.logo:hover { text-decoration: none; }
+.moon { width: 18px; height: 18px; border-radius: 50%; box-shadow: inset -6px -2px 0 0 var(--primary); transform: rotate(-20deg); flex: none; }
+.logo b { font-family: var(--font-logo); font-style: italic; font-weight: 700; font-size: 23px; line-height: 1; color: var(--primary); }
+.chips { flex: 1; min-width: 0; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 0 max(16px, env(safe-area-inset-right, 0px)) 0 2px; -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent); }
+.chips::-webkit-scrollbar { display: none; }
+.chips a { flex: none; padding: 5px 12px; border-radius: 99px; font-size: 13px; font-weight: 500; color: var(--muted); background: var(--band); white-space: nowrap; transition: background .2s, color .2s; }
+.chips a:hover { text-decoration: none; color: var(--fg); }
+.chips a.on { background: var(--primary); color: #fff; font-weight: 700; }
+
+/* ---------- 1. 표지 ---------- */
+.hero { background: radial-gradient(120% 70% at 50% 0%, #fde3ee 0%, #fdf1f6 45%, #fff 80%); }
+.hero .wrap { padding-top: 34px; padding-bottom: 64px; }
+.hero-hook { text-align: center; }
+.hero-hook .jp { font-size: clamp(25px, 7vw, 34px); font-weight: 900; line-height: 1.3; color: var(--primary); letter-spacing: .02em; }
+.hero-hook .ko { font-size: 14px; color: var(--muted); margin-top: 4px; }
+.hero-main { display: grid; gap: 26px; margin-top: 26px; }
+.cover-wrap { position: relative; width: min(78%, 360px); margin: 0 auto; }
+.cover { aspect-ratio: 7 / 10; border-radius: 4px; box-shadow: 0 22px 44px -12px rgba(214,60,114,.38), 0 2px 6px rgba(0,0,0,.14); }
+.rank-badge { position: absolute; left: -10px; top: 16px; z-index: 2; display: flex; align-items: center; gap: 5px; background: var(--sale); color: #fff; font-size: 12px; font-weight: 700; padding: 5px 10px 5px 8px; border-radius: 3px 3px 3px 0; box-shadow: 0 3px 8px rgba(224,68,46,.35); }
+.rank-badge::after { content: ""; position: absolute; left: 0; bottom: -6px; border-top: 6px solid #9c2d1e; border-left: 10px solid transparent; }
+.rank-badge svg { width: 16px; height: 14px; fill: #ffd76a; }
+.hero-info { display: flex; flex-direction: column; gap: 12px; }
+.ttl { margin: 0; line-height: 1.3; }
+.ttl b { display: block; font-size: 28px; font-weight: 900; letter-spacing: -.01em; }
+.ttl span { display: block; font-size: 16px; font-weight: 700; color: #48444f; margin-top: 4px; }
+.meta { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px; font-size: 14px; }
+.ribbon { font-size: 12px; color: var(--ribbon-edge); background: var(--ribbon); border-left: 4px solid var(--ribbon-edge); padding: 1px 26px 1px 14px; clip-path: polygon(0 0, 100% 0, calc(100% - 10px) 50%, 100% 100%, 0 100%); }
+.stars { position: relative; display: inline-block; font-size: 16px; line-height: 1; letter-spacing: 1px; color: var(--star-off); }
+.stars::before { content: "★★★★★"; position: absolute; inset: 0 auto 0 0; width: calc(var(--v) / 5 * 100%); overflow: hidden; color: var(--star); white-space: nowrap; }
+.rating { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.rating small { font-weight: 400; color: var(--muted); }
+.tag-gray { display: inline-block; border: 1px solid #a9a5b0; color: var(--muted); border-radius: 3px; font-size: 12px; padding: 0 6px; line-height: 1.6; }
+.tag-red { display: inline-block; border: 1.5px solid var(--sale); color: var(--sale); border-radius: 3px; font-size: 11px; font-weight: 700; padding: 0 6px; line-height: 1.6; }
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.stat { background: rgba(255,255,255,.85); border: 1px solid #f1d7e2; border-radius: 12px; padding: 12px 4px 10px; text-align: center; }
+.stat b { display: block; font-size: 21px; font-weight: 900; line-height: 1.2; color: var(--primary); font-variant-numeric: tabular-nums; }
+.stat span { display: block; font-size: 11px; color: var(--muted); margin-top: 3px; line-height: 1.35; }
+.syn { background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 18px 18px 16px; font-size: 14.5px; line-height: 1.9; color: #3c3843; }
+.syn .lead { display: block; font-weight: 900; color: var(--fg); font-size: 16px; margin-bottom: 6px; }
+.syn .note { display: block; font-size: 12.5px; color: var(--muted); margin-top: 10px; }
+.btns { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; }
+.btn { display: flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid transparent; border-radius: 6px; font-weight: 700; font-size: 15px; padding: 13px 10px; color: #fff; text-align: center; line-height: 1.3; }
+.btn:hover { text-decoration: none; }
+.btn.primary { background: var(--primary); }
+.btn.primary:active { background: var(--primary-press); }
+.btn.outline { background: var(--bg); color: var(--fg); border-color: var(--outline); font-weight: 500; }
+.zero-dot { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: #fff; color: var(--primary); font-size: 11px; font-weight: 900; flex: none; }
+.ptags { display: flex; flex-wrap: wrap; gap: 6px; }
+.ptags span { border: 1px solid var(--line); background: #f8f7fa; border-radius: 3px; padding: 1px 9px; font-size: 13px; color: var(--link); }
+
+/* ---------- 2. 화제 ---------- */
+.buzz { background: var(--bg); }
+.prose { display: flex; flex-direction: column; gap: 14px; font-size: 16px; line-height: 1.95; }
+.prose em { font-style: normal; color: var(--muted); }
+.big-claim { font-size: clamp(30px, 9vw, 40px); font-weight: 900; text-align: center; line-height: 1.25; margin: 38px 0 30px; letter-spacing: -.02em; }
+.big-claim small { display: block; font-size: 14px; font-weight: 500; color: var(--muted); letter-spacing: 0; margin-bottom: 8px; }
+.big-claim span { background: linear-gradient(transparent 62%, #f8c7d8 62%); padding: 0 4px; }
+.thread { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--bg); box-shadow: 0 8px 24px rgba(60,40,80,.06); }
+.thread-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 12px 16px; background: #faf8fc; border-bottom: 1px solid var(--line); font-size: 13px; }
+.thread-head b { font-size: 14px; }
+.thread-head .rating { font-size: 13px; }
+.cmt { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 10px; padding: 14px 16px; border-top: 1px solid #efedf3; }
+.cmt:first-of-type { border-top: 0; }
+.ava { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; color: #fff; font-size: 13px; }
+.cmt .who { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--muted); }
+.cmt .who b { color: var(--fg); font-weight: 700; }
+.cmt .who .stars { font-size: 11px; }
+.cmt p { font-size: 14.5px; line-height: 1.7; margin-top: 3px; }
+.cmt .foot { font-size: 11.5px; color: var(--muted); margin-top: 5px; display: flex; gap: 12px; }
+.cmt.best .who::after { content: "BEST"; font-size: 9.5px; font-weight: 700; color: #fff; background: var(--primary); border-radius: 3px; padding: 0 5px; line-height: 1.6; }
+.cmt.worry { background: #fffaf3; }
+.turn { text-align: center; color: var(--muted); font-size: 17px; margin: 40px 0 22px; letter-spacing: .1em; }
+.notice { border: 1px solid #f3c9bf; border-top: 3px solid var(--sale); background: #fffaf8; border-radius: 4px 4px 10px 10px; padding: 16px 18px; }
+.notice h3 { margin: 0 0 6px; font-size: 15px; color: var(--sale); display: flex; align-items: center; gap: 6px; }
+.notice h3 svg { width: 16px; height: 16px; fill: currentColor; }
+.notice p { font-size: 14px; color: #4a4550; line-height: 1.75; }
+.notice small { display: block; text-align: right; color: var(--muted); font-size: 12px; margin-top: 8px; }
+.main-shot { margin: 26px 0 0; border-radius: 12px; overflow: hidden; }
+.main-shot img { display: block; width: 100%; height: auto; }
+.cry { text-align: center; margin-top: 34px; }
+.cry .jp { font-size: clamp(19px, 5.4vw, 24px); font-weight: 900; line-height: 1.5; }
+.cry .kao { display: inline-block; font-size: 22px; margin-top: 6px; color: var(--muted); }
+.cry .ko { font-size: 13.5px; color: var(--muted); margin-top: 6px; }
+.js .cry.on .jp { animation: wobble 1.6s .3s both; }
+@keyframes wobble { 0%,100% { transform: none; } 15% { transform: translateX(-5px) rotate(-1deg); } 30% { transform: translateX(4px) rotate(1deg); } 45% { transform: translateX(-3px); } 60% { transform: translateX(2px); } }
+
+/* ---------- 3. 인터뷰 ---------- */
+.interview { background-color: #fbf7fa; background-image: radial-gradient(#f1dbe5 1px, transparent 1.3px); background-size: 14px 14px; }
+.article { background: var(--bg); border-radius: 16px; box-shadow: 0 10px 30px rgba(120,60,90,.10); overflow: hidden; }
+.art-hero { aspect-ratio: 2 / 1; background-color: #fde8ef; }
+.art-body { padding: 18px 20px 6px; }
+.art-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 12px; color: var(--muted); }
+.art-meta .cat { background: var(--primary); color: #fff; font-weight: 700; border-radius: 3px; padding: 0 7px; line-height: 1.7; }
+.art-meta time { margin-left: auto; font-variant-numeric: tabular-nums; }
+.art-title { font-size: 22px; font-weight: 900; line-height: 1.4; margin: 10px 0 10px; letter-spacing: -.01em; text-wrap: balance; }
+.art-lead { font-size: 15px; line-height: 1.85; color: #4a4550; }
+.byline { display: flex; align-items: center; gap: 10px; padding: 14px 0; margin-top: 14px; border-top: 1px solid #f1e8ee; border-bottom: 1px solid #f1e8ee; font-size: 13px; }
+.byline .ava-s { width: 38px; height: 38px; border-radius: 50%; flex: none; box-shadow: 0 0 0 2px #fff, 0 0 0 3px #f3c8d8; }
+.byline span:not(.slot) { color: var(--muted); }
+.byline small { display: block; font-size: 12px; color: var(--muted); }
+.qa { padding: 4px 0 18px; }
+.qa-item { padding: 18px 0 4px; border-top: 1px solid #f3eef3; }
+.qa-item:first-child { border-top: 0; }
+.q { font-weight: 900; font-size: 15px; line-height: 1.6; display: grid; grid-template-columns: 22px minmax(0, 1fr); }
+.q::before { content: "Q."; color: var(--primary); }
+.a { position: relative; margin: 10px 0 0 22px; background: #fbf3f7; border-radius: 4px 14px 14px 14px; padding: 11px 14px; font-size: 14.5px; line-height: 1.75; }
+.inner { margin: 8px 0 0 22px; font-family: var(--font-hand); font-size: 22px; line-height: 1.25; color: var(--pencil-red); transform: rotate(-1deg); transform-origin: left center; display: flex; gap: 6px; align-items: flex-start; }
+.inner::before { content: "↳"; font-family: var(--font-body); font-size: 13px; color: #e3a99d; margin-top: 4px; }
+.js .qa-item .inner { opacity: 0; transform: translateX(-6px) rotate(-1deg); transition: opacity .5s ease .45s, transform .5s ease .45s; }
+.js .qa-item.on .inner { opacity: 1; transform: rotate(-1deg); }
+.inner-legend { display: flex; justify-content: flex-end; gap: 14px; font-size: 12px; color: var(--muted); padding: 0 0 14px; }
+.art-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 0 16px; border-top: 1px solid #f1e8ee; }
+.art-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.art-tags span { font-size: 12.5px; color: var(--link); background: #f3f5fc; border-radius: 99px; padding: 1px 9px; }
+.art-like { font-size: 13px; color: var(--primary); font-weight: 700; white-space: nowrap; }
+.inner-legend span:last-child { font-family: var(--font-hand); color: var(--pencil-red); font-size: 17px; line-height: 1.2; }
+
+/* ---------- 4. 줄거리 ---------- */
+.story { background: var(--bg); }
+.story .prose p.beat { font-weight: 700; }
+.story .prose .hold { font-size: 18px; font-weight: 900; }
+.pull { margin: 34px 0; padding: 22px 18px; border-radius: 14px; background: #f7f5fb; text-align: center; }
+.pull .jp { font-size: 17px; font-weight: 900; line-height: 1.65; }
+.pull .ko { font-size: 13.5px; color: var(--muted); margin-top: 10px; line-height: 1.7; }
+.h3 { font-size: 19px; font-weight: 900; margin: 48px 0 6px; display: flex; align-items: center; gap: 8px; }
+.h3::before { content: ""; width: 5px; height: 20px; border-radius: 2px; background: var(--primary); }
+.h3-sub { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+.eps { list-style: none; margin: 0; padding: 0; }
+.ep { display: grid; grid-template-columns: 88px minmax(0, 1fr); gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.ep:last-child { border-bottom: 0; }
+.ep .slot { aspect-ratio: 7 / 10; border-radius: 3px; box-shadow: 0 1px 4px rgba(0,0,0,.12); align-self: start; }
+.ep-top { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; font-size: 12px; color: var(--muted); }
+.ep-no { font-weight: 900; color: var(--fg); font-size: 13px; }
+.beat { display: inline-block; font-size: 11.5px; font-weight: 700; color: var(--secondary); background: #e9eef8; border-radius: 99px; padding: 0 9px; line-height: 1.7; }
+.new { color: var(--sale); font-size: 10.5px; font-weight: 700; border: 1px solid var(--sale); border-radius: 3px; padding: 0 4px; line-height: 1.5; }
+.ep-title { font-size: 16px; font-weight: 900; line-height: 1.45; margin: 4px 0 4px; }
+.ep-syn { font-size: 14px; color: #4a4550; line-height: 1.75; }
+.ep-extra { font-size: 13.5px; color: var(--primary); font-weight: 700; margin-top: 6px; line-height: 1.6; }
+.closing { text-align: center; margin-top: 46px; }
+.closing b { display: block; font-size: clamp(21px, 6vw, 27px); font-weight: 900; line-height: 1.45; }
+.closing span { display: block; font-size: 13px; color: var(--muted); margin-top: 8px; }
+
+/* ---------- 무대 ---------- */
+.campus { background: var(--bg); }
+.campus .campus-head { padding-top: 40px; padding-bottom: 0; }
+.campus .sec { margin-bottom: 18px; }
+.campus-img { margin: 0 auto; max-width: 1200px; }
+.campus-img .slot { aspect-ratio: 3 / 1; background-color: #f4f2f8; }
+.campus-pic { margin: 30px 0 -14px; }
+.campus-pic .slot { aspect-ratio: 3 / 1; overflow: hidden; background: var(--bg); }
+.campus-body { padding-top: 6px; }
+.facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.facts > div { background: #f7f5fb; border-radius: 12px; padding: 12px 14px; display: flex; flex-direction: column; gap: 2px; }
+.facts span { font-size: 11px; font-weight: 700; letter-spacing: .08em; color: var(--primary); }
+.facts b { font-size: 15.5px; font-weight: 900; line-height: 1.4; }
+.facts small { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+.campus-note { margin-top: 14px; font-size: 13.5px; line-height: 1.7; color: var(--muted); }
+.campus-sub { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 10px; margin: 30px 0 10px; font-size: 16px; font-weight: 900; }
+.campus-sub span { font-size: 12.5px; font-weight: 500; color: var(--muted); }
+.dept-list { margin: 0; border-top: 1px solid var(--line); }
+.dept-list > div { display: grid; grid-template-columns: 8.6em minmax(0, 1fr); gap: 2px 10px; padding: 7px 4px; border-bottom: 1px solid var(--line); break-inside: avoid; }
+.dept-list dt { font-size: 13.5px; font-weight: 700; line-height: 1.5; }
+.dept-list dt i { font-style: normal; font-size: 10.5px; font-weight: 700; color: #fff; background: var(--primary); border-radius: 3px; padding: 0 4px; margin-left: 5px; vertical-align: 1px; }
+.dept-list dd { margin: 0; font-size: 13px; line-height: 1.5; color: #5a5562; }
+.dept-list dd b { color: var(--primary); }
+.dept-list dd span { white-space: nowrap; }
+.dept-list .hl { background: var(--primary-soft); }
+.cal { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.cal li { display: flex; flex-direction: column; gap: 1px; border-left: 3px solid #ecdbe4; background: #fbfafc; border-radius: 0 10px 10px 0; padding: 8px 10px 9px; }
+.cal .m { font-size: 12px; font-weight: 900; color: var(--primary); }
+.cal .e { font-size: 13.5px; line-height: 1.5; }
+.cal small { font-size: 11px; font-weight: 700; color: var(--primary); margin-top: 3px; }
+.cal li.now { border-left-color: var(--primary); background: var(--primary-soft); }
+
+/* ---------- 시작점 (인트로 3종) ---------- */
+.start { background: var(--band); }
+.s-spring { --c: #ec8fb4; --ink: #c2416f; --soft: #fdeef4; }
+.s-summer { --c: #5fb8e2; --ink: #23789f; --soft: #e8f5fb; }
+.s-autumn { --c: #e8a15a; --ink: #a85c16; --soft: #fdf1e4; }
+.start-lead { font-size: 15.5px; line-height: 1.85; color: #4a4550; }
+.tl { position: relative; list-style: none; margin: 28px 0 6px; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); text-align: center; }
+.tl::before { content: ""; position: absolute; left: 16.7%; right: 16.7%; top: 40px; height: 2px; background: repeating-linear-gradient(90deg, var(--outline) 0 6px, transparent 6px 11px); }
+.tl li { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.tl-m { font-size: 12px; line-height: 18px; font-weight: 900; color: var(--ink); letter-spacing: .06em; }
+.tl-dot { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--bg); border: 2px solid var(--c); font-size: 17px; line-height: 1; }
+.tl-ep { font-size: 13.5px; font-weight: 900; line-height: 1.3; }
+.tl small { font-size: 11.5px; color: var(--muted); line-height: 1.3; }
+.tl-cap { text-align: center; font-size: 12.5px; color: var(--muted); margin: 12px 0 24px; }
+.starts { display: grid; gap: 14px; }
+.st { display: flex; flex-direction: column; min-width: 0; background: var(--bg); border: 1px solid var(--line); border-top: 3px solid var(--c); border-radius: 14px; overflow: hidden; box-shadow: 0 6px 18px rgba(60,40,80,.06); }
+.st-pic { position: relative; }
+.st-pic .slot { aspect-ratio: 2 / 1; background-color: var(--soft); }
+.season { position: absolute; left: 10px; top: 10px; z-index: 2; background: var(--ink); color: #fff; font-size: 12px; font-weight: 700; border-radius: 99px; padding: 2px 10px; line-height: 1.6; }
+.st-body { padding: 14px 16px 16px; }
+.st-ttl { margin: 0; font-size: 17px; font-weight: 900; line-height: 1.4; }
+.st-ko { font-size: 12.5px; color: var(--muted); }
+.st-hook { margin-top: 10px; padding-left: 9px; border-left: 3px solid var(--c); font-size: 14.5px; font-weight: 700; line-height: 1.6; }
+.st-kv { margin: 12px 0 0; display: grid; grid-template-columns: 2.4em minmax(0, 1fr); gap: 5px 8px; font-size: 13.5px; line-height: 1.55; }
+.st-kv dt { color: var(--ink); font-weight: 700; font-size: 12px; padding-top: 1px; }
+.st-kv dd { margin: 0; }
+.st-notes { list-style: none; margin: 20px 0 0; padding: 0; display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; line-height: 1.75; color: var(--muted); }
+.st-notes li { position: relative; padding-left: 14px; }
+.st-notes li::before { content: "※"; position: absolute; left: 0; font-size: 11px; }
+.st-notes b { color: var(--fg); }
+.campus-lead { font-size: 15px; line-height: 1.85; color: #4a4550; }
+.campus-name { margin: 26px 0 14px; font-size: 19px; }
+
+/* ---------- 블록 사이 이음새 ---------- */
+.seam { height: 100px; }
+.seam.to-desk { background: linear-gradient(var(--bg), #1c1c21); }
+.seam.desk-to-light { background: linear-gradient(#1c1c21, var(--bg)); }
+
+/* ---------- 5. 캐릭터 (작업용 모니터 속 센뵤 페인트) ---------- */
+.desk { background: radial-gradient(90% 55% at 50% 45%, #363b52 0%, #25252d 55%, #1c1c21 100%); color: var(--app-text); }
+.desk .wrap { padding-top: 26px; padding-bottom: 80px; max-width: 980px; }
+.desk .eyebrow { color: var(--app-sel-text); }
+.desk .sec { color: #fff; }
+.desk .sec small { color: var(--app-muted); }
+.bezel { position: relative; background: #0d0d10; border-radius: 14px; padding: 9px 9px 22px; box-shadow: 0 0 0 1px #30303a, 0 30px 80px rgba(0,0,0,.6), 0 0 140px rgba(90,130,230,.14); }
+.bezel::after { content: ""; position: absolute; left: 50%; bottom: 8px; width: 5px; height: 5px; border-radius: 50%; background: #3ddc84; box-shadow: 0 0 6px #3ddc84; transform: translateX(-50%); }
+.stand { width: 110px; height: 40px; margin: 0 auto; background: linear-gradient(#2c2c33, #17171b); clip-path: polygon(32% 0, 68% 0, 80% 100%, 20% 100%); }
+.base { width: 210px; height: 9px; margin: 0 auto; border-radius: 6px 6px 3px 3px; background: linear-gradient(#36363e, #1a1a1f); box-shadow: 0 12px 22px rgba(0,0,0,.5); }
+.screen { background: var(--app-bg); border-radius: 4px; overflow: hidden; font-size: 13px; line-height: 1.5; }
+.menubar { display: flex; align-items: center; gap: 14px; height: 30px; padding: 0 10px; background: var(--app-edge); font-size: 12px; white-space: nowrap; overflow: hidden; }
+.app-logo { display: flex; align-items: center; gap: 6px; font-weight: 700; color: #fff; }
+.app-logo i { display: inline-grid; place-items: center; width: 17px; height: 17px; border-radius: 4px; background: linear-gradient(135deg, var(--guide), var(--app-sel)); }
+.app-logo i svg { width: 11px; height: 11px; fill: #fff; }
+.menus { display: none; gap: 14px; color: var(--app-muted); }
+.filetabs { display: flex; background: var(--app-panel); border-bottom: 1px solid var(--app-edge); overflow-x: auto; scrollbar-width: none; }
+.filetabs::-webkit-scrollbar { display: none; }
+.filetabs button { position: relative; z-index: 5; flex: none; border: 0; border-right: 1px solid var(--app-edge); background: transparent; color: var(--app-muted); padding: 7px 12px; font-size: 12.5px; white-space: nowrap; }
+.filetabs button[aria-selected="true"] { background: var(--app-panel-2); color: #fff; box-shadow: inset 0 2px 0 var(--app-sel); }
+.workspace { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: "props canvas" "notes notes"; }
+.canvas { grid-area: canvas; }
+.props { grid-area: props; }
+.notes { grid-area: notes; background: var(--app-panel); border-top: 1px solid var(--app-edge); }
+.tools { grid-area: tools; }
+.tools { display: none; flex-direction: column; gap: 2px; padding: 6px 5px; background: var(--app-panel); border-right: 1px solid var(--app-edge); }
+.tools span { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 4px; }
+.tools span.sel { background: var(--app-sel); }
+.tools svg { width: 18px; height: 18px; fill: var(--app-text); }
+/* 캔버스: 뒤에는 원고 종이(흐린 밑그림), 앞에는 화면 밖으로 튀어나오는 큰 전신 */
+.canvas { position: relative; background: #4b4b51; min-width: 0; min-height: 300px; }
+.paper { position: absolute; left: 6%; top: 7%; height: 86%; aspect-ratio: 1 / 2.15; background: #fff; box-shadow: 0 4px 16px rgba(0,0,0,.45); overflow: hidden; }
+.paper .frame { position: absolute; inset: 3% 5%; border: 1px solid rgba(89,185,232,.8); }
+.paper .art { position: absolute; inset: 4% 4% 2%; background: transparent; opacity: .45; filter: grayscale(.25); }
+.paper .art img { object-fit: contain; object-position: center bottom; }
+.pop { position: absolute; top: -33px; bottom: 0; left: 0; right: 0; overflow: hidden; z-index: 3; pointer-events: none; }
+.pop-fig { position: absolute; top: 0; left: 50%; width: 112%; aspect-ratio: 667 / 1587; transform: translateX(-50%); margin: 0; padding: 0; border: 0; background: none; cursor: pointer; pointer-events: auto; perspective: 1400px; }
+.pop-fig img { display: block; width: 100%; height: 100%; object-fit: contain; object-position: center top; transform-origin: 50% 30%; filter: drop-shadow(0 10px 18px rgba(0,0,0,.45)); }
+.pop-fig:focus-visible { outline: 2px solid var(--app-sel-text); outline-offset: -4px; }
+.pop-hint { position: absolute; left: 8px; bottom: 8px; z-index: 4; display: inline-flex; align-items: center; gap: 5px; background: rgba(20,20,24,.72); color: #fff; font-size: 11.5px; padding: 4px 9px; border-radius: 99px; pointer-events: none; }
+.props { background: var(--app-panel); border-right: 1px solid var(--app-edge); min-width: 0; }
+.pal-bar { display: flex; align-items: center; gap: 6px; }
+.pal-bar h3 { margin: 0; font: inherit; flex: 1; }
+.pal-grip, .pal-x { display: none; }
+.pal-open { display: none; }
+.ph { margin: 0; font-size: 11.5px; font-weight: 700; padding: 6px 12px; background: var(--app-panel-2); border-bottom: 1px solid var(--app-edge); color: var(--app-text); }
+.who { padding: 12px 12px 8px; }
+.who strong { display: block; font-size: 18px; line-height: 1.3; color: #fff; }
+.who small { display: block; font-size: 12px; color: var(--app-muted); margin-top: 2px; }
+.kv { margin: 0; padding: 2px 12px 14px; display: grid; grid-template-columns: 2.4em minmax(0, 1fr); gap: 7px 8px; font-size: 14px; line-height: 1.45; }
+.kv dt { color: var(--app-muted); font-size: 12px; padding-top: 2px; }
+.kv dd { margin: 0; color: #fff; font-weight: 500; }
+.memo { list-style: none; margin: 0; padding: 12px 12px 14px; display: flex; flex-direction: column; gap: 8px; font-size: 14px; line-height: 1.45; color: #f1f1f4; }
+.memo li { position: relative; padding-left: 13px; }
+.memo li::before { content: ""; position: absolute; left: 0; top: .62em; width: 6px; height: 2px; background: var(--pencil-red); border-radius: 1px; }
+.memo b { color: #ff9b86; font-weight: 700; }
+.say { padding: 12px 12px 14px; font-family: var(--font-hand); font-size: 21px; line-height: 1.2; color: #ff9b86; }
+.statusbar { display: flex; gap: 14px; padding: 4px 10px; background: var(--app-panel); border-top: 1px solid var(--app-edge); color: var(--app-muted); font-size: 11px; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; }
+
+/* ---------- 6. 당신 (크로키북 한 장) ---------- */
+.muse { background: var(--bg); }
+.sheet { position: relative; background-color: var(--sketch-paper); background-image: radial-gradient(rgba(0,0,0,.035) 1px, transparent 1.2px); background-size: 3px 3px; padding: 50px max(20px, 5%) 28px; box-shadow: 0 6px 22px rgba(40,30,60,.14); color: var(--graphite); border-radius: 2px; }
+.rings { position: absolute; left: 0; right: 0; top: 0; height: 34px; pointer-events: none; background: radial-gradient(circle at 50% 22px, var(--bg) 4px, transparent 4.6px) 6px 0 / 26px 34px repeat-x; }
+.rings::before { content: ""; position: absolute; left: 6px; right: 0; top: -14px; height: 40px; background: repeating-linear-gradient(90deg, transparent 0 10px, #dfe2e7 10px 12px, var(--ring) 12px 15px, #8d929a 15px 16px, transparent 16px 26px); -webkit-mask-image: linear-gradient(#000 0 60%, transparent 60%); mask-image: linear-gradient(#000 0 60%, transparent 60%); }
+.sheet h3 { font-family: var(--font-hand); font-size: 54px; font-weight: 400; line-height: 1; margin: 0; }
+.sheet .sub { font-family: var(--font-hand); font-size: 27px; line-height: 1.2; color: var(--pencil-red); margin: 6px 0 0; }
+.sheet-cols { display: grid; gap: 22px; margin-top: 24px; }
+.sheet h4 { font-family: var(--font-hand); font-size: 29px; font-weight: 400; line-height: 1.1; margin: 0 0 8px; }
+.check { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 9px; font-size: 15px; line-height: 1.65; }
+.check > li { position: relative; padding-left: 26px; }
+.check > li::before { content: ""; position: absolute; left: 1px; top: .32em; width: 14px; height: 14px; border: 1.8px solid var(--graphite); border-radius: 3px; transform: rotate(-4deg); }
+.opts { list-style: none; padding: 0; margin: 2px 0 0; color: #55525c; }
+.sheet a { color: var(--pencil-blue); }
+
+/* ---------- 7. 연재 장르 ---------- */
+.genre { background: var(--bg); }
+.works { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.work { display: flex; flex-direction: column; gap: 8px; min-width: 0; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 10px 10px 14px; }
+.work .slot { aspect-ratio: 7 / 10; border-radius: 4px; }
+.work .ribbon { align-self: flex-start; }
+.work p { font-size: 13.5px; line-height: 1.7; color: #4a4550; }
+.work b { font-size: 15px; font-weight: 900; }
+.tips { margin: 22px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.tips li { position: relative; padding-left: 18px; font-size: 14.5px; line-height: 1.8; }
+.tips li::before { content: ""; position: absolute; left: 0; top: .62em; border-left: 7px solid var(--sale); border-top: 4.5px solid transparent; border-bottom: 4.5px solid transparent; }
+.tips b { font-weight: 700; }
+
+/* ---------- 8. 플레이 안내 ---------- */
+.guide { background: var(--band); }
+.card { background: var(--bg); border: 1px solid var(--line); border-radius: 14px; padding: 20px 18px; }
+.card + .card { margin-top: 14px; }
+.card h3 { margin: 0 0 12px; font-size: 16px; font-weight: 900; display: flex; align-items: center; gap: 8px; }
+.card h3 .ic { font-size: 17px; }
+.card p { font-size: 14.5px; line-height: 1.8; }
+.card p + p { margin-top: 8px; }
+.card .muted { color: var(--muted); font-size: 13px; }
+.pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.pill { display: inline-flex; align-items: center; gap: 8px; background: var(--band); border-radius: 99px; padding: 5px 7px 5px 12px; font-size: 13px; }
+.pill i { width: 28px; height: 16px; border-radius: 99px; background: radial-gradient(circle at 20px 50%, #fff 5.5px, transparent 6px), var(--primary); flex: none; }
+.pill.off i { background: radial-gradient(circle at 8px 50%, #fff 5.5px, transparent 6px), #c9c5cf; }
+.pill.off { color: var(--muted); }
+.playable { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin-top: 14px; font-size: 14px; font-weight: 700; }
+.playable span { padding: 2px 11px; border-radius: 99px; background: #e8eefb; color: var(--secondary); font-size: 13px; }
+.req { display: flex; flex-wrap: wrap; gap: 6px; margin: 2px 0 12px; }
+.req span { border: 1.5px solid var(--primary); color: var(--primary); border-radius: 99px; padding: 0 10px; font-size: 13px; font-weight: 700; }
+.code { position: relative; background: #2a2730; color: #ece8f1; border-radius: 10px; margin-top: 4px; }
+.code pre { margin: 0; padding: 16px 16px 18px; font-family: ui-monospace, "SF Mono", Menlo, Consolas, var(--font-body); font-size: 12.5px; line-height: 1.75; white-space: pre-wrap; word-break: break-word; }
+.code .req-mark { color: #ff9fbf; }
+.copy { position: absolute; right: 8px; top: 8px; display: inline-flex; align-items: center; gap: 5px; border: 0; border-radius: 6px; background: rgba(255,255,255,.12); color: #fff; font-size: 12px; padding: 5px 10px; }
+.copy:hover { background: rgba(255,255,255,.22); }
+.copy svg { width: 14px; height: 14px; fill: currentColor; }
+.model { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px 14px; font-size: 14px; align-items: baseline; }
+.model dt { font-weight: 700; color: var(--secondary); }
+.model dd { margin: 0; }
+.cmds { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px 14px; font-size: 14px; line-height: 1.7; align-items: baseline; margin: 0; }
+.cmds dt { font-weight: 700; color: var(--primary); white-space: nowrap; }
+.cmds dd { margin: 0; }
+.card h4 { font-size: 14px; margin: 16px 0 8px; color: var(--secondary); }
+.card h4:first-of-type { margin-top: 4px; }
+.widgets { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.widgets li { display: grid; grid-template-columns: 38px minmax(0, 1fr); gap: 12px; align-items: start; font-size: 14px; line-height: 1.7; }
+.widgets .wi { width: 38px; height: 38px; border-radius: 10px; display: grid; place-items: center; font-size: 19px; background: var(--primary-soft); }
+.widgets b { display: block; font-size: 14.5px; }
+.callout { border-left: 3px solid var(--star); background: #fffaf0; border-radius: 0 10px 10px 0; padding: 12px 14px; font-size: 14px; line-height: 1.8; margin-top: 10px; }
+.callout small { display: block; color: var(--muted); font-size: 12.5px; margin-top: 4px; }
+.plain { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; font-size: 14px; line-height: 1.75; }
+
+/* ---------- 바닥 ---------- */
+.foot { background: var(--band); border-top: 1px solid var(--line); }
+.foot .wrap { padding-top: 22px; padding-bottom: 40px; font-size: 12px; color: var(--muted); display: flex; flex-direction: column; gap: 8px; }
+.foot .logo b { font-size: 20px; }
+.totop { position: fixed; right: max(14px, env(safe-area-inset-right, 0px)); bottom: max(16px, env(safe-area-inset-bottom, 0px)); width: 48px; height: 48px; border-radius: 50%; border: 0; background: rgba(34,32,39,.78); display: grid; place-items: center; z-index: 30; opacity: 0; pointer-events: none; transition: opacity .25s; }
+.totop.show { opacity: 1; pointer-events: auto; }
+.totop svg { width: 22px; height: 22px; fill: #fff; }
+.toast { position: fixed; left: 50%; bottom: calc(80px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: rgba(34,32,39,.92); color: #fff; font-size: 14px; padding: 10px 18px; border-radius: 99px; z-index: 50; white-space: nowrap; }
+
+/* ---------- 넓은 화면 ---------- */
+@media (min-width: 720px) {
+  .hero-main { grid-template-columns: 300px minmax(0, 1fr); align-items: start; gap: 32px; }
+  .cover-wrap { width: 100%; }
+  .hero-info { padding-top: 4px; }
+  .menus { display: flex; }
+  .workspace { grid-template-columns: 44px minmax(0, 1fr) 300px; grid-template-rows: auto minmax(0, 1fr); grid-template-areas: "tools canvas props" "tools canvas notes"; }
+  .notes { border-top: 0; border-left: 1px solid var(--app-edge); }
+  .tools { display: flex; }
+  .canvas { min-height: 600px; }
+  .paper { left: 5%; top: 6%; height: 88%; }
+  .pop { left: 22%; top: -34px; }
+  .pop-fig { width: auto; height: 165%; }
+  .props { border-right: 0; border-left: 1px solid var(--app-edge); }
+  .pop-hint { left: 12px; bottom: 12px; font-size: 12px; }
+  .who strong { font-size: 20px; }
+  .kv, .memo { font-size: 14.5px; }
+  .sheet-cols { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; }
+  .facts { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .starts { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .st-pic .slot { aspect-ratio: 3 / 2; }
+  .st-body { padding: 14px 14px 16px; }
+  .st-ttl { font-size: 15.5px; }
+  .cal { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .dept-list { columns: 2; column-gap: 28px; border-top: 0; }
+  .dept-list > div:first-child { border-top: 1px solid var(--line); }
+  .art-body { padding: 24px 32px 8px; }
+  .art-title { font-size: 25px; }
+  .sec { font-size: 28px; }
+}
+@media (max-width: 719px) {
+  .campus-img .slot { aspect-ratio: 2 / 1; }
+  .desk .bezel { margin: 0 -10px; }
+  .menubar { font-size: 11px; }
+  .filetabs button { font-size: 11px; padding: 6px 10px; }
+  .tab-pre { display: none; }
+  .workspace { position: relative; grid-template-columns: minmax(0, 1fr); grid-template-areas: "canvas" "notes"; }
+  .canvas { min-height: 410px; }
+  .paper { left: 4%; }
+  .pop { left: 0; right: 0; }
+  .pop-fig { width: 74%; }
+  .pop-hint { font-size: 10.5px; }
+  /* 캐릭터 속성: CSP 플로팅 팔레트처럼 캔버스 위에 뜬 작은 창. 누르면 닫힌다 */
+  .props { position: absolute; z-index: 6; top: 196px; right: 8px; width: 176px; background: rgba(44,44,48,.97); border: 1px solid #0b0b0d; border-radius: 4px; box-shadow: 0 10px 24px rgba(0,0,0,.55); overflow: hidden; cursor: pointer; }
+  .props.closed { display: none; }
+  .pal-bar { font-size: 10.5px; padding: 4px 6px 4px 8px; }
+  .pal-grip { display: inline; color: var(--app-muted); font-size: 12px; line-height: 1; }
+  .pal-x { display: grid; place-items: center; width: 18px; height: 18px; margin-left: auto; border: 0; border-radius: 3px; background: none; color: var(--app-text); font-size: 15px; line-height: 1; padding: 0; }
+  .pal-x:hover { background: var(--app-field); }
+  .who { padding: 9px 10px 6px; }
+  .who strong { font-size: 16px; }
+  .who small { font-size: 10.5px; }
+  .kv { padding: 0 10px 10px; gap: 5px 6px; font-size: 12px; grid-template-columns: 2.3em minmax(0, 1fr); }
+  .kv dt { font-size: 10.5px; padding-top: 1px; }
+  .pal-open { position: absolute; z-index: 6; top: 8px; right: 8px; display: none; align-items: center; gap: 5px; border: 1px solid #0b0b0d; border-radius: 4px; background: rgba(44,44,48,.95); color: var(--app-text); font-size: 10.5px; padding: 5px 8px; box-shadow: 0 4px 12px rgba(0,0,0,.45); }
+  .pal-open svg { width: 13px; height: 13px; fill: currentColor; }
+  .props.closed ~ .pal-open { display: inline-flex; }
+  .notes { border-top: 1px solid var(--app-edge); }
+  .notes .ph { font-size: 10.5px; }
+  .memo { font-size: 12px; gap: 6px; padding: 10px 12px 12px; }
+  .say { font-size: 19px; padding-top: 10px; }
+  .statusbar { font-size: 10px; }
+}
+@media (max-width: 340px) {
+  .canvas { min-height: 360px; }
+  .props { top: 170px; width: 158px; }
+}
+@media (max-width: 380px) {
+  .stats { gap: 6px; }
+  .stat b { font-size: 18px; }
+  .ep { grid-template-columns: 72px minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .js .rv, .js .qa-item .inner { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .js .cry.on .jp { animation: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== 상단 고정 바: 로고 + 섹션 바로가기 ===== -->
+<header class="topbar">
+  <div class="row">
+    <a class="logo" href="#hero" aria-label="맨 위로"><span class="moon" aria-hidden="true"></span><b>Lunelle</b></a>
+    <nav class="chips" id="chips" aria-label="섹션 바로가기">
+      <a href="#hero">작품</a>
+      <a href="#buzz">화제</a>
+      <a href="#interview">인터뷰</a>
+      <a href="#story">줄거리</a>
+      <a href="#start">시작점</a>
+      <a href="#campus">무대</a>
+      <a href="#sheet">프로필</a>
+      <a href="#muse">당신</a>
+      <a href="#guide">플레이 안내</a>
+      <a href="#genre">연재 장르</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- ===== 1. 표지 (루넬 작품 상세) ===== -->
+<section class="hero" id="hero">
+  <div class="wrap">
+    <div class="hero-hook">
+      <p class="jp" lang="ja">こまります、マユマロ先生！</p>
+      <p class="ko">곤란해요, 마유마로 선생님!</p>
+    </div>
+
+    <div class="hero-main">
+      <div class="cover-wrap">
+        <span class="rank-badge"><svg viewBox="0 0 24 20" aria-hidden="true"><path d="M2 6l5 4 5-8 5 8 5-4-2 12H4z"/></svg>로맨스 코미디 1위</span>
+        <div class="slot cover" data-img="keyVisual"><span class="slot-label">표지<br>마시로 키비주얼</span></div>
+      </div>
+
+      <div class="hero-info">
+        <h1 class="ttl"><b>마유마로 선생님</b><span>~실례지만, 당신으로 에로만화 그려도 괜찮을까요?~</span></h1>
+        <div class="meta">
+          <span class="ribbon">여성향</span>
+          <a href="#interview">마유마로</a>
+          <span class="rating"><span class="stars" style="--v:4.6" aria-label="별점 4.6">★★★★★</span>4.6<small>(128)</small></span>
+          <span class="tag-gray">연재 중</span>
+        </div>
+        <div class="stats">
+          <div class="stat"><b>1위</b><span>로맨스 코미디<br>주간 랭킹</span></div>
+          <div class="stat"><b>격주</b><span>월요일<br>업데이트</span></div>
+          <div class="stat"><b>0회</b><span>작가 얼굴<br>공개</span></div>
+        </div>
+        <p class="syn">
+          <span class="lead">“시, 신고만은… 제발 봐주세요…!”</span>
+          요즘 성인 웹코믹 랭킹을 휩쓴 화제작의 작가는, 마시멜로 프로필 사진이 귀여운 인기 작가 '마유마로 선생님'. 그런데 며칠 전부터, 자꾸 누군가의 시선이 느껴진다. 퇴근길 지하철 맞은편에서, 서점 책장 너머에서, 강의실 맨 뒷줄에서. 189cm는 되어 보이는 덩치 큰 남자가 이쪽을 훔쳐보다가 눈만 마주치면 허둥지둥 도망가는 것. 그러다 마주친 그의 크로키북 속에는 당신의 얼굴, 그리고 얼마 전 읽은 그 만화의 원고가 있었다…!? 지독한 슬럼프로 연재 중단 위기라는 그는, 눈물 콧물을 쏟으며 당신에게 매달리는데…. 소심하고 음침한 덩치남 작가와, 그의 뮤즈가 되어버린 당신의 엉뚱한 로맨스 코미디.
+          <span class="note">※유저노트로 마유마로 선생님의 연재 장르(BL / TL)를 고를 수 있습니다.</span>
+        </p>
+        <div class="btns">
+          <a class="btn primary" href="#story"><span class="zero-dot">¥0</span>1화부터 보기</a>
+          <a class="btn outline" href="#sheet">등장인물 프로필</a>
+        </div>
+        <div class="ptags"><span>#오사카</span><span>#대학생</span><span>#덩치남</span><span>#하남자</span><span>#사투리</span><span>#로맨스코미디</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 2. 화제: 짝사랑의 신 → 에로의 신 → 휴재 ===== -->
+<section class="buzz" id="buzz">
+  <div class="wrap">
+    <p class="eyebrow">NOW TRENDING</p>
+    <h2 class="sec">요새 가장 잘 나간다는<br>여성향 성인만화 작가 '마유마로'</h2>
+    <div class="prose rv">
+      <p><em>이렇게나 여자의 마음과 욕망을 잘 알다니.<br>마유마로는 진짜 여자를 위한 신이다.</em></p>
+      <p>가슴이 미어지는 짝사랑과, 신들린 감정선. 그리고 언제나 마무리는 아름다운 해피엔딩. "짝사랑 순애물의 신". SNS에는 매일 소소하고 예의 바르고 아기자기한 멘트들. 깜찍한 이모지 가득한 일상.</p>
+      <p>그런 마유마로 작가는 최근 들어서는, 짝사랑의 신이 아니라 다른 이름으로 불리우고 있었다.</p>
+    </div>
+    <p class="big-claim rv"><small>그 이름은,</small><span>여성향 에로의 신.</span></p>
+
+    <div class="thread rv">
+      <div class="thread-head"><b>독자 댓글</b><span class="rating"><span class="stars" style="--v:4.6" aria-hidden="true">★★★★★</span>4.6 <small>· 128건</small></span></div>
+      <div class="cmt best">
+        <span class="ava" style="background:#e39ab3">a</span>
+        <div><div class="who"><b>af*****37</b></div><p>힘든 삶을 살고 있는 나란 여잘 위해 신이 내려준 금세기 마지막 천재 나의 천재여신</p><div class="foot"><span>♡ 2,371</span><span>답글 48</span></div></div>
+      </div>
+      <div class="cmt">
+        <span class="ava" style="background:#8fb3d9">w</span>
+        <div><div class="who"><b>wls*****1</b></div><p>당신의 작품이 아니면 이제 난 평생 꼴릴 수 없어</p><div class="foot"><span>♡ 1,908</span></div></div>
+      </div>
+      <div class="cmt">
+        <span class="ava" style="background:#a6c99a">k</span>
+        <div><div class="who"><b>ki******5</b></div><p>백퍼 연애 경험 겁나 많을 거임 안 그러면 이렇게 사랑을 잘 알 수가 없음</p><div class="foot"><span>♡ 1,455</span></div></div>
+      </div>
+      <div class="cmt">
+        <span class="ava" style="background:#c7a6d9">밤</span>
+        <div><div class="who"><b>밤샘원고</b><span class="stars" style="--v:4" aria-label="별점 4">★★★★★</span></div><p>그림이 사실적이라 진짜 모델 있는 거 아니냐는 얘기까지 나와요ㅋㅋ 선생님 분명 손이 작고 귀여운 여자분일 것 같은데, 대체 어디서 이런 박력이 나오는 거죠…</p><div class="foot"><span>♡ 18</span></div></div>
+      </div>
+      <div class="cmt worry">
+        <span class="ava" style="background:#e3b77a">y</span>
+        <div><div class="who"><b>yu*****8</b></div><p>근데 요즘 좀 전 같지 않은데… 선생님 어디 아프신 거 아니죠?ㅠㅠ</p><div class="foot"><span>♡ 214</span></div></div>
+      </div>
+    </div>
+
+    <p class="turn rv">…이었을 터인데…</p>
+
+    <div class="notice rv">
+      <h3><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l10 18H2zm-1 7v5h2V9zm0 7v2h2v-2z"/></svg>휴재 안내</h3>
+      <p>『마유마로 선생님 ~실례지만, 당신으로 에로만화 그려도 괜찮을까요?~』 다음 화는 작가 사정으로 한 회 쉬어 갑니다. 기다려 주시는 독자 여러분께 양해 부탁드립니다.</p>
+      <small>요아카리 코믹스 편집부</small>
+    </div>
+
+    <figure class="main-shot" data-optional-wrap hidden><div data-img="main" data-optional></div></figure>
+
+    <div class="cry rv">
+      <p class="jp" lang="ja">あ、あッ、あか～ん！もう限界や！！<br>このままやと連載終了や～～！！！</p>
+      <span class="kao">(;´༎ຶД༎ຶ`)</span>
+      <p class="ko">아, 안돼애~! 이제 한계다! 이카다간 연재 종료다~~!!</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 3. 작가 인터뷰 (공식 답변 / 속마음) ===== -->
+<section class="interview" id="interview">
+  <div class="wrap">
+    <p class="eyebrow">INTERVIEW</p>
+    <article class="article rv">
+      <div class="slot art-hero" data-img="interview"><span class="slot-label">인터뷰 헤더 (2:1)</span></div>
+      <div class="art-body">
+        <div class="art-meta"><span class="cat">인터뷰</span><span>요아카리 코믹스</span><time datetime="2026-10-30">2026.10.30</time></div>
+        <h2 class="art-title">마유마로 선생님 신작 단행본 중쇄 기념 인터뷰</h2>
+        <p class="art-lead">'짝사랑물의 신'이라 불리던 작가님이 발표한 초~야한 이레귤러가 SNS에서 대화제!! 단행본 중쇄를 기념해, 얼굴 없는 인기 작가 마유마로 선생님께 서면으로 이야기를 들어 보았습니다.</p>
+        <div class="byline"><span class="slot ava-s" data-img="avatar"></span><div><b>마유마로</b> <span>@mayumaro_works</span><small>글·정리 요아카리 코믹스 편집부</small></div></div>
+        <div class="qa">
+        <div class="qa-item rv">
+          <p class="q">마유마로 선생님은 어떤 분이신가요?</p>
+          <p class="a">그림 그리는 걸 좋아하는 평범한 학생이에요🍡<br>늘 응원해 주셔서 감사합니다! (❁´◡`❁)</p>
+          <p class="inner">평범한 거는 맞다… 키가 189에 곰만한 남자라 글체…</p>
+        </div>
+        <div class="qa-item rv">
+          <p class="q">작품 속 사랑이 너무 현실적이에요. 연애 경험이 많으신가요?</p>
+          <p class="a">그건 비밀이에요 (u‿ฺu✿ฺ) 여러분의 상상에 맡길게요!💕</p>
+          <p class="inner">…연애? 손도 한 번 안 잡아봤는데…</p>
+        </div>
+        <div class="qa-item rv">
+          <p class="q">최근 작품의 수위가 확 올라갔는데, 계기가 있나요?</p>
+          <p class="a">일상 속에서 새로운 자극을 얻은 사건이 있어서, 그 경험을 원동력으로 삼아 만화로 표현하게 되었습니다🌸</p>
+          <p class="inner">그, 그그, 그 사람 때문인 거는… 죽어도 말 몬 한다…</p>
+        </div>
+        <div class="qa-item rv">
+          <p class="q">작업할 때 꼭 필요한 것이 있다면?</p>
+          <p class="a">따뜻한 밀크티랑 귀여운 인형 친구들이요🧸</p>
+          <p class="inner">…그리고 박스째로 쌓인 연구용 자료들. 으으, 민망시럽다. 은제 다 치우노.</p>
+        </div>
+        <div class="qa-item rv">
+          <p class="q">다음 화도 기대하고 있어요! 요즘 작가님의 긴 휴재가 연달아 있어서 걱정하는 팬들이 많아요.</p>
+          <p class="a">걱정 끼쳐드려서 죄송합니다…! 〒▽〒<br>뒷이야기도 모두 즐겁게 읽으실 수 있게, 열심히 준비하고 있어요✍️ 조금만 기다려 주세요! (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧</p>
+          <p class="inner">…암것도 안 떠오른다. 이래 가다간 진짜 연재 접어야 된다…</p>
+        </div>
+        </div>
+        <div class="inner-legend"><span>■ 공식 답변</span><span>↳ 속마음</span></div>
+        <div class="art-foot"><div class="art-tags"><span>#마유마로</span><span>#중쇄기념</span><span>#작가인터뷰</span></div><span class="art-like">♡ 3,284</span></div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ===== 4. 줄거리 (1화 + 회차 목록) ===== -->
+<section class="story" id="story">
+  <div class="wrap">
+    <p class="eyebrow" lang="ja">1話 ／ 君じゃなきゃダメみたい</p>
+    <h2 class="sec">떨어진 크로키북<small>시놉시스 및 관계 설명</small></h2>
+    <div class="prose rv">
+      <p>며칠째, 어딘가에서 시선이 느껴졌다.<br>당신을 힐끗힐끗 보는, 아주 끈질긴 시선이…</p>
+      <p>시선의 근원지를 찾아 무심코 돌아본 순간, 한 남자와 눈이 마주쳤다.<br>엄청나게 거대한 회색… 펠트공예 바윗덩어리?</p>
+      <p>눈이 마주치자마자 땅을 울리며 화들짝 튀어 오른 그것은, 필통을 쏟고, 책상에 무릎을 찧고, 계단에서 휘청거리며 후다닥 도망치려 들었다.</p>
+      <p class="hold">저거, 누가 봐도 수상한 사람이잖아……!!</p>
+      <p>그때 당신의 발치로 굴러떨어진 크로키북 한 권.</p>
+      <p>우연히 활짝 펼쳐진 페이지. 그곳은… 온통 당신의 순간들이었다.<br>옆얼굴, 뒷모습, 손, 목선. 전부가 섬세한 선으로 새겨져 있는 영롱한 광경.</p>
+      <p>그리고 그 구석에는 요즘 모두가 숨죽여 읽는, 여자를 위한 길티 파라다이스 그 자체라는 작품의 콘티가 떡하니 들어 있었는데…</p>
+    </div>
+    <div class="pull rv">
+      <p class="jp" lang="ja">「す、すみません……！ あの、それ、す、捨ててください……！<br>いやッ、すてないでくだひゃぁい～～～！！！」</p>
+      <p class="ko">"죄, 죄송합니다……! 저기, 그거, 버, 버려주세요……!<br>아니, 버리지 말아주세요~~~!!!"</p>
+    </div>
+
+    <h3 class="h3">그렇게 시작된 이상한 관계</h3>
+    <p class="h3-sub">루넬 연재분 · 전 5화</p>
+    <ol class="eps">
+      <li class="ep rv">
+        <div class="slot" data-img="ep1" data-fallback="keyVisual"><span class="slot-label">1화</span></div>
+        <div>
+          <div class="ep-top"><span class="ep-no">1화</span><span class="beat">만남</span><span class="tag-red">무료</span></div>
+          <p class="ep-title">떨어진 크로키북</p>
+          <p class="ep-syn">자꾸 이쪽을 훔쳐보는 덩치 큰 남자. 불러 세우자 도망치던 그가 크로키북을 떨어뜨리는데…!?</p>
+        </div>
+      </li>
+      <li class="ep rv">
+        <div class="slot" data-img="ep2" data-fallback="keyVisual"><span class="slot-label">2화</span></div>
+        <div>
+          <div class="ep-top"><span class="ep-no">2화</span><span class="beat">들킴</span><span class="tag-red">무료</span></div>
+          <p class="ep-title">신고만은 제발</p>
+          <p class="ep-syn">크로키북 속 그림의 정체는? 새파랗게 질린 그는 무릎이라도 꿇을 기세로 사과하기 시작한다.</p>
+          <p class="ep-extra">정체가 들켰다. 마시로의 머릿속은 '신고당한다'로 가득하다.</p>
+        </div>
+      </li>
+      <li class="ep rv">
+        <div class="slot" data-img="ep3" data-fallback="keyVisual"><span class="slot-label">3화</span></div>
+        <div>
+          <div class="ep-top"><span class="ep-no">3화</span><span class="beat">연재 허락?</span></div>
+          <p class="ep-title">계속 그려도 될까요</p>
+          <p class="ep-syn">화제작의 작가가 바로 그였다니. 한참을 망설이던 그가 조심스럽게 꺼낸 질문은…</p>
+          <p class="ep-extra">"그럼… 계속 그려도 될까요?"</p>
+        </div>
+      </li>
+      <li class="ep rv">
+        <div class="slot" data-img="ep4" data-fallback="keyVisual"><span class="slot-label">4화</span></div>
+        <div>
+          <div class="ep-top"><span class="ep-no">4화</span><span class="beat">모델…?</span></div>
+          <p class="ep-title">실례지만, 당신으로</p>
+          <p class="ep-syn">맞선이라도 보러 온 듯 차려입고 나타난 그. 떨리는 목소리로, 끝내 눈물까지 쏟으며 내민 부탁은 '모델'이 되어달라는 것.</p>
+          <p class="ep-extra">깊은 슬럼프에 빠진 마시로에게, 몰래 그리는 것만으로는 부족하다.</p>
+        </div>
+      </li>
+      <li class="ep rv">
+        <div class="slot" data-img="ep5" data-fallback="keyVisual"><span class="slot-label">5화</span></div>
+        <div>
+          <div class="ep-top"><span class="ep-no">5화</span><span class="beat">취재…???</span><span class="new">NEW</span></div>
+          <p class="ep-title">이건 어디까지나 취재라서</p>
+          <p class="ep-syn">작중 장면을 실제로 재현해보고 싶다는 그. 이건 정말, 어디까지나 취재일 뿐일까…?</p>
+          <p class="ep-extra">마시로는 귀까지 새빨개진 채, 누구보다 진지한 얼굴로 '자료'를 모은다.</p>
+        </div>
+      </li>
+    </ol>
+    <p class="closing rv"><b>우리… 언제까지<br>이런 식으로 지내는 거야?!</b><span>6화 업데이트 예정 · 미정</span></p>
+  </div>
+</section>
+
+<!-- ===== 시작점: 인트로 3종 (같은 해, 다른 계절) ===== -->
+<section class="start" id="start">
+  <div class="wrap">
+    <p class="eyebrow">START</p>
+    <h2 class="sec">어디서 들킬까?<small>인트로 3종 · 같은 해, 다른 계절</small></h2>
+    <p class="start-lead rv">어디서 시작하든 마시로는 1년 전 스쳐 지나간 당신을 몰래 그려 왔고, 오늘 그걸 들킵니다. 고르는 건 계절과 장소뿐이에요.</p>
+    <ol class="tl rv" aria-label="인트로별 루넬 연재 시점">
+      <li class="s-spring"><span class="tl-m">4월</span><span class="tl-dot" aria-hidden="true">🍰</span><span class="tl-ep">12화 작업 중</span><small>다음 갱신 4/20</small></li>
+      <li class="s-summer"><span class="tl-m">7월</span><span class="tl-dot" aria-hidden="true">🧁</span><span class="tl-ep">20화 작업 중</span><small>다음 갱신 8/10</small></li>
+      <li class="s-autumn"><span class="tl-m">10월</span><span class="tl-dot" aria-hidden="true">🥞</span><span class="tl-ep">26화 작업 중</span><small>다음 갱신 11/2</small></li>
+    </ol>
+    <p class="tl-cap rv">루넬은 격주 월요일 갱신. 셋 다 마감 D-10에서 시작해요.</p>
+    <div class="starts">
+      <article class="st s-spring rv">
+        <div class="st-pic"><div class="slot" data-img="introSubway"><span class="slot-label">봄 · 지하철<br>3:2</span></div><span class="season">🍰 봄</span></div>
+        <div class="st-body">
+          <h3 class="st-ttl" lang="ja">世界は恋に落ちている</h3>
+          <p class="st-ko">세상은 사랑에 빠져 있어</p>
+          <p class="st-hook">통근 지하철에서 몰래 크로키하다가 발각</p>
+          <dl class="st-kv">
+            <dt>언제</dt><dd>4/9(목) 저녁 퇴근길</dd>
+            <dt>어디</dt><dd>미도스지선 · 혼마치역</dd>
+            <dt>당신</dt><dd>미도스지선으로 다니는 직장인·학생</dd>
+          </dl>
+        </div>
+      </article>
+      <article class="st s-summer rv">
+        <div class="st-pic"><div class="slot" data-img="introBookstore"><span class="slot-label">여름 · 서점<br>3:2</span></div><span class="season">🧁 여름</span></div>
+        <div class="st-body">
+          <h3 class="st-ttl" lang="ja">気まぐれロマンティック</h3>
+          <p class="st-ko">변덕쟁이 로맨틱</p>
+          <p class="st-hook">서점에서 매대 몰래 훔쳐보다가 발각</p>
+          <dl class="st-kv">
+            <dt>언제</dt><dd>7/30(목) 오후 · 첫 단행본 발매 1주째</dd>
+            <dt>어디</dt><dd>우메다의 대형 서점</dd>
+            <dt>당신</dt><dd>우메다를 오가는 사람</dd>
+          </dl>
+        </div>
+      </article>
+      <article class="st s-autumn rv">
+        <div class="st-pic"><div class="slot" data-img="introClassroom" data-fallback="classroom"><span class="slot-label">가을 · 강의실<br>3:2</span></div><span class="season">🥞 가을</span></div>
+        <div class="st-body">
+          <h3 class="st-ttl" lang="ja">運命なんて言えない</h3>
+          <p class="st-ko">운명이라곤 말 못 해</p>
+          <p class="st-hook">같은 대학교, 교양 수업 같이 듣는 사이</p>
+          <dl class="st-kv">
+            <dt>언제</dt><dd>10/23(금) 3교시</dd>
+            <dt>어디</dt><dd><a href="#campus">나니와예대</a> 교양 '미학 입문'</dd>
+            <dt>당신</dt><dd>같은 수업을 듣는 나니와예대생</dd>
+          </dl>
+        </div>
+      </article>
+    </div>
+    <ul class="st-notes rv">
+      <li>🍰·🧁은 당신이 1년 전에도 오사카에 있었던 설정이에요. 마시로는 당신 이름을 모른 채 시작해요.</li>
+      <li>인트로마다 <b>【상태창 숨김】</b> 버전이 있어요. 상태창이 투명하게 출력돼서, 화면에서만 안 보이고 흐름은 그대로 기억해요.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== 무대: 오사카 · 나니와종합예술대학 ===== -->
+<section class="campus" id="campus">
+  <div class="wrap campus-head">
+    <p class="eyebrow">STAGE</p>
+    <h2 class="sec">무대는 오사카<small>실제 지명·역·축제 이름이 그대로 나와요</small></h2>
+    <p class="campus-lead rv">지하철역, 서점, 상점가, 축제까지 오사카 시내 어디든 무대가 돼요. 그리고 마시로가 다니는 학교는 여기.</p>
+    <h3 class="campus-sub campus-name">나니와종합예술대학<span lang="ja">難波総合芸術大学</span></h3>
+  </div>
+  <figure class="campus-img rv"><div class="slot" data-img="campus"><span class="slot-label">캠퍼스 (3:1)</span></div></figure>
+  <div class="wrap campus-body">
+    <div class="facts rv">
+      <div><span>위치</span><b>오사카부 가난초</b><small>도심이 아닌 교외 캠퍼스</small></div>
+      <div><span>통학</span><b>기시역 + 스쿨버스</b><small>아베노바시역에서 긴테쓰 약 25분, 버스로 10분</small></div>
+      <div><span>규모</span><b>15개 학과</b><small>부지가 아주 넓다</small></div>
+      <div><span>시설</span><b>극장 · 영화관</b><small>촬영소와 TV 스튜디오까지</small></div>
+    </div>
+    <h3 class="campus-sub">학과와 코스<span>예술학부 15학과</span></h3>
+    <dl class="dept-list rv">
+      <div><dt>아트사이언스학과</dt><dd><span>사회변혁 아트</span> · <span>미디어아트</span></dd></div>
+      <div><dt>미술학과</dt><dd><span>유화</span> · <span>일본화</span> · <span>판화</span> · <span>조각</span></dd></div>
+      <div><dt>디자인학과</dt><dd><span>그래픽디자인</span> · <span>일러스트레이션</span> · <span>디지털미디어</span> · <span>디지털아츠</span> · <span>프로덕트디자인</span> · <span>공간디자인</span> · <span>디자인프로듀스</span></dd></div>
+      <div class="hl"><dt>공예학과<i>마시로</i></dt><dd><span>금속공예</span> · <span><b>도예</b></span> · <span>유리공예</span> · <span>텍스타일·염직</span></dd></div>
+      <div><dt>사진학과</dt><dd><span>파인아트</span> · <span>프로페셔널</span> · <span>영상표현</span></dd></div>
+      <div><dt>건축학과</dt><dd><span>건축</span> · <span>환경디자인</span></dd></div>
+      <div><dt>영상학과</dt><dd><span>영화</span> · <span>영상</span> · <span>시나리오</span> · <span>영상학</span> · <span>애니메이션</span></dd></div>
+      <div class="hl"><dt>캐릭터조형학과<i>만화</i></dt><dd><span><b>만화</b></span> · <span>애니메이션</span> · <span>게임</span> · <span>피규어아츠</span></dd></div>
+      <div><dt>문예학과</dt><dd><span>창작(소설·시·각본)</span> · <span>논픽션·문예비평</span> · <span>출판·편집</span> · <span>번역</span></dd></div>
+      <div><dt>방송학과</dt><dd><span>제작</span> · <span>아나운스 음성표현</span> · <span>첨단미디어커뮤니케이션</span> · <span>성우</span></dd></div>
+      <div><dt>예술계획학과</dt><dd><span>아트프로듀스</span> · <span>이벤트프로듀스</span></dd></div>
+      <div><dt>무대예술학과</dt><dd><span>연기연출</span> · <span>뮤지컬</span> · <span>무용</span> · <span>팝댄스</span> · <span>무대미술</span> · <span>무대음향효과</span> · <span>무대조명</span></dd></div>
+      <div><dt>음악학과</dt><dd><span>음악·음향디자인</span> · <span>음악교육</span></dd></div>
+      <div><dt>연주학과</dt><dd><span>피아노</span> · <span>성악</span> · <span>관현타</span> · <span>팝 음악</span></dd></div>
+      <div><dt>초등예술교육학과</dt><dd><span>유아교육</span> · <span>초등교육</span></dd></div>
+    </dl>
+
+    <figure class="campus-pic rv"><div class="slot" data-img="classroom"><span class="slot-label">강의실 (3:1)</span></div></figure>
+    <h3 class="campus-sub">학사 일정<span>4월에 학년이 바뀐다</span></h3>
+    <ol class="cal rv">
+      <li class="now"><span class="m">4월</span><span class="e">새 학년 · 전기 개강</span><small>🍰 이야기 시작 4/9</small></li>
+      <li class="now"><span class="m">7월 하순</span><span class="e">전기 시험</span><small>🧁 이야기 시작 7/30</small></li>
+      <li><span class="m">8~9월</span><span class="e">여름방학</span></li>
+      <li class="now"><span class="m">10월</span><span class="e">후기 개강 · 말일 무렵 학원제 '만마루'</span><small>🥞 이야기 시작 10/23</small></li>
+      <li><span class="m">1월 하순</span><span class="e">후기 시험</span></li>
+      <li><span class="m">2월</span><span class="e">봄방학 · 중순 졸업작품전</span></li>
+    </ol>
+    <p class="campus-note rv">※ 교양 수업은 학과와 상관없이 함께 듣는다. 🥞 인트로의 '미학 입문'도 교양 수업이다.</p>
+  </div>
+</section>
+
+<div class="seam to-desk" aria-hidden="true"></div>
+
+<!-- ===== 5. 캐릭터 (작업용 모니터 속 센뵤 페인트) ===== -->
+<section class="desk" id="sheet">
+  <div class="wrap">
+    <p class="eyebrow">CHARACTER</p>
+    <h2 class="sec">마츠유카와 마시로<small>※비공개 캐릭터 시트. 절대 업로드 금지!!</small></h2>
+
+    <div class="monitor rv">
+      <div class="bezel">
+        <div class="screen">
+          <div class="menubar">
+            <span class="app-logo"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 3l6 6-11 11H4v-6z"/></svg></i>Senbyo Paint</span>
+            <span class="menus" aria-hidden="true"><span>파일</span><span>편집</span><span>페이지 관리</span><span>레이어</span><span>보기</span><span>창</span></span>
+          </div>
+          <div class="filetabs" role="tablist" aria-label="캐릭터 시트">
+            <button type="button" role="tab" aria-selected="true" data-page="0"><span class="tab-pre">마시로_</span>평소.snb</button>
+            <button type="button" role="tab" aria-selected="false" data-page="1" id="page2-btn"><span class="tab-pre">마시로_</span>약속.snb</button>
+          </div>
+          <div class="workspace">
+            <div class="tools" aria-hidden="true">
+              <span><svg viewBox="0 0 24 24"><path d="M12 2l5 9-5 11-5-11zm0 6.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/></svg></span>
+              <span class="sel"><svg viewBox="0 0 24 24"><path d="M17 2.5l4.5 4.5L8 20.5 2.5 21.5 3.5 16zM5.3 16.8l-.5 2.4 2.4-.5z"/></svg></span>
+              <span><svg viewBox="0 0 24 24"><path d="M20 2c1 1-6 10-8 12l-2-2C12 10 19 1 20 2zM9 13l2 2c0 3-2 6-8 6 2-1 2-3 2-4s2-4 4-4z"/></svg></span>
+              <span><svg viewBox="0 0 24 24"><path d="M15 3l7 7-10 10H6l-4-4zm-6 8l-4 4 3 3h3l3-3z"/></svg></span>
+              <span><svg viewBox="0 0 24 24"><path d="M4 4h16v4h-2V6h-5v12h2v2H9v-2h2V6H6v2H4z"/></svg></span>
+              <span><svg viewBox="0 0 24 24"><path d="M8 11V4.5a1.5 1.5 0 0 1 3 0V10h1V3.5a1.5 1.5 0 0 1 3 0V10h1V5.5a1.5 1.5 0 0 1 3 0V15c0 4-3 7-7 7-3 0-5-1.5-6.5-4L3 13.5a1.5 1.5 0 0 1 2.4-1.8L8 14z"/></svg></span>
+            </div>
+            <div class="canvas">
+              <div class="paper" aria-hidden="true">
+                <div class="frame"></div>
+                <div class="slot art" data-img="fullbody" id="art"></div>
+              </div>
+              <div class="pop">
+                <button class="pop-fig" type="button" id="pop-fig" aria-label="다른 옷차림으로 넘기기"><img id="pop-img" alt="마츠유카와 마시로 전신"></button>
+              </div>
+              <span class="pop-hint" id="pop-hint" aria-hidden="true">↻ 눌러서 넘기기</span>
+            </div>
+            <aside class="props" id="props" aria-label="캐릭터 정보">
+              <div class="ph pal-bar"><span class="pal-grip" aria-hidden="true">≡</span><h3>캐릭터 속성</h3><button class="pal-x" type="button" aria-label="캐릭터 속성 창 닫기">×</button></div>
+              <div class="who"><strong>마츠유카와 마시로</strong><small lang="ja">真梅雨川 真白</small></div>
+              <dl class="kv">
+                <dt>필명</dt><dd>마유마로</dd>
+                <dt>나이</dt><dd>21세</dd>
+                <dt>키</dt><dd>189cm</dd>
+                <dt>생일</dt><dd>3월 14일</dd>
+                <dt>소속</dt><dd>나니와예대 공예학과(도예) 3학년</dd>
+              </dl>
+            </aside>
+            <button class="pal-open" type="button" id="pal-open" aria-label="캐릭터 속성 창 열기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v16H4zm2 2v3h12V6zm0 5v7h12v-7zm2 2h8v1.6H8zm0 2.6h5v1.6H8z"/></svg>캐릭터 속성</button>
+            <aside class="notes" aria-label="캐릭터 메모">
+              <h3 class="ph">메모</h3>
+              <ul class="memo">
+                <li>곰의 몸에 아기토끼의 영혼</li>
+                <li>그림 얘기엔 눈빛이 바뀜</li>
+                <li>좋아함: 인형, 밀크티, 코타츠와 귤</li>
+                <li>어려움: 사람, 야한 것 전반</li>
+                <li><b>비밀:</b> 인기 성인만화 작가 '마유마로'</li>
+              </ul>
+              <h3 class="ph">말투 <span style="font-weight:400;color:var(--app-muted)">밖에선 표준어 · 속으론 칸사이벤</span></h3>
+              <p class="say">"아이다, 그런 거 아이라꼬!"</p>
+            </aside>
+          </div>
+          <div class="statusbar"><span>100%</span><span>B4 · 600 dpi</span><span>레이어: 선화 / 채색</span></div>
+        </div>
+      </div>
+      <div class="stand" aria-hidden="true"></div>
+      <div class="base" aria-hidden="true"></div>
+    </div>
+  </div>
+</section>
+
+<div class="seam desk-to-light" aria-hidden="true"></div>
+
+<!-- ===== 6. 당신 (크로키북 한 장) ===== -->
+<section class="muse" id="muse">
+  <div class="wrap">
+    <p class="eyebrow">YOU</p>
+    <article class="sheet rv">
+      <div class="rings" aria-hidden="true"></div>
+      <h3>당신</h3>
+      <p class="sub">마시로의… 에로시즘적 뮤즈?</p>
+      <div class="sheet-cols">
+        <div>
+          <h4>당신은 누구?</h4>
+          <ul class="check">
+            <li><span class="mark">성인</span>이면 OK. 성별, 직업, 나이는 자유.</li>
+            <li>마유마로를 아는 사이?
+              <ul class="opts">
+                <li>① 그 만화의 열성 독자</li>
+                <li>② 이름만 들어 본 사람</li>
+                <li>③ 만화를 전혀 모르는 사람</li>
+              </ul>
+            </li>
+            <li>어디서 만날지는 인트로가 정해요. 어울리는 신분은 <a href="#start">시작점</a>에.</li>
+            <li>연재 장르(<span class="mark">BL / TL</span>)는 유저노트로. 양식은 <a href="#guide">플레이 안내</a>에.</li>
+          </ul>
+        </div>
+        <div>
+          <h4>마시로 대하는 법</h4>
+          <ul class="check">
+            <li>처음엔 <span class="mark">'신고당할까 봐'</span> 잔뜩 겁먹은 상태. 천천히.</li>
+            <li>말 놓자고 하면 사투리 반말이 튀어나온다. <span class="red">그게 신호!</span></li>
+            <li>제안은 거절해도 괜찮다. 바로 물러나서 사과한다.</li>
+            <li>크로키북은 함부로 만지지 말 것. (…진짜로)</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ===== 7. 플레이 안내 (제작자 노트) ===== -->
+<section class="guide" id="guide">
+  <div class="wrap">
+    <p class="eyebrow">HOW TO PLAY</p>
+    <h2 class="sec">플레이 안내<small>제작자 노트</small></h2>
+
+    <div class="card rv">
+      <div class="pills">
+        <span class="pill">상시 상태창<i></i></span>
+        <span class="pill">자동 호출 위젯<i></i></span>
+        <span class="pill">본문 HTML 꾸미기<i></i></span>
+        <span class="pill off">본문 자동 호출 에셋<i></i></span>
+      </div>
+      <p class="muted" style="margin-top:8px">상태창에는 숨은 항목이 많이 들어 있어요(NSFW 장면에선 상태창이 간략하게 접혀요). 상태창을 출력하지 않으면 흐름을 제대로 인식하지 못하는 지침이 많아요. <b>유저노트에 상태창을 없애는 지침은 넣지 말아 주세요.</b> 상태창이 거슬리면 <a href="#start">【상태창 숨김】 인트로</a>를 고르세요. 투명하게 출력돼서 화면에만 안 보여요.</p>
+      <p class="muted" style="margin-top:6px">첨부 이미지는 참고 이미지입니다. 본문에 자동으로 뜨지 않아요. 외부 링크로 넣는 에셋 시스템은 추가할 예정이에요.</p>
+      <div class="playable"><span>HL</span><span>BL</span><span>성별 무관</span>플레이 가능</div>
+    </div>
+
+    <div class="card rv">
+      <h3><span class="ic">🎀</span>페르소나 추천 양식</h3>
+      <p>아래 네 가지는 꼭 적어 주세요. 고른 장르가 마유마로 선생님의 화제작 장르가 됩니다.</p>
+      <div class="req"><span>이름</span><span>성별</span><span>신분</span><span>연재 장르</span></div>
+      <div class="code">
+        <button class="copy" type="button" id="copy-note"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3h11a2 2 0 0 1 2 2v11h-2V5H8zM4 7h11a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2zm0 2v11h11V9z"/></svg>복사</button>
+<pre id="note-tpl">[기본]
+*이름:
+*성별 / 나이:
+*신분: 학교·학과·학년 또는 직업 (🥞 인트로는 나니와예대생 추천)
+국적·언어: 예) 일본인 / 한국인 유학생, 일본어 서툶
+
+[외모·성격]
+외모: 키, 머리, 인상 등
+평소 옷차림:
+성격·말투:
+
+[마시로와의 관계]
+마유마로 작품을 아는지: 예) 애독자 / 이름만 앎 / 전혀 모름
+마시로가 불러줬으면 하는 호칭: (없으면 비워두기)
+
+[연재 설정]
+*연재 장르: BL / TL
+화제작 제목: (없으면 비워두기)
+주인공과의 유사성: (만화의 주인공과 페르소나가 얼마나 닮았는지를 설정할 수 있음. 필요 없다면 항목 삭제)
+
+[취향]
+좋아하는 전개·시츄: (포지션, 플레이, 페티쉬, 성적 판타지 등 반영 가능)
+피하고 싶은 것(지뢰):
+진행 속도: 천천히 / 보통 / 빠르게</pre>
+      </div>
+      <p class="muted" style="margin-top:12px">* 표시는 꼭 적어 주세요.</p>
+      <ul class="plain" style="margin-top:10px">
+        <li>나니와예대생으로 시작한다면(🥞 추천), <a href="#campus">학교에 대한 설정</a>은 이 페이지의 나니와종합예술대학 칸을 참고해 주세요. 실제 학교를 모티프로 이름만 바꾼 정도예요.</li>
+        <li>오사카라는 도시 자체에 대한 고증을 상세하게 지키도록 지시되어 있어요.</li>
+      </ul>
+    </div>
+
+    <div class="card rv">
+      <h3><span class="ic">🍒</span>플레이 기본</h3>
+      <p>당신과 마시로는 <b>마시로의 만화 연재를 위한 자료 수집</b>으로, <b>작중에 등장하는 이러쿵저러쿵한 장면들을 재현</b>합니다. 재현한 자료를 바탕으로 마시로는 다음 회차를 그려요.</p>
+      <p>하지만 마시로는 자기 몸을 쓰려 하지 않습니다. 방 한가득 쌓인 상자 속, 상점을 차려도 될 만한 양의 쌔삥 성인용품… <b>이걸 쓰는 당신을 마시로는 관찰(?)합니다.</b> 손은 대지 않는다, 거기서부턴 위험하니까. 그리고 키스와 섹스는 연인부터!</p>
+      <div class="callout">모델이 되어 주지 않는 선택지는 일단 상정하지 않고 만들었어요. 하지만 해 보면 재밌을지도 모릅니다. 부탁을 들어줄 때까지 필사적으로 매달리게 해 놨어요.</div>
+    </div>
+
+    <div class="card rv">
+      <h3><span class="ic">🧁</span>추천 모델과 출력량</h3>
+      <dl class="model">
+        <dt>추천</dt><dd>Gemini 4 Argon · 3.8 · 3.5</dd>
+        <dt>NSFW</dt><dd>Gemini 4 Carbon · Argon</dd>
+        <dt>출력량</dt><dd>2,500자 이상 (사칭 없이) · NSFW 4,000~5,000자</dd>
+      </dl>
+      <p class="muted" style="margin-top:10px">빠른 템포의 경쾌한 로코 라노벨(혹은 아니메) 느낌을 지향해서, NSFW 장면을 뺀 부분은 출력량이 그렇게 많지 않게 설정되어 있어요. 3.8이 개인적으로 제일 웃기게 써 줘서 애용해요. NSFW는 Carbon 강추예요. 지침을 아주 잘 따라요.</p>
+    </div>
+
+    <div class="card rv">
+      <h3><span class="ic">📱</span>내장 위젯</h3>
+      <ul class="widgets">
+        <li><span class="wi" aria-hidden="true">🗒️</span><div><b>상태창</b>매 답변 끝에 붙어요. 오늘 날짜와 날씨, 원고 진행도와 마감, 마시로의 오늘 할 일과 몰래 새어 나온 메모가 보여요.</div></li>
+        <li><span class="wi" aria-hidden="true">🍡</span><div><b>마유마로 SNS</b>마시로가 휴대폰을 볼 때 나와요. 아기자기한 공식 계정과, 아무도 모르는 비공개 사담 계정이 있어요.</div></li>
+        <li><span class="wi" aria-hidden="true">🌙</span><div><b>루넬 연재분</b>격주 월요일마다 새 회차가 올라와요. 시놉시스, 작가 후기, 독자 댓글이 함께 나와요. 어딘가 본 듯한 장면이 들어 있을지도 몰라요.</div></li>
+      </ul>
+      <p class="muted" style="margin-top:12px">그 밖에도 필요하면 AI가 알아서 화면을 꾸미도록 해 두었어요.</p>
+    </div>
+
+    <div class="card rv">
+      <h3><span class="ic">⌨️</span>명령어</h3>
+      <h4>진행 명령어</h4>
+      <dl class="cmds">
+        <dt>!교정</dt><dd>출력 문체를 재점검하고 교정합니다.</dd>
+        <dt>!취재</dt><dd>다음 취재로 빠르게 넘어갑니다.</dd>
+        <dt>!다음날</dt><dd>다음날로 넘어갑니다.</dd>
+        <dt>!이벤트</dt><dd>가장 가까운 환경 이벤트 일자로 넘어갑니다.</dd>
+        <dt>!로맨스</dt><dd>로맨스 사건을 발생시킵니다.</dd>
+      </dl>
+      <h4>위젯 호출 명령어</h4>
+      <dl class="cmds">
+        <dt>!비계</dt><dd>마시로의 SNS 비밀 계정을 몰래 훔쳐봅니다. RP에 영향 주지 않아요.</dd>
+        <dt>!노트</dt><dd>마시로의 메모 노트를 몰래 훔쳐봅니다. RP에 영향 주지 않아요.</dd>
+        <dt>!리스트</dt><dd>지금 마시로의 방에 있는 장난감들의 종류와 개수를 알려줍니다. 기본적으로 RP와 무관하게 인식되지만, 앞에 상황을 적으면(예: *박스를 뒤진다*) 이어지는 걸로 인식해요.</dd>
+        <dt>!메신저</dt><dd>LIME을 통한 문자를 진행합니다. 문자 내용은 <b>[대괄호]</b> 안에 넣으면 대충 인식해요. 유저가 끊거나 문자 상황이 끊어지면 대충 끝납니다.</dd>
+      </dl>
+    </div>
+
+    <div class="card rv">
+      <h3><span class="ic">🎎</span>러브코메 라노벨 무드</h3>
+      <p>의도한 무드가 일본 계열의 얼렁뚱땅 에로 러브 코미디라서, 일본 스테레오 타입 라이트 노벨의 번역체 문체(짧은 문단, 대사 위주의 서술)와 진행 방식을 인트로를 포함해 <b>일부러</b> 넣어 두었어요.</p>
+      <div class="callout">예: 수족관 데이트, 축제 같이 가기, 뛰어오다가 꽈당, "에에~~~!? 무리무리무리~~!"<small>이 문법에 거부감이 있으시면 추천하지 않아요. 취향을 많이 타는 부분이니 꼭 참고해 주세요.</small></div>
+    </div>
+
+    <div class="card rv">
+      <h3><span class="ic">📌</span>알아 두기</h3>
+      <ul class="plain">
+        <li>대사는 일본어와 한국어가 함께 나옵니다.</li>
+        <li>성인 이용가 작품입니다. 성적인 장면이 포함됩니다. 등장인물은 모두 성인입니다.</li>
+        <li>출력되는 내용은 등장하는 실제 지명·장소·기관의 공식 입장과 무관하며, 인물과 사건은 모두 허구입니다.</li>
+        <li>실존 상표와 작품명은 발음만 조금 비튼 이름으로 등장합니다. 지명, 거리, 축제 이름은 실제 이름 그대로입니다.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 8. 연재 장르 (이 작가의 다른 작품) ===== -->
+<section class="genre" id="genre">
+  <div class="wrap">
+    <p class="eyebrow">GENRE</p>
+    <h2 class="sec">마유마로의 화제작은<br>당신이 고릅니다<small>페르소나 설정의 '연재 장르'가 그대로 간판작의 장르가 돼요</small></h2>
+    <div class="works">
+      <div class="work rv">
+        <div class="slot" data-img="coverBL"><span class="slot-label">BL 표지</span></div>
+        <span class="ribbon">BL</span>
+        <p><b>남성으로 인식한 당신</b>을 대상으로 그린 BL물. 남주가 잘생겼고 수위가 장난 아니어서 인기가 엄청납니다.</p>
+      </div>
+      <div class="work rv">
+        <div class="slot" data-img="coverTL"><span class="slot-label">TL 표지</span></div>
+        <span class="ribbon">TL</span>
+        <p><b>여성으로 인식한 당신</b>을 대상으로 그린 여성향 성인 만화. 여주인공이 예쁘고 묘사가 사실적인 데다 무지 야해서 인기가 엄청납니다.</p>
+      </div>
+    </div>
+    <ul class="tips rv">
+      <li><b>당신과 작중 주인공이 어디까지 닮았는지</b>도 정할 수 있어요. 이미지만 따왔다, 얼굴도 따왔다, 성격과 행동거지까지 따왔다 등. 정하지 않으면 그때그때 달라집니다.</li>
+      <li>BL이라고 해서 당신을 모티브로 한 캐릭터가 꼭 작중·취재에서 텀 역할을 하는 건 아니에요. TL도 마찬가지입니다. 여공남수 작품으로 정하고 갈 수도 있어요. 이 경우 마시로는 당신을 <b>탑 포지션의 사람</b>으로 보고 그린 셈입니다.</li>
+      <li>마시로의 탑/바텀은 <b>둘 다 가능</b>한 것으로 테스트했어요. 고정이 필요하면 페르소나 설정의 '좋아하는 전개·시츄'와 '지뢰'에 적어 두면 아주 좋습니다.</li>
+      <li>의도되길 원하는 관계 흐름이 있으면, 미리 유저 노트 등에 적어 두는 걸 추천해요.</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <a class="logo" href="#hero" aria-label="맨 위로"><span class="moon" aria-hidden="true"></span><b>Lunelle</b></a>
+    <p>Lunelle(루넬)와 요아카리 코믹스는 가상의 플랫폼·레이블입니다. 작품, 작가, 가격, 수치, 리뷰는 모두 캐릭터 소개를 위한 픽션입니다.</p>
+    <p><a href="../">이전 버전(화면 나뉨) 보기</a></p>
+  </div>
+</footer>
+
+<button class="totop" type="button" id="totop" aria-label="맨 위로"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v2.2H4zm8 4l7 8h-4.5v4h-5v-4H5z"/></svg></button>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+document.documentElement.classList.add("js");
+
+/* 이미지: ../img 폴더의 파일을 씁니다. 파일이 없으면 점무늬 자리가 남습니다. (규격은 img/README.md)
+   main: 유니챗 소개글의 메인 그림(main.webp). img 폴더에 넣으면 휴재 안내 아래에 뜨고, 없으면 그 자리가 통째로 숨겨집니다. */
+const IMAGES = {
+  keyVisual: "../img/key-visual.webp",
+  fullbody: "../img/fullbody.webp",
+  fullbody2: "../img/fullbody2.webp",
+  avatar: "../img/avatar.webp",
+  coverBL: "../img/cover-bl.webp",
+  coverTL: "../img/cover-tl.webp",
+  ep1: "../img/ep1.webp",
+  ep2: "../img/ep2.webp",
+  ep3: "../img/ep3.webp",
+  ep4: "../img/ep4.webp",
+  ep5: "../img/ep5.webp",
+  main: "../img/main.webp",
+  interview: "../img/interview.webp",
+  campus: "../img/campus.webp",
+  classroom: "../img/classroom.webp",
+  introSubway: "../img/intro-subway.webp",
+  introBookstore: "../img/intro-bookstore.webp",
+  introClassroom: "../img/intro-classroom.webp"
+};
+document.querySelectorAll("[data-img]").forEach(function (el) {
+  const src = IMAGES[el.dataset.img];
+  if (!src) return;
+  const label = el.querySelector(".slot-label");
+  const img = document.createElement("img");
+  img.alt = "";
+  img.decoding = "async";
+  const optional = el.hasAttribute("data-optional");
+  /* 숨겨진 자리(선택 그림)는 지연 로딩을 쓰면 영영 불러오지 않으므로 제외 */
+  if (!optional && !el.closest(".hero")) img.loading = "lazy";
+  if (el.dataset.img === "campus") { img.style.objectPosition = "32% top"; }
+  const fallback = IMAGES[el.dataset.fallback];
+  img.onload = function () {
+    if (label) label.hidden = true;
+    if (optional) { const w = el.closest("[data-optional-wrap]"); if (w) w.hidden = false; }
+  };
+  img.onerror = function () {
+    if (fallback && img.dataset.fellBack !== "1") { img.dataset.fellBack = "1"; img.src = fallback; }
+    else img.remove();
+  };
+  if (optional) { img.style.position = "static"; img.style.height = "auto"; }
+  img.src = src;
+  el.appendChild(img);
+});
+
+/* 토스트 */
+const toastEl = document.getElementById("toast");
+let toastTimer;
+function toast(msg) {
+  toastEl.textContent = msg;
+  toastEl.hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(function () { toastEl.hidden = true; }, 2000);
+}
+
+/* 스크롤 등장 */
+const revealEls = document.querySelectorAll(".rv");
+if ("IntersectionObserver" in window) {
+  const io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add("on"); io.unobserve(e.target); }
+    });
+  }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
+  revealEls.forEach(function (el) { io.observe(el); });
+} else {
+  revealEls.forEach(function (el) { el.classList.add("on"); });
+}
+
+/* 상단 바로가기: 지금 읽는 섹션의 칩을 켠다 */
+const chips = document.getElementById("chips");
+const chipLinks = Array.from(chips.querySelectorAll("a"));
+const sections = chipLinks.map(function (a) { return document.querySelector(a.getAttribute("href")); });
+let currentChip = null;
+function updateChip() {
+  const line = window.innerHeight * 0.32;
+  let idx = 0;
+  sections.forEach(function (s, i) { if (s && s.getBoundingClientRect().top <= line) idx = i; });
+  const a = chipLinks[idx];
+  if (a === currentChip) return;
+  if (currentChip) currentChip.classList.remove("on");
+  a.classList.add("on");
+  currentChip = a;
+  const cr = chips.getBoundingClientRect(), ar = a.getBoundingClientRect();
+  const left = chips.scrollLeft + (ar.left - cr.left) - (cr.width - ar.width) / 2;
+  chips.scrollTo({ left: Math.max(0, left), behavior: "smooth" });
+}
+const toTop = document.getElementById("totop");
+let ticking = false;
+window.addEventListener("scroll", function () {
+  if (ticking) return;
+  ticking = true;
+  requestAnimationFrame(function () {
+    updateChip();
+    toTop.classList.toggle("show", window.scrollY > window.innerHeight);
+    ticking = false;
+  });
+}, { passive: true });
+updateChip();
+toTop.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: "smooth" }); });
+
+/* 캐릭터 시트: 인물을 누르면 종이처럼 뒤집히며 다른 전신으로 바뀐다. 파일 탭도 같은 동작 */
+(function () {
+  const art = document.getElementById("art");
+  const fig = document.getElementById("pop-fig");
+  const img = document.getElementById("pop-img");
+  const hint = document.getElementById("pop-hint");
+  const tabs = Array.from(document.querySelectorAll("[data-page]"));
+  const srcs = [IMAGES.fullbody, IMAGES.fullbody2];
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let page = 0, busy = false, hasTwo = true;
+  img.src = srcs[0];
+  /* 2번 그림이 없으면 탭과 넘기기를 끈다 */
+  const probe = new Image();
+  probe.onerror = function () { hasTwo = false; document.getElementById("page2-btn").hidden = true; hint.hidden = true; fig.style.cursor = "default"; };
+  probe.src = srcs[1];
+
+  function swap(i) {
+    page = i;
+    img.src = srcs[i];
+    const ghost = art.querySelector("img");
+    if (ghost) ghost.src = srcs[i];
+    tabs.forEach(function (t) { t.setAttribute("aria-selected", String(Number(t.dataset.page) === i)); });
+  }
+  function go(i) {
+    if (!hasTwo || busy || i === page) return;
+    if (reduce || !img.animate) { swap(i); return; }
+    busy = true;
+    const out = img.animate([{ transform: "rotateY(0deg)" }, { transform: "rotateY(90deg)" }], { duration: 200, easing: "ease-in", fill: "forwards" });
+    out.finished.then(function () {
+      swap(i);
+      const back = img.animate([{ transform: "rotateY(-90deg)" }, { transform: "rotateY(0deg)" }], { duration: 420, easing: "cubic-bezier(.3,1.5,.5,1)" });
+      out.cancel();
+      return back.finished;
+    }).then(function () { busy = false; }, function () { busy = false; });
+  }
+  fig.addEventListener("click", function () { go((page + 1) % 2); });
+  tabs.forEach(function (t) { t.addEventListener("click", function () { go(Number(t.dataset.page)); }); });
+})();
+
+/* 휴대폰: 캐릭터 속성 팝업 창은 누르면 닫히고, 오른쪽 위 버튼으로 다시 연다 */
+(function () {
+  const props = document.getElementById("props");
+  const open = document.getElementById("pal-open");
+  const mobile = window.matchMedia("(max-width: 719px)");
+  props.addEventListener("click", function () { if (mobile.matches) props.classList.add("closed"); });
+  open.addEventListener("click", function () { props.classList.remove("closed"); });
+})();
+
+/* 유저노트 양식 복사 */
+document.getElementById("copy-note").addEventListener("click", function () {
+  const text = document.getElementById("note-tpl").textContent;
+  function fallback() {
+    const ta = document.createElement("textarea");
+    ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select();
+    let ok = false;
+    try { ok = document.execCommand("copy"); } catch (e) { ok = false; }
+    ta.remove();
+    toast(ok ? "양식을 복사했어요" : "복사하지 못했어요. 길게 눌러 직접 복사해 주세요");
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(function () { toast("양식을 복사했어요"); }, fallback);
+  } else { fallback(); }
+});
+</script>
+</body>
+</html>
