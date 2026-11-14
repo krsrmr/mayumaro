@@ -92,6 +92,7 @@ p { margin: 0; }
 .slot { position: relative; background-color: #f7f5f9; background-image: radial-gradient(var(--tone) 1.1px, transparent 1.3px); background-size: 7px 7px; overflow: hidden; display: grid; place-items: center; }
 .slot .slot-label { position: relative; background: var(--bg); color: var(--muted); font-size: 11px; padding: 3px 8px; border-radius: 99px; border: 1px solid var(--line); text-align: center; line-height: 1.45; }
 .slot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.slot.loaded { background: none !important; }
 
 /* ---------- 상단 고정 바 ---------- */
 .topbar { position: sticky; top: 0; z-index: 40; background: rgba(255,255,255,.93); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
@@ -271,6 +272,51 @@ p { margin: 0; }
 .cal small { font-size: 11px; font-weight: 700; color: var(--primary); margin-top: 3px; }
 .cal li.now { border-left-color: var(--primary); background: var(--primary-soft); }
 
+/* ---------- 시작점 (인트로 3종) ---------- */
+.start { background: var(--band); }
+.s-spring { --c: #ec8fb4; --ink: #c2416f; --soft: #fdeef4; }
+.s-summer { --c: #5fb8e2; --ink: #23789f; --soft: #e8f5fb; }
+.s-autumn { --c: #e8a15a; --ink: #a85c16; --soft: #fdf1e4; }
+.start-lead { font-size: 15.5px; line-height: 1.85; color: #4a4550; }
+.tl { position: relative; list-style: none; margin: 28px 0 6px; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); text-align: center; }
+.tl::before { content: ""; position: absolute; left: 16.7%; right: 16.7%; top: 40px; height: 2px; background: repeating-linear-gradient(90deg, var(--outline) 0 6px, transparent 6px 11px); }
+.tl li { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.tl-m { font-size: 12px; line-height: 18px; font-weight: 900; color: var(--ink); letter-spacing: .06em; }
+.tl-dot { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--bg); border: 2px solid var(--c); font-size: 17px; line-height: 1; }
+.tl-ep { font-size: 13.5px; font-weight: 900; line-height: 1.3; }
+.tl small { font-size: 11.5px; color: var(--muted); line-height: 1.3; }
+.tl-cap { text-align: center; font-size: 12.5px; color: var(--muted); margin: 12px 0 24px; }
+.starts { display: grid; gap: 14px; }
+.st { display: flex; flex-direction: column; min-width: 0; background: var(--bg); border: 1px solid var(--line); border-top: 3px solid var(--c); border-radius: 14px; overflow: hidden; box-shadow: 0 6px 18px rgba(60,40,80,.06); }
+.st-pic { position: relative; }
+.st-pic .slot { aspect-ratio: 2 / 1; background-color: var(--soft); }
+.season { position: absolute; left: 10px; top: 10px; z-index: 2; background: var(--ink); color: #fff; font-size: 12px; font-weight: 700; border-radius: 99px; padding: 2px 10px; line-height: 1.6; }
+.st-body { padding: 14px 16px 16px; }
+.st-ttl { margin: 0; font-size: 17px; font-weight: 900; line-height: 1.4; }
+.st-ko { font-size: 12.5px; color: var(--muted); }
+.st-hook { margin-top: 10px; padding-left: 9px; border-left: 3px solid var(--c); font-size: 14.5px; font-weight: 700; line-height: 1.6; }
+.st-kv { margin: 12px 0 0; display: grid; grid-template-columns: 2.4em minmax(0, 1fr); gap: 5px 8px; font-size: 13.5px; line-height: 1.55; }
+.st-kv dt { color: var(--ink); font-weight: 700; font-size: 12px; padding-top: 1px; }
+.st-kv dd { margin: 0; }
+.st-notes { list-style: none; margin: 20px 0 0; padding: 0; display: flex; flex-direction: column; gap: 6px; font-size: 13.5px; line-height: 1.75; color: var(--muted); }
+.st-notes li { position: relative; padding-left: 14px; }
+.st-notes li::before { content: "※"; position: absolute; left: 0; font-size: 11px; }
+.st-notes b { color: var(--fg); }
+.campus-lead { font-size: 15px; line-height: 1.85; color: #4a4550; }
+.campus-name { margin: 26px 0 26px; font-size: 19px; }
+.city-img { margin-top: 24px; }
+.osaka-spots { list-style: none; margin: 18px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.osaka-spots li { background: var(--band); border-radius: 12px; padding: 12px 14px; }
+.osaka-spots b { display: block; font-size: 14px; font-weight: 900; }
+.osaka-spots li > span { display: block; margin-top: 3px; font-size: 12.5px; line-height: 1.6; color: var(--muted); }
+.school-lead { margin-top: 26px; font-size: 15px; line-height: 1.8; color: #4a4550; }
+.campus .school-head { padding-top: 22px; }
+.school-fig { margin-bottom: 34px; }
+.campus-toggle { position: relative; display: block; width: 100%; padding: 0; border: 0; background: none; cursor: pointer; }
+.campus-hint { position: absolute; left: 50%; bottom: 12%; transform: translateX(-50%); background: rgba(34,32,39,.82); color: #fff; font-size: 13px; font-weight: 700; padding: 6px 15px; border-radius: 99px; box-shadow: 0 4px 14px rgba(0,0,0,.2); white-space: nowrap; transition: background .2s; }
+.campus-toggle:hover .campus-hint, .campus-toggle:focus-visible .campus-hint { background: var(--primary); }
+.campus-toggle:focus-visible { outline-offset: -4px; }
+
 /* ---------- 블록 사이 이음새 ---------- */
 .seam { height: 100px; }
 .seam.to-desk { background: linear-gradient(var(--bg), #1c1c21); }
@@ -412,6 +458,51 @@ p { margin: 0; }
 .totop svg { width: 22px; height: 22px; fill: #fff; }
 .toast { position: fixed; left: 50%; bottom: calc(80px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: rgba(34,32,39,.92); color: #fff; font-size: 14px; padding: 10px 18px; border-radius: 99px; z-index: 50; white-space: nowrap; }
 
+/* ---------- 마시로 작업 BGM (왼쪽 아래에 떠 있는 플레이리스트) ----------
+   페이지를 열면 버튼만 보인다. 곡을 누르기 전에는 유튜브를 아예 불러오지 않는다(자동재생 없음). */
+.bgm-btn, .bgm-panel { display: none; }
+.js .bgm-btn { display: inline-flex; }
+.js .bgm-panel { display: block; }
+.bgm-btn { position: fixed; left: max(14px, env(safe-area-inset-left, 0px)); bottom: max(16px, env(safe-area-inset-bottom, 0px)); z-index: 35; align-items: center; justify-content: center; width: 48px; height: 48px; padding: 0; border: 0; border-radius: 50%; background: rgba(34,32,39,.84); color: #fff; font-size: 13px; font-weight: 700; box-shadow: 0 6px 18px rgba(0,0,0,.2); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.bgm-btn::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 2px solid var(--primary); opacity: 0; pointer-events: none; animation: bgm-ping 1.8s ease-out 1.5s 2; }
+@keyframes bgm-ping { 0% { opacity: .75; transform: scale(.97); } 100% { opacity: 0; transform: scale(1.14); } }
+.bgm-disc { width: 34px; height: 34px; border-radius: 50%; flex: none; background: radial-gradient(circle, #222027 0 2.5px, #f8c7d8 3px 8px, transparent 8.5px), repeating-radial-gradient(circle, #19171c 0 1.5px, #2c2932 1.5px 3px); box-shadow: inset 0 0 0 1px rgba(255,255,255,.12); }
+.bgm-btn.playing .bgm-disc { animation: bgm-spin 3.2s linear infinite; }
+@keyframes bgm-spin { to { transform: rotate(360deg); } }
+.eq { display: inline-flex; align-items: flex-end; gap: 2px; height: 12px; }
+.eq i { width: 3px; height: 100%; background: currentColor; border-radius: 1px; transform-origin: bottom; animation: bgm-eq .9s ease-in-out infinite; }
+.eq i:nth-child(2) { animation-delay: -.3s; }
+.eq i:nth-child(3) { animation-delay: -.6s; }
+@keyframes bgm-eq { 0%, 100% { transform: scaleY(.3); } 50% { transform: scaleY(1); } }
+.bgm-panel { position: fixed; left: max(14px, env(safe-area-inset-left, 0px)); bottom: calc(max(16px, env(safe-area-inset-bottom, 0px)) + 54px); z-index: 45; width: min(340px, calc(100vw - 28px)); max-height: calc(100vh - 150px); max-height: calc(100dvh - 150px); overflow: auto; overscroll-behavior: contain; background: var(--bg); border-radius: 16px; box-shadow: 0 18px 50px rgba(30,20,40,.28), 0 0 0 1px rgba(0,0,0,.05); transform-origin: left bottom; transition: opacity .2s ease, transform .2s ease; }
+.bgm-panel:not(.open) { opacity: 0; transform: translateY(10px) scale(.97); pointer-events: none; }
+.bgm-head { display: flex; align-items: center; gap: 10px; padding: 10px 10px 10px 14px; background: linear-gradient(135deg, #fde3ee, #f4f2f7); }
+.bgm-cover { width: 40px; height: 40px; border-radius: 10px; flex: none; box-shadow: 0 3px 10px rgba(214,60,114,.25); }
+.bgm-ttl { flex: 1; min-width: 0; line-height: 1.4; }
+.bgm-ttl b { display: block; font-size: 15px; font-weight: 900; }
+.bgm-ttl span { display: block; font-size: 12px; color: var(--muted); }
+.bgm-auto { flex: none; display: inline-flex; align-items: center; gap: 4px; height: 28px; padding: 0 11px; border: 1px solid var(--outline); border-radius: 99px; background: rgba(255,255,255,.75); color: var(--muted); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.bgm-auto[aria-pressed="true"] { background: var(--primary); border-color: var(--primary); color: #fff; }
+.bgm-x { flex: none; width: 32px; height: 32px; border: 0; border-radius: 50%; background: rgba(255,255,255,.7); font-size: 18px; line-height: 1; color: var(--muted); }
+.bgm-player { padding: 12px 14px 4px; }
+.bgm-frame { aspect-ratio: 16 / 9; border-radius: 10px; overflow: hidden; background: #111; }
+.bgm-frame iframe { display: block; width: 100%; height: 100%; border: 0; }
+.bgm-ctrl { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 8px; font-size: 12.5px; }
+.bgm-stop { border: 1px solid var(--line); background: var(--bg); border-radius: 99px; padding: 3px 12px; font-size: 12.5px; color: var(--fg); }
+.bgm-list { list-style: none; margin: 0; padding: 6px 0; }
+.bgm-track { width: 100%; display: grid; grid-template-columns: 20px minmax(0, 1fr) auto; gap: 10px; align-items: center; text-align: left; background: none; border: 0; padding: 8px 14px; line-height: 1.35; }
+.bgm-track:hover { background: var(--band); }
+.bgm-no { font-size: 12px; font-weight: 700; color: var(--muted); text-align: center; font-variant-numeric: tabular-nums; }
+.bgm-track .eq { display: none; color: var(--primary); justify-self: center; }
+.bgm-track b { display: block; font-size: 14px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bgm-track small { display: block; font-size: 12px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bgm-tag { font-size: 11px; font-weight: 700; color: var(--secondary); background: #e9eef8; border-radius: 99px; padding: 0 8px; line-height: 1.7; white-space: nowrap; }
+.bgm-track.on { background: var(--primary-soft); }
+.bgm-track.on b { color: var(--primary); }
+.bgm-track.on .bgm-no { display: none; }
+.bgm-track.on .eq { display: inline-flex; }
+.bgm-foot { margin: 0; padding: 9px 14px 12px; border-top: 1px solid var(--line); font-size: 11.5px; line-height: 1.6; color: var(--muted); }
+
 /* ---------- 넓은 화면 ---------- */
 @media (min-width: 720px) {
   .hero-main { grid-template-columns: 300px minmax(0, 1fr); align-items: start; gap: 32px; }
@@ -431,6 +522,10 @@ p { margin: 0; }
   .kv, .memo { font-size: 14.5px; }
   .sheet-cols { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; }
   .facts { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .starts { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .st-pic .slot { aspect-ratio: 3 / 2; }
+  .st-body { padding: 14px 14px 16px; }
+  .st-ttl { font-size: 15.5px; }
   .cal { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .dept-list { columns: 2; column-gap: 28px; border-top: 0; }
   .dept-list > div:first-child { border-top: 1px solid var(--line); }
@@ -484,6 +579,8 @@ p { margin: 0; }
   html { scroll-behavior: auto; }
   .js .rv, .js .qa-item .inner { opacity: 1 !important; transform: none !important; transition: none !important; }
   .js .cry.on .jp { animation: none; }
+  .bgm-btn::after, .bgm-btn.playing .bgm-disc, .eq i { animation: none !important; }
+  .eq i { transform: scaleY(.7); }
 }
 </style>
 </head>
@@ -498,6 +595,7 @@ p { margin: 0; }
       <a href="#buzz">화제</a>
       <a href="#interview">인터뷰</a>
       <a href="#story">줄거리</a>
+      <a href="#start">시작점</a>
       <a href="#campus">무대</a>
       <a href="#sheet">프로필</a>
       <a href="#muse">당신</a>
@@ -538,14 +636,14 @@ p { margin: 0; }
         </div>
         <p class="syn">
           <span class="lead">“시, 신고만은… 제발 봐주세요…!”</span>
-          요즘 성인 웹코믹 랭킹을 휩쓴 화제작의 작가는, 마시멜로 프로필 사진이 귀여운 인기 작가 '마유마로 선생님'. 그런데 며칠 전부터, 캠퍼스에서 자꾸 누군가의 시선이 느껴진다. 189cm는 되어 보이는 덩치 큰 남자가 이쪽을 훔쳐보다가 눈만 마주치면 허둥지둥 도망가는 것. 참다못해 불러 세운 날, 그가 떨어뜨린 크로키북 속에는 당신의 얼굴, 그리고 얼마 전 읽은 그 만화의 원고가 있었다…!? 지독한 슬럼프로 연재 중단 위기라는 그는, 눈물 콧물을 쏟으며 당신에게 매달리는데…. 소심하고 음침한 덩치남 작가와, 그의 뮤즈가 되어버린 당신의 엉뚱한 로맨스 코미디.
+          요즘 성인 웹코믹 랭킹을 휩쓴 화제작의 작가는, 마시멜로 프로필 사진이 귀여운 인기 작가 '마유마로 선생님'. 그런데 며칠 전부터, 자꾸 누군가의 시선이 느껴진다. 퇴근길 지하철 맞은편에서, 서점 책장 너머에서, 강의실 맨 뒷줄에서. 189cm는 되어 보이는 덩치 큰 남자가 이쪽을 훔쳐보다가 눈만 마주치면 허둥지둥 도망가는 것. 그러다 마주친 그의 크로키북 속에는 당신의 얼굴, 그리고 얼마 전 읽은 그 만화의 원고가 있었다…!? 지독한 슬럼프로 연재 중단 위기라는 그는, 눈물 콧물을 쏟으며 당신에게 매달리는데…. 소심하고 음침한 덩치남 작가와, 그의 뮤즈가 되어버린 당신의 엉뚱한 로맨스 코미디.
           <span class="note">※유저노트로 마유마로 선생님의 연재 장르(BL / TL)를 고를 수 있습니다.</span>
         </p>
         <div class="btns">
           <a class="btn primary" href="#story"><span class="zero-dot">¥0</span>1화부터 보기</a>
           <a class="btn outline" href="#sheet">등장인물 프로필</a>
         </div>
-        <div class="ptags"><span>#캠퍼스</span><span>#대학생</span><span>#덩치남</span><span>#하남자</span><span>#사투리</span><span>#로맨스코미디</span></div>
+        <div class="ptags"><span>#오사카</span><span>#대학생</span><span>#덩치남</span><span>#하남자</span><span>#사투리</span><span>#로맨스코미디</span></div>
       </div>
     </div>
   </div>
@@ -721,14 +819,87 @@ p { margin: 0; }
   </div>
 </section>
 
-<!-- ===== 무대: 나니와종합예술대학 ===== -->
+<!-- ===== 시작점: 인트로 3종 (같은 해, 다른 계절) ===== -->
+<section class="start" id="start">
+  <div class="wrap">
+    <p class="eyebrow">START</p>
+    <h2 class="sec">어디서 들킬까?<small>인트로 3종 · 같은 해, 다른 계절</small></h2>
+    <p class="start-lead rv">어디서 시작하든 마시로는 1년 전 스쳐 지나간 당신을 몰래 그려 왔고, 오늘 그걸 들킵니다. 고르는 건 계절과 장소뿐이에요.</p>
+    <ol class="tl rv" aria-label="인트로별 루넬 연재 시점">
+      <li class="s-spring"><span class="tl-m">4월</span><span class="tl-dot" aria-hidden="true">🍰</span><span class="tl-ep">12화 작업 중</span><small>다음 갱신 4/20</small></li>
+      <li class="s-summer"><span class="tl-m">7월</span><span class="tl-dot" aria-hidden="true">🧁</span><span class="tl-ep">20화 작업 중</span><small>다음 갱신 8/10</small></li>
+      <li class="s-autumn"><span class="tl-m">10월</span><span class="tl-dot" aria-hidden="true">🥞</span><span class="tl-ep">26화 작업 중</span><small>다음 갱신 11/2</small></li>
+    </ol>
+    <p class="tl-cap rv">루넬은 격주 월요일 갱신. 셋 다 마감 D-10에서 시작해요.</p>
+    <div class="starts">
+      <article class="st s-spring rv">
+        <div class="st-pic"><div class="slot" data-img="introSubway"><span class="slot-label">봄 · 지하철<br>3:2</span></div><span class="season">🍰 봄</span></div>
+        <div class="st-body">
+          <h3 class="st-ttl" lang="ja">世界は恋に落ちている</h3>
+          <p class="st-ko">세상은 사랑에 빠져 있어</p>
+          <p class="st-hook">통근 지하철에서 몰래 크로키하다가 발각</p>
+          <dl class="st-kv">
+            <dt>언제</dt><dd>4/9(목) 저녁 퇴근길</dd>
+            <dt>어디</dt><dd>미도스지선 · 혼마치역</dd>
+            <dt>당신</dt><dd>미도스지선으로 다니는 직장인·학생</dd>
+          </dl>
+        </div>
+      </article>
+      <article class="st s-summer rv">
+        <div class="st-pic"><div class="slot" data-img="introBookstore"><span class="slot-label">여름 · 서점<br>3:2</span></div><span class="season">🧁 여름</span></div>
+        <div class="st-body">
+          <h3 class="st-ttl" lang="ja">気まぐれロマンティック</h3>
+          <p class="st-ko">변덕쟁이 로맨틱</p>
+          <p class="st-hook">서점에서 매대 몰래 훔쳐보다가 발각</p>
+          <dl class="st-kv">
+            <dt>언제</dt><dd>7/30(목) 오후 · 첫 단행본 발매 1주째</dd>
+            <dt>어디</dt><dd>우메다의 대형 서점</dd>
+            <dt>당신</dt><dd>우메다를 오가는 사람</dd>
+          </dl>
+        </div>
+      </article>
+      <article class="st s-autumn rv">
+        <div class="st-pic"><div class="slot" data-img="introClassroom" data-fallback="classroom"><span class="slot-label">가을 · 강의실<br>3:2</span></div><span class="season">🥞 가을</span></div>
+        <div class="st-body">
+          <h3 class="st-ttl" lang="ja">運命なんて言えない</h3>
+          <p class="st-ko">운명이라곤 말 못 해</p>
+          <p class="st-hook">같은 대학교, 교양 수업 같이 듣는 사이</p>
+          <dl class="st-kv">
+            <dt>언제</dt><dd>10/23(금) 3교시</dd>
+            <dt>어디</dt><dd><a href="#school">나니와예대</a> 교양 '미학 입문'</dd>
+            <dt>당신</dt><dd>같은 수업을 듣는 나니와예대생</dd>
+          </dl>
+        </div>
+      </article>
+    </div>
+    <ul class="st-notes rv">
+      <li>🍰·🧁은 당신이 1년 전에도 오사카에 있었던 설정이에요. 마시로는 당신 이름을 모른 채 시작해요.</li>
+      <li>인트로마다 <b>【상태창 숨김】</b> 버전이 있어요. 상태창이 투명하게 출력돼서, 화면에서만 안 보이고 흐름은 그대로 기억해요.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== 무대: 오사카 · 나니와종합예술대학 ===== -->
 <section class="campus" id="campus">
   <div class="wrap campus-head">
     <p class="eyebrow">STAGE</p>
-    <h2 class="sec">나니와종합예술대학<small lang="ja">難波総合芸術大学</small></h2>
+    <h2 class="sec">무대는 오사카<small>실제 지명·역·축제 이름이 그대로 나와요</small></h2>
   </div>
-  <figure class="campus-img rv"><div class="slot" data-img="campus"><span class="slot-label">캠퍼스 (3:1)</span></div></figure>
-  <div class="wrap campus-body">
+  <figure class="campus-img city-img rv"><div class="slot" data-img="osaka"><span class="slot-label">오사카 정경 (3:1)</span></div></figure>
+  <div class="wrap campus-head school-head">
+    <p class="campus-lead rv">먹다 쓰러질 때까지 먹는다는 '쿠이다오레'의 도시. 한마디 던지면 츳코미가 돌아오고, 에스컬레이터는 오른쪽에 서는 곳. 퇴근길 지하철부터 축제의 밤까지, 오사카 시내 어디든 두 사람의 무대가 돼요.</p>
+    <ul class="osaka-spots rv">
+      <li><b><span aria-hidden="true">🚇</span> 미도스지</b><span>오사카를 남북으로 꿰는 큰길과 지하철. 겨울엔 가로수에 불이 켜져요.</span></li>
+      <li><b><span aria-hidden="true">🛍️</span> 우메다·난바</b><span>네온과 인파의 번화가. 서점도, 데이트 코스도 여기에.</span></li>
+      <li><b><span aria-hidden="true">🗼</span> 덴노지·신세카이</b><span>츠텐카쿠 아래 오래된 골목. 마시로가 사는 동네예요.</span></li>
+      <li><b><span aria-hidden="true">🌹</span> 나카노시마</b><span>강 사이의 섬 공원. 5월엔 장미, 연말엔 빛 축제.</span></li>
+    </ul>
+    <p class="school-lead rv">그리고 마시로가 다니는 학교는, 여기.</p>
+    <h3 class="campus-sub campus-name" id="school">나니와종합예술대학<span lang="ja">難波総合芸術大学</span></h3>
+  </div>
+  <!-- 학교: 캠퍼스 그림을 누르면 아래 상세가 열리고 닫힌다 -->
+  <figure class="campus-img school-fig rv"><button class="campus-toggle" type="button" id="school-toggle" aria-expanded="false" aria-controls="school-detail"><span class="slot" data-img="campus"><span class="slot-label">캠퍼스 (3:1)</span></span><span class="campus-hint" id="school-hint">학교 자세히 보기 ▾</span></button></figure>
+  <div class="wrap campus-body" id="school-detail" hidden>
     <div class="facts rv">
       <div><span>위치</span><b>오사카부 가난초</b><small>도심이 아닌 교외 캠퍼스</small></div>
       <div><span>통학</span><b>기시역 + 스쿨버스</b><small>아베노바시역에서 긴테쓰 약 25분, 버스로 10분</small></div>
@@ -757,14 +928,14 @@ p { margin: 0; }
     <figure class="campus-pic rv"><div class="slot" data-img="classroom"><span class="slot-label">강의실 (3:1)</span></div></figure>
     <h3 class="campus-sub">학사 일정<span>4월에 학년이 바뀐다</span></h3>
     <ol class="cal rv">
-      <li><span class="m">4월</span><span class="e">새 학년 · 전기 개강</span></li>
-      <li><span class="m">7월 하순</span><span class="e">전기 시험</span></li>
+      <li class="now"><span class="m">4월</span><span class="e">새 학년 · 전기 개강</span><small>🍰 이야기 시작 4/9</small></li>
+      <li class="now"><span class="m">7월 하순</span><span class="e">전기 시험</span><small>🧁 이야기 시작 7/30</small></li>
       <li><span class="m">8~9월</span><span class="e">여름방학</span></li>
-      <li class="now"><span class="m">10월</span><span class="e">후기 개강 · 말일 무렵 학원제 '만마루'</span><small>이야기 시작 10/23</small></li>
+      <li class="now"><span class="m">10월</span><span class="e">후기 개강 · 말일 무렵 학원제 '만마루'</span><small>🥞 이야기 시작 10/23</small></li>
       <li><span class="m">1월 하순</span><span class="e">후기 시험</span></li>
       <li><span class="m">2월</span><span class="e">봄방학 · 중순 졸업작품전</span></li>
     </ol>
-    <p class="campus-note rv">※ 교양 수업은 학과와 상관없이 함께 듣는다.</p>
+    <p class="campus-note rv">※ 교양 수업은 학과와 상관없이 함께 듣는다. 🥞 인트로의 '미학 입문'도 교양 수업이다.</p>
   </div>
 </section>
 
@@ -855,13 +1026,14 @@ p { margin: 0; }
           <h4>당신은 누구?</h4>
           <ul class="check">
             <li><span class="mark">성인</span>이면 OK. 성별, 직업, 나이는 자유.</li>
-            <li>시작점 추천
+            <li>마유마로를 아는 사이?
               <ul class="opts">
                 <li>① 그 만화의 열성 독자</li>
-                <li>② 만화를 전혀 모르는 사람</li>
-                <li>③ 같은 교양 수업을 듣는 학생</li>
+                <li>② 이름만 들어 본 사람</li>
+                <li>③ 만화를 전혀 모르는 사람</li>
               </ul>
             </li>
+            <li>어디서 만날지는 인트로가 정해요. 어울리는 신분은 <a href="#start">시작점</a>에.</li>
             <li>연재 장르(<span class="mark">BL / TL</span>)는 유저노트로. 양식은 <a href="#guide">플레이 안내</a>에.</li>
           </ul>
         </div>
@@ -892,7 +1064,7 @@ p { margin: 0; }
         <span class="pill">본문 HTML 꾸미기<i></i></span>
         <span class="pill off">본문 자동 호출 에셋<i></i></span>
       </div>
-      <p class="muted" style="margin-top:8px">상태창에는 숨은 항목이 많이 들어 있어요(NSFW 장면에선 상태창이 간략하게 접혀요). 상태창을 출력하지 않으면 흐름을 제대로 인식하지 못하는 지침이 많으니, 되도록 상태창을 없애는 지침은 넣지 말아 주세요.</p>
+      <p class="muted" style="margin-top:8px">상태창에는 숨은 항목이 많이 들어 있어요(NSFW 장면에선 상태창이 간략하게 접혀요). 상태창을 출력하지 않으면 흐름을 제대로 인식하지 못하는 지침이 많아요. <b>유저노트에 상태창을 없애는 지침은 넣지 말아 주세요.</b> 상태창이 거슬리면 <a href="#start">【상태창 숨김】 인트로</a>를 고르세요. 투명하게 출력돼서 화면에만 안 보여요.</p>
       <p class="muted" style="margin-top:6px">첨부 이미지는 참고 이미지입니다. 본문에 자동으로 뜨지 않아요. 외부 링크로 넣는 에셋 시스템은 추가할 예정이에요.</p>
       <div class="playable"><span>HL</span><span>BL</span><span>성별 무관</span>플레이 가능</div>
     </div>
@@ -906,7 +1078,7 @@ p { margin: 0; }
 <pre id="note-tpl">[기본]
 *이름:
 *성별 / 나이:
-*신분: 나니와예대 ○○학과 ○학년 / (대학생이 아니면) 직업
+*신분: 학교·학과·학년 또는 직업 (🥞 인트로는 나니와예대생 추천)
 국적·언어: 예) 일본인 / 한국인 유학생, 일본어 서툶
 
 [외모·성격]
@@ -930,7 +1102,7 @@ p { margin: 0; }
       </div>
       <p class="muted" style="margin-top:12px">* 표시는 꼭 적어 주세요.</p>
       <ul class="plain" style="margin-top:10px">
-        <li><a href="#campus">학교에 대한 설정</a>은 이 페이지의 나니와종합예술대학 칸을 참고해 주세요. 실제 학교를 모티프로 이름만 바꾼 정도예요.</li>
+        <li>나니와예대생으로 시작한다면(🥞 추천), <a href="#school">학교에 대한 설정</a>은 이 페이지의 나니와종합예술대학 칸을 참고해 주세요. 실제 학교를 모티프로 이름만 바꾼 정도예요.</li>
         <li>오사카라는 도시 자체에 대한 고증을 상세하게 지키도록 지시되어 있어요.</li>
       </ul>
     </div>
@@ -946,10 +1118,10 @@ p { margin: 0; }
       <h3><span class="ic">🧁</span>추천 모델과 출력량</h3>
       <dl class="model">
         <dt>추천</dt><dd>Gemini 4 Argon · 3.8 · 3.5</dd>
-        <dt>NSFW</dt><dd>Gemini 4 Argon</dd>
+        <dt>NSFW</dt><dd>Gemini 4 Carbon · Argon</dd>
         <dt>출력량</dt><dd>2,500자 이상 (사칭 없이) · NSFW 4,000~5,000자</dd>
       </dl>
-      <p class="muted" style="margin-top:10px">빠른 템포의 경쾌한 로코 라노벨(혹은 아니메) 느낌을 지향해서, NSFW 장면을 뺀 부분은 출력량이 그렇게 많지 않게 설정되어 있어요. 3.8이 개인적으로 제일 웃기게 써 줘서 애용해요.</p>
+      <p class="muted" style="margin-top:10px">빠른 템포의 경쾌한 로코 라노벨(혹은 아니메) 느낌을 지향해서, NSFW 장면을 뺀 부분은 출력량이 그렇게 많지 않게 설정되어 있어요. 3.8이 개인적으로 제일 웃기게 써 줘서 애용해요. NSFW는 Carbon 강추예요. 지침을 아주 잘 따라요.</p>
     </div>
 
     <div class="card rv">
@@ -1035,6 +1207,23 @@ p { margin: 0; }
   </div>
 </footer>
 
+<!-- ===== 마시로 작업 BGM: 왼쪽 아래 버튼 + 플레이리스트 (곡 목록은 아래 스크립트의 TRACKS) ===== -->
+<button class="bgm-btn" type="button" id="bgm-btn" aria-label="컨셉 BGM 열기" aria-expanded="false" aria-controls="bgm-panel"><span class="bgm-disc" aria-hidden="true"></span></button>
+<div class="bgm-panel" id="bgm-panel" role="dialog" aria-label="컨셉 BGM" inert>
+  <div class="bgm-head">
+    <span class="slot bgm-cover" data-img="avatar"></span>
+    <div class="bgm-ttl"><b>컨셉 BGM</b></div>
+    <button class="bgm-auto" type="button" id="bgm-auto" aria-pressed="false" title="한 곡이 끝나면 다음 곡을 이어서 재생해요">↻ 연속 재생</button>
+    <button class="bgm-x" type="button" id="bgm-x" aria-label="플레이리스트 닫기">×</button>
+  </div>
+  <div class="bgm-player" id="bgm-player" hidden>
+    <div class="bgm-frame" id="bgm-frame"></div>
+    <div class="bgm-ctrl"><button class="bgm-stop" type="button" id="bgm-stop">■ 정지</button><a id="bgm-yt" href="#" target="_blank" rel="noopener">유튜브에서 열기 ↗</a></div>
+  </div>
+  <ol class="bgm-list" id="bgm-list"></ol>
+  <p class="bgm-foot">곡을 누를 때만 재생돼요. 영상은 유튜브 공식 채널 것이에요.</p>
+</div>
+
 <button class="totop" type="button" id="totop" aria-label="맨 위로"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v2.2H4zm8 4l7 8h-4.5v4h-5v-4H5z"/></svg></button>
 <div class="toast" id="toast" role="status" hidden></div>
 
@@ -1058,7 +1247,11 @@ const IMAGES = {
   main: "../img/main.webp",
   interview: "../img/interview.webp",
   campus: "../img/campus.webp",
-  classroom: "../img/classroom.webp"
+  classroom: "../img/classroom.webp",
+  osaka: "../img/osaka.webp",
+  introSubway: "../img/intro-subway.webp",
+  introBookstore: "../img/intro-bookstore.webp",
+  introClassroom: "../img/intro-classroom.webp"
 };
 document.querySelectorAll("[data-img]").forEach(function (el) {
   const src = IMAGES[el.dataset.img];
@@ -1073,6 +1266,7 @@ document.querySelectorAll("[data-img]").forEach(function (el) {
   if (el.dataset.img === "campus") { img.style.objectPosition = "32% top"; }
   const fallback = IMAGES[el.dataset.fallback];
   img.onload = function () {
+    el.classList.add("loaded");
     if (label) label.hidden = true;
     if (optional) { const w = el.closest("[data-optional-wrap]"); if (w) w.hidden = false; }
   };
@@ -1186,6 +1380,144 @@ toTop.addEventListener("click", function () { window.scrollTo({ top: 0, behavior
   const mobile = window.matchMedia("(max-width: 719px)");
   props.addEventListener("click", function () { if (mobile.matches) props.classList.add("closed"); });
   open.addEventListener("click", function () { props.classList.remove("closed"); });
+})();
+
+/* 무대: 캠퍼스 그림을 누르면 학교 상세가 열린다.
+   학교 설명으로 가는 링크(#school)를 누르거나, 주소 끝이 #campus·#school인 채로 들어오면 열린 상태로 보여 준다. */
+(function () {
+  const tg = document.getElementById("school-toggle");
+  const detail = document.getElementById("school-detail");
+  const hint = document.getElementById("school-hint");
+  function setSchool(open) {
+    detail.hidden = !open;
+    tg.setAttribute("aria-expanded", String(open));
+    hint.textContent = open ? "접기 ▴" : "학교 자세히 보기 ▾";
+  }
+  tg.addEventListener("click", function () { setSchool(detail.hidden); });
+  document.querySelectorAll('a[href="#school"]').forEach(function (a) { a.addEventListener("click", function () { setSchool(true); }); });
+  if (location.hash === "#campus" || location.hash === "#school") setSchool(true);
+})();
+
+/* 마시로 작업 BGM
+   곡을 바꾸려면 TRACKS만 고치면 됩니다. id는 유튜브 주소의 v= 뒤 11글자.
+   곡을 누르기 전에는 유튜브를 아예 불러오지 않습니다.
+   '연속 재생'을 켜면 한 곡이 끝났을 때 다음 곡으로 넘어갑니다(기본은 꺼짐, 마지막 곡 다음은 1번). */
+(function () {
+  const TRACKS = [
+    { title: "センチメートル", artist: "the peggies", id: "I1hLZ2OchZ8" },
+    { title: "シンデレラ", artist: "サイダーガール", id: "utqcdq6AqZg" },
+    { title: "Watch me!", artist: "YOASOBI", id: "evtoG-4dLM4" },
+    { title: "君じゃなきゃダメみたい", artist: "オーイシマサヨシ", id: "_NbjKXEbde4" },
+    { title: "恋愛サーキュレーション", artist: "花澤香菜", id: "Y6Z1vKUguJE" }
+  ];
+  const btn = document.getElementById("bgm-btn");
+  const panel = document.getElementById("bgm-panel");
+  const list = document.getElementById("bgm-list");
+  const player = document.getElementById("bgm-player");
+  const frame = document.getElementById("bgm-frame");
+  const yt = document.getElementById("bgm-yt");
+  const autoBtn = document.getElementById("bgm-auto");
+  let current = -1;
+  let yp = null;            /* 유튜브 플레이어 (곡을 처음 누를 때 만든다) */
+  let api = "none";         /* none · loading · ready · failed */
+  let waiting = [];
+  let autoNext = false;
+  try { autoNext = localStorage.getItem("mayumaro-bgm-auto") === "1"; } catch (e) {}
+
+  TRACKS.forEach(function (t, i) {
+    const li = document.createElement("li");
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "bgm-track";
+    b.innerHTML = '<span class="bgm-no">' + (i + 1) + '</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span><b lang="ja"></b><small lang="ja"></small></span>' + (t.tag ? '<span class="bgm-tag"></span>' : "");
+    b.querySelector("b").textContent = t.title;
+    b.querySelector("small").textContent = t.artist;
+    if (t.tag) b.querySelector(".bgm-tag").textContent = t.tag;
+    b.setAttribute("aria-label", (i + 1) + "번 " + t.title + " – " + t.artist + " 재생");
+    b.addEventListener("click", function () { play(i); });
+    li.appendChild(b);
+    list.appendChild(li);
+  });
+  const rows = Array.from(list.querySelectorAll(".bgm-track"));
+
+  function mark() {
+    rows.forEach(function (r, i) { r.classList.toggle("on", i === current); });
+    btn.classList.toggle("playing", current >= 0);
+    btn.setAttribute("aria-label", current >= 0 ? "컨셉 BGM 열기 (재생 중)" : "컨셉 BGM 열기");
+  }
+  function setAuto(on) {
+    autoNext = on;
+    autoBtn.setAttribute("aria-pressed", String(on));
+    try { localStorage.setItem("mayumaro-bgm-auto", on ? "1" : "0"); } catch (e) {}
+  }
+  /* 유튜브 플레이어 API: 곡이 끝난 걸 알아야 다음 곡으로 넘길 수 있다. 곡을 처음 누를 때만 불러온다. */
+  function loadApi(done) {
+    if (window.YT && window.YT.Player) { done(true); return; }
+    waiting.push(done);
+    if (api === "loading") return;
+    api = "loading";
+    function flush(ok) { if (api !== "loading" && !ok) return; api = ok ? "ready" : "failed"; const q = waiting; waiting = []; q.forEach(function (f) { f(ok); }); }
+    const prev = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = function () { if (prev) prev(); flush(true); };
+    const sc = document.createElement("script");
+    sc.src = "https://www.youtube.com/iframe_api";
+    sc.onerror = function () { flush(false); };
+    document.head.appendChild(sc);
+    setTimeout(function () { if (api === "loading") flush(false); }, 6000);
+  }
+  function next() { play((current + 1) % TRACKS.length); }
+  function onState(e) { if (e.data === 0 && autoNext) next(); }   /* 0 = 곡 끝 */
+  function onErr() { if (autoNext) setTimeout(next, 1500); }      /* 퍼가기 막힌 곡은 건너뜀 */
+  function plainFrame(t) {
+    /* API를 못 불러오면 예전처럼 플레이어만 띄운다 (연속 재생은 안 됨) */
+    const f = document.createElement("iframe");
+    f.src = "https://www.youtube-nocookie.com/embed/" + t.id + "?autoplay=1&rel=0&playsinline=1";
+    f.title = t.title + " – " + t.artist;
+    f.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+    f.allowFullscreen = true;
+    f.referrerPolicy = "strict-origin-when-cross-origin";
+    frame.replaceChildren(f);
+  }
+  function play(i) {
+    if (i === current) return;
+    const t = TRACKS[i];
+    yt.href = "https://www.youtube.com/watch?v=" + t.id;
+    player.hidden = false;
+    current = i;
+    mark();
+    loadApi(function (ok) {
+      if (current !== i) return;
+      if (!ok) { if (yp) { yp.destroy(); yp = null; } plainFrame(t); return; }
+      if (yp && yp.loadVideoById) { yp.loadVideoById(t.id); return; }
+      const holder = document.createElement("div");
+      frame.replaceChildren(holder);
+      yp = new YT.Player(holder, {
+        host: "https://www.youtube-nocookie.com",
+        width: "100%", height: "100%",
+        videoId: t.id,
+        playerVars: { autoplay: 1, rel: 0, playsinline: 1 },
+        events: { onStateChange: onState, onError: onErr }
+      });
+    });
+  }
+  function stop() {
+    if (yp) { yp.destroy(); yp = null; }
+    frame.replaceChildren();
+    player.hidden = true;
+    current = -1;
+    mark();
+  }
+  setAuto(autoNext);
+  autoBtn.addEventListener("click", function () { setAuto(!autoNext); });
+  function setOpen(open) {
+    panel.classList.toggle("open", open);
+    if (open) panel.removeAttribute("inert"); else panel.setAttribute("inert", "");
+    btn.setAttribute("aria-expanded", String(open));
+  }
+  btn.addEventListener("click", function () { setOpen(!panel.classList.contains("open")); });
+  document.getElementById("bgm-x").addEventListener("click", function () { setOpen(false); btn.focus(); });
+  document.getElementById("bgm-stop").addEventListener("click", stop);
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && panel.classList.contains("open")) { setOpen(false); btn.focus(); } });
 })();
 
 /* 유저노트 양식 복사 */
