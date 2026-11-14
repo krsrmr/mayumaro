@@ -447,6 +447,51 @@ p { margin: 0; }
 .totop svg { width: 22px; height: 22px; fill: #fff; }
 .toast { position: fixed; left: 50%; bottom: calc(80px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: rgba(34,32,39,.92); color: #fff; font-size: 14px; padding: 10px 18px; border-radius: 99px; z-index: 50; white-space: nowrap; }
 
+/* ---------- 마시로 작업 BGM (왼쪽 아래에 떠 있는 플레이리스트) ----------
+   페이지를 열면 버튼만 보인다. 곡을 누르기 전에는 유튜브를 아예 불러오지 않는다(자동재생 없음). */
+.bgm-btn, .bgm-panel { display: none; }
+.js .bgm-btn { display: inline-flex; }
+.js .bgm-panel { display: block; }
+.bgm-btn { position: fixed; left: max(14px, env(safe-area-inset-left, 0px)); bottom: max(16px, env(safe-area-inset-bottom, 0px)); z-index: 35; align-items: center; gap: 8px; height: 44px; padding: 0 15px 0 6px; border: 0; border-radius: 99px; background: rgba(34,32,39,.84); color: #fff; font-size: 13px; font-weight: 700; box-shadow: 0 6px 18px rgba(0,0,0,.2); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.bgm-btn::after { content: ""; position: absolute; inset: -4px; border-radius: 99px; border: 2px solid var(--primary); opacity: 0; pointer-events: none; animation: bgm-ping 1.8s ease-out 1.5s 2; }
+@keyframes bgm-ping { 0% { opacity: .75; transform: scale(.97); } 100% { opacity: 0; transform: scale(1.14); } }
+.bgm-disc { width: 32px; height: 32px; border-radius: 50%; flex: none; background: radial-gradient(circle, #222027 0 2.5px, #f8c7d8 3px 8px, transparent 8.5px), repeating-radial-gradient(circle, #19171c 0 1.5px, #2c2932 1.5px 3px); box-shadow: inset 0 0 0 1px rgba(255,255,255,.12); }
+.bgm-btn.playing .bgm-disc { animation: bgm-spin 3.2s linear infinite; }
+@keyframes bgm-spin { to { transform: rotate(360deg); } }
+.bgm-btn .eq { display: none; color: #ff9fbf; }
+.bgm-btn.playing .eq { display: inline-flex; }
+.eq { display: inline-flex; align-items: flex-end; gap: 2px; height: 12px; }
+.eq i { width: 3px; height: 100%; background: currentColor; border-radius: 1px; transform-origin: bottom; animation: bgm-eq .9s ease-in-out infinite; }
+.eq i:nth-child(2) { animation-delay: -.3s; }
+.eq i:nth-child(3) { animation-delay: -.6s; }
+@keyframes bgm-eq { 0%, 100% { transform: scaleY(.3); } 50% { transform: scaleY(1); } }
+.bgm-panel { position: fixed; left: max(14px, env(safe-area-inset-left, 0px)); bottom: calc(max(16px, env(safe-area-inset-bottom, 0px)) + 54px); z-index: 45; width: min(340px, calc(100vw - 28px)); max-height: calc(100vh - 150px); max-height: calc(100dvh - 150px); overflow: auto; overscroll-behavior: contain; background: var(--bg); border-radius: 16px; box-shadow: 0 18px 50px rgba(30,20,40,.28), 0 0 0 1px rgba(0,0,0,.05); transform-origin: left bottom; transition: opacity .2s ease, transform .2s ease; }
+.bgm-panel:not(.open) { opacity: 0; transform: translateY(10px) scale(.97); pointer-events: none; }
+.bgm-head { display: flex; align-items: center; gap: 12px; padding: 14px 10px 12px 14px; background: linear-gradient(135deg, #fde3ee, #f4f2f7); }
+.bgm-cover { width: 52px; height: 52px; border-radius: 10px; flex: none; box-shadow: 0 3px 10px rgba(214,60,114,.25); }
+.bgm-ttl { flex: 1; min-width: 0; line-height: 1.4; }
+.bgm-ttl b { display: block; font-size: 15px; font-weight: 900; }
+.bgm-ttl span { display: block; font-size: 12px; color: var(--muted); }
+.bgm-x { flex: none; width: 32px; height: 32px; border: 0; border-radius: 50%; background: rgba(255,255,255,.7); font-size: 18px; line-height: 1; color: var(--muted); }
+.bgm-player { padding: 12px 14px 4px; }
+.bgm-frame { aspect-ratio: 16 / 9; border-radius: 10px; overflow: hidden; background: #111; }
+.bgm-frame iframe { display: block; width: 100%; height: 100%; border: 0; }
+.bgm-ctrl { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 8px; font-size: 12.5px; }
+.bgm-stop { border: 1px solid var(--line); background: var(--bg); border-radius: 99px; padding: 3px 12px; font-size: 12.5px; color: var(--fg); }
+.bgm-list { list-style: none; margin: 0; padding: 6px 0; }
+.bgm-track { width: 100%; display: grid; grid-template-columns: 20px minmax(0, 1fr) auto; gap: 10px; align-items: center; text-align: left; background: none; border: 0; padding: 8px 14px; line-height: 1.35; }
+.bgm-track:hover { background: var(--band); }
+.bgm-no { font-size: 12px; font-weight: 700; color: var(--muted); text-align: center; font-variant-numeric: tabular-nums; }
+.bgm-track .eq { display: none; color: var(--primary); justify-self: center; }
+.bgm-track b { display: block; font-size: 14px; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bgm-track small { display: block; font-size: 12px; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bgm-tag { font-size: 11px; font-weight: 700; color: var(--secondary); background: #e9eef8; border-radius: 99px; padding: 0 8px; line-height: 1.7; white-space: nowrap; }
+.bgm-track.on { background: var(--primary-soft); }
+.bgm-track.on b { color: var(--primary); }
+.bgm-track.on .bgm-no { display: none; }
+.bgm-track.on .eq { display: inline-flex; }
+.bgm-foot { margin: 0; padding: 9px 14px 12px; border-top: 1px solid var(--line); font-size: 11.5px; line-height: 1.6; color: var(--muted); }
+
 /* ---------- 넓은 화면 ---------- */
 @media (min-width: 720px) {
   .hero-main { grid-template-columns: 300px minmax(0, 1fr); align-items: start; gap: 32px; }
@@ -523,6 +568,8 @@ p { margin: 0; }
   html { scroll-behavior: auto; }
   .js .rv, .js .qa-item .inner { opacity: 1 !important; transform: none !important; transition: none !important; }
   .js .cry.on .jp { animation: none; }
+  .bgm-btn::after, .bgm-btn.playing .bgm-disc, .eq i { animation: none !important; }
+  .eq i { transform: scaleY(.7); }
 }
 </style>
 </head>
@@ -1141,6 +1188,22 @@ p { margin: 0; }
   </div>
 </footer>
 
+<!-- ===== 마시로 작업 BGM: 왼쪽 아래 버튼 + 플레이리스트 (곡 목록은 아래 스크립트의 TRACKS) ===== -->
+<button class="bgm-btn" type="button" id="bgm-btn" aria-expanded="false" aria-controls="bgm-panel"><span class="bgm-disc" aria-hidden="true"></span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span id="bgm-label">마시로 작업 BGM</span></button>
+<div class="bgm-panel" id="bgm-panel" role="dialog" aria-label="마시로의 작업용 플레이리스트" inert>
+  <div class="bgm-head">
+    <span class="slot bgm-cover" data-img="avatar"></span>
+    <div class="bgm-ttl"><b>원고용 ♡ 무한 반복</b><span id="bgm-sub">마유마로의 비공개 플레이리스트</span></div>
+    <button class="bgm-x" type="button" id="bgm-x" aria-label="플레이리스트 닫기">×</button>
+  </div>
+  <div class="bgm-player" id="bgm-player" hidden>
+    <div class="bgm-frame" id="bgm-frame"></div>
+    <div class="bgm-ctrl"><button class="bgm-stop" type="button" id="bgm-stop">■ 정지</button><a id="bgm-yt" href="#" target="_blank" rel="noopener">유튜브에서 열기 ↗</a></div>
+  </div>
+  <ol class="bgm-list" id="bgm-list"></ol>
+  <p class="bgm-foot">곡을 누를 때만 재생돼요. 영상은 유튜브 공식 채널 것이에요.</p>
+</div>
+
 <button class="totop" type="button" id="totop" aria-label="맨 위로"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v2.2H4zm8 4l7 8h-4.5v4h-5v-4H5z"/></svg></button>
 <div class="toast" id="toast" role="status" hidden></div>
 
@@ -1296,6 +1359,82 @@ toTop.addEventListener("click", function () { window.scrollTo({ top: 0, behavior
   const mobile = window.matchMedia("(max-width: 719px)");
   props.addEventListener("click", function () { if (mobile.matches) props.classList.add("closed"); });
   open.addEventListener("click", function () { props.classList.remove("closed"); });
+})();
+
+/* 마시로 작업 BGM
+   곡을 바꾸려면 TRACKS만 고치면 됩니다. id는 유튜브 주소의 v= 뒤 11글자.
+   곡을 누르기 전에는 유튜브를 아예 불러오지 않고, 한 곡이 끝나도 다음 곡으로 넘어가지 않습니다. */
+(function () {
+  const TRACKS = [
+    { title: "シンデレラ", artist: "サイダーガール", id: "utqcdq6AqZg" },
+    { title: "Watch me!", artist: "YOASOBI", id: "evtoG-4dLM4" },
+    { title: "君じゃなきゃダメみたい", artist: "オーイシマサヨシ", id: "_NbjKXEbde4", tag: "1화" },
+    { title: "恋愛サーキュレーション", artist: "花澤香菜", id: "Y6Z1vKUguJE" },
+    { title: "世界は恋に落ちている", artist: "CHiCO with HoneyWorks", id: "wM4laths4-Y", tag: "🍰 인트로" },
+    { title: "気まぐれロマンティック", artist: "いきものがかり", id: "5XCSt_0lwOE", tag: "🧁 인트로" },
+    { title: "センチメートル", artist: "the peggies", id: "I1hLZ2OchZ8", tag: "🥞 인트로" }
+  ];
+  const btn = document.getElementById("bgm-btn");
+  const panel = document.getElementById("bgm-panel");
+  const list = document.getElementById("bgm-list");
+  const player = document.getElementById("bgm-player");
+  const frame = document.getElementById("bgm-frame");
+  const yt = document.getElementById("bgm-yt");
+  const label = document.getElementById("bgm-label");
+  document.getElementById("bgm-sub").textContent = "마유마로의 비공개 플레이리스트 · " + TRACKS.length + "곡";
+  let current = -1;
+
+  TRACKS.forEach(function (t, i) {
+    const li = document.createElement("li");
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "bgm-track";
+    b.innerHTML = '<span class="bgm-no">' + (i + 1) + '</span><span class="eq" aria-hidden="true"><i></i><i></i><i></i></span><span><b lang="ja"></b><small lang="ja"></small></span>' + (t.tag ? '<span class="bgm-tag"></span>' : "");
+    b.querySelector("b").textContent = t.title;
+    b.querySelector("small").textContent = t.artist;
+    if (t.tag) b.querySelector(".bgm-tag").textContent = t.tag;
+    b.setAttribute("aria-label", (i + 1) + "번 " + t.title + " – " + t.artist + " 재생");
+    b.addEventListener("click", function () { play(i); });
+    li.appendChild(b);
+    list.appendChild(li);
+  });
+  const rows = Array.from(list.querySelectorAll(".bgm-track"));
+
+  function mark() {
+    rows.forEach(function (r, i) { r.classList.toggle("on", i === current); });
+    btn.classList.toggle("playing", current >= 0);
+    label.textContent = current >= 0 ? "재생 중" : "마시로 작업 BGM";
+  }
+  function play(i) {
+    if (i === current) return;
+    const t = TRACKS[i];
+    const f = document.createElement("iframe");
+    f.src = "https://www.youtube-nocookie.com/embed/" + t.id + "?autoplay=1&rel=0&playsinline=1";
+    f.title = t.title + " – " + t.artist;
+    f.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+    f.allowFullscreen = true;
+    f.referrerPolicy = "strict-origin-when-cross-origin";
+    frame.replaceChildren(f);
+    yt.href = "https://www.youtube.com/watch?v=" + t.id;
+    player.hidden = false;
+    current = i;
+    mark();
+  }
+  function stop() {
+    frame.replaceChildren();
+    player.hidden = true;
+    current = -1;
+    mark();
+  }
+  function setOpen(open) {
+    panel.classList.toggle("open", open);
+    if (open) panel.removeAttribute("inert"); else panel.setAttribute("inert", "");
+    btn.setAttribute("aria-expanded", String(open));
+  }
+  btn.addEventListener("click", function () { setOpen(!panel.classList.contains("open")); });
+  document.getElementById("bgm-x").addEventListener("click", function () { setOpen(false); btn.focus(); });
+  document.getElementById("bgm-stop").addEventListener("click", stop);
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && panel.classList.contains("open")) { setOpen(false); btn.focus(); } });
 })();
 
 /* 유저노트 양식 복사 */
