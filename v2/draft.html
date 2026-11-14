@@ -92,6 +92,7 @@ p { margin: 0; }
 .slot { position: relative; background-color: #f7f5f9; background-image: radial-gradient(var(--tone) 1.1px, transparent 1.3px); background-size: 7px 7px; overflow: hidden; display: grid; place-items: center; }
 .slot .slot-label { position: relative; background: var(--bg); color: var(--muted); font-size: 11px; padding: 3px 8px; border-radius: 99px; border: 1px solid var(--line); text-align: center; line-height: 1.45; }
 .slot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.slot.loaded { background: none !important; }
 
 /* ---------- 상단 고정 바 ---------- */
 .topbar { position: sticky; top: 0; z-index: 40; background: rgba(255,255,255,.93); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
@@ -304,6 +305,11 @@ p { margin: 0; }
 .campus-lead { font-size: 15px; line-height: 1.85; color: #4a4550; }
 .campus-name { margin: 26px 0 14px; font-size: 19px; }
 .city-img { margin-top: 24px; }
+.osaka-spots { list-style: none; margin: 18px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.osaka-spots li { background: var(--band); border-radius: 12px; padding: 12px 14px; }
+.osaka-spots b { display: block; font-size: 14px; font-weight: 900; }
+.osaka-spots li > span { display: block; margin-top: 3px; font-size: 12.5px; line-height: 1.6; color: var(--muted); }
+.school-lead { margin-top: 26px; font-size: 15px; line-height: 1.8; color: #4a4550; }
 .campus .school-head { padding-top: 22px; }
 .school-fig { margin-bottom: 34px; }
 .campus-toggle { position: relative; display: block; width: 100%; padding: 0; border: 0; background: none; cursor: pointer; }
@@ -475,6 +481,8 @@ p { margin: 0; }
 .bgm-ttl { flex: 1; min-width: 0; line-height: 1.4; }
 .bgm-ttl b { display: block; font-size: 15px; font-weight: 900; }
 .bgm-ttl span { display: block; font-size: 12px; color: var(--muted); }
+.bgm-auto { flex: none; display: inline-flex; align-items: center; gap: 4px; height: 28px; padding: 0 11px; border: 1px solid var(--outline); border-radius: 99px; background: rgba(255,255,255,.75); color: var(--muted); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.bgm-auto[aria-pressed="true"] { background: var(--primary); border-color: var(--primary); color: #fff; }
 .bgm-x { flex: none; width: 32px; height: 32px; border: 0; border-radius: 50%; background: rgba(255,255,255,.7); font-size: 18px; line-height: 1; color: var(--muted); }
 .bgm-player { padding: 12px 14px 4px; }
 .bgm-frame { aspect-ratio: 16 / 9; border-radius: 10px; overflow: hidden; background: #111; }
@@ -879,7 +887,14 @@ p { margin: 0; }
   </div>
   <figure class="campus-img city-img rv"><div class="slot" data-img="osaka"><span class="slot-label">오사카 정경 (3:1)</span></div></figure>
   <div class="wrap campus-head school-head">
-    <p class="campus-lead rv">지하철역, 서점, 상점가, 축제까지 오사카 시내 어디든 무대가 돼요. 그리고 마시로가 다니는 학교는 여기.</p>
+    <p class="campus-lead rv">먹다 쓰러질 때까지 먹는다는 '쿠이다오레'의 도시. 한마디 던지면 츳코미가 돌아오고, 에스컬레이터는 오른쪽에 서는 곳. 퇴근길 지하철부터 축제의 밤까지, 오사카 시내 어디든 두 사람의 무대가 돼요.</p>
+    <ul class="osaka-spots rv">
+      <li><b><span aria-hidden="true">🚇</span> 미도스지</b><span>오사카를 남북으로 꿰는 큰길과 지하철. 겨울엔 가로수에 불이 켜져요.</span></li>
+      <li><b><span aria-hidden="true">🛍️</span> 우메다·난바</b><span>네온과 인파의 번화가. 서점도, 데이트 코스도 여기에.</span></li>
+      <li><b><span aria-hidden="true">🗼</span> 덴노지·신세카이</b><span>츠텐카쿠 아래 오래된 골목. 마시로가 사는 동네예요.</span></li>
+      <li><b><span aria-hidden="true">🌹</span> 나카노시마</b><span>강 사이의 섬 공원. 5월엔 장미, 연말엔 빛 축제.</span></li>
+    </ul>
+    <p class="school-lead rv">그리고 마시로가 다니는 학교는, 여기.</p>
     <h3 class="campus-sub campus-name" id="school">나니와종합예술대학<span lang="ja">難波総合芸術大学</span></h3>
   </div>
   <!-- 학교: 캠퍼스 그림을 누르면 아래 상세가 열리고 닫힌다 -->
@@ -1198,6 +1213,7 @@ p { margin: 0; }
   <div class="bgm-head">
     <span class="slot bgm-cover" data-img="avatar"></span>
     <div class="bgm-ttl"><b>컨셉 BGM</b></div>
+    <button class="bgm-auto" type="button" id="bgm-auto" aria-pressed="false" title="한 곡이 끝나면 다음 곡을 이어서 재생해요">↻ 연속 재생</button>
     <button class="bgm-x" type="button" id="bgm-x" aria-label="플레이리스트 닫기">×</button>
   </div>
   <div class="bgm-player" id="bgm-player" hidden>
@@ -1250,6 +1266,7 @@ document.querySelectorAll("[data-img]").forEach(function (el) {
   if (el.dataset.img === "campus") { img.style.objectPosition = "32% top"; }
   const fallback = IMAGES[el.dataset.fallback];
   img.onload = function () {
+    el.classList.add("loaded");
     if (label) label.hidden = true;
     if (optional) { const w = el.closest("[data-optional-wrap]"); if (w) w.hidden = false; }
   };
@@ -1383,7 +1400,8 @@ toTop.addEventListener("click", function () { window.scrollTo({ top: 0, behavior
 
 /* 마시로 작업 BGM
    곡을 바꾸려면 TRACKS만 고치면 됩니다. id는 유튜브 주소의 v= 뒤 11글자.
-   곡을 누르기 전에는 유튜브를 아예 불러오지 않고, 한 곡이 끝나도 다음 곡으로 넘어가지 않습니다. */
+   곡을 누르기 전에는 유튜브를 아예 불러오지 않습니다.
+   '연속 재생'을 켜면 한 곡이 끝났을 때 다음 곡으로 넘어갑니다(기본은 꺼짐, 마지막 곡 다음은 1번). */
 (function () {
   const TRACKS = [
     { title: "センチメートル", artist: "the peggies", id: "I1hLZ2OchZ8" },
@@ -1398,7 +1416,13 @@ toTop.addEventListener("click", function () { window.scrollTo({ top: 0, behavior
   const player = document.getElementById("bgm-player");
   const frame = document.getElementById("bgm-frame");
   const yt = document.getElementById("bgm-yt");
+  const autoBtn = document.getElementById("bgm-auto");
   let current = -1;
+  let yp = null;            /* 유튜브 플레이어 (곡을 처음 누를 때 만든다) */
+  let api = "none";         /* none · loading · ready · failed */
+  let waiting = [];
+  let autoNext = false;
+  try { autoNext = localStorage.getItem("mayumaro-bgm-auto") === "1"; } catch (e) {}
 
   TRACKS.forEach(function (t, i) {
     const li = document.createElement("li");
@@ -1421,9 +1445,31 @@ toTop.addEventListener("click", function () { window.scrollTo({ top: 0, behavior
     btn.classList.toggle("playing", current >= 0);
     btn.setAttribute("aria-label", current >= 0 ? "컨셉 BGM 열기 (재생 중)" : "컨셉 BGM 열기");
   }
-  function play(i) {
-    if (i === current) return;
-    const t = TRACKS[i];
+  function setAuto(on) {
+    autoNext = on;
+    autoBtn.setAttribute("aria-pressed", String(on));
+    try { localStorage.setItem("mayumaro-bgm-auto", on ? "1" : "0"); } catch (e) {}
+  }
+  /* 유튜브 플레이어 API: 곡이 끝난 걸 알아야 다음 곡으로 넘길 수 있다. 곡을 처음 누를 때만 불러온다. */
+  function loadApi(done) {
+    if (window.YT && window.YT.Player) { done(true); return; }
+    waiting.push(done);
+    if (api === "loading") return;
+    api = "loading";
+    function flush(ok) { if (api !== "loading" && !ok) return; api = ok ? "ready" : "failed"; const q = waiting; waiting = []; q.forEach(function (f) { f(ok); }); }
+    const prev = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = function () { if (prev) prev(); flush(true); };
+    const sc = document.createElement("script");
+    sc.src = "https://www.youtube.com/iframe_api";
+    sc.onerror = function () { flush(false); };
+    document.head.appendChild(sc);
+    setTimeout(function () { if (api === "loading") flush(false); }, 6000);
+  }
+  function next() { play((current + 1) % TRACKS.length); }
+  function onState(e) { if (e.data === 0 && autoNext) next(); }   /* 0 = 곡 끝 */
+  function onErr() { if (autoNext) setTimeout(next, 1500); }      /* 퍼가기 막힌 곡은 건너뜀 */
+  function plainFrame(t) {
+    /* API를 못 불러오면 예전처럼 플레이어만 띄운다 (연속 재생은 안 됨) */
     const f = document.createElement("iframe");
     f.src = "https://www.youtube-nocookie.com/embed/" + t.id + "?autoplay=1&rel=0&playsinline=1";
     f.title = t.title + " – " + t.artist;
@@ -1431,17 +1477,38 @@ toTop.addEventListener("click", function () { window.scrollTo({ top: 0, behavior
     f.allowFullscreen = true;
     f.referrerPolicy = "strict-origin-when-cross-origin";
     frame.replaceChildren(f);
+  }
+  function play(i) {
+    if (i === current) return;
+    const t = TRACKS[i];
     yt.href = "https://www.youtube.com/watch?v=" + t.id;
     player.hidden = false;
     current = i;
     mark();
+    loadApi(function (ok) {
+      if (current !== i) return;
+      if (!ok) { if (yp) { yp.destroy(); yp = null; } plainFrame(t); return; }
+      if (yp && yp.loadVideoById) { yp.loadVideoById(t.id); return; }
+      const holder = document.createElement("div");
+      frame.replaceChildren(holder);
+      yp = new YT.Player(holder, {
+        host: "https://www.youtube-nocookie.com",
+        width: "100%", height: "100%",
+        videoId: t.id,
+        playerVars: { autoplay: 1, rel: 0, playsinline: 1 },
+        events: { onStateChange: onState, onError: onErr }
+      });
+    });
   }
   function stop() {
+    if (yp) { yp.destroy(); yp = null; }
     frame.replaceChildren();
     player.hidden = true;
     current = -1;
     mark();
   }
+  setAuto(autoNext);
+  autoBtn.addEventListener("click", function () { setAuto(!autoNext); });
   function setOpen(open) {
     panel.classList.toggle("open", open);
     if (open) panel.removeAttribute("inert"); else panel.setAttribute("inert", "");
