@@ -304,7 +304,12 @@ p { margin: 0; }
 .campus-lead { font-size: 15px; line-height: 1.85; color: #4a4550; }
 .campus-name { margin: 26px 0 14px; font-size: 19px; }
 .city-img { margin-top: 24px; }
-.campus .school-head { padding-top: 6px; }
+.campus .school-head { padding-top: 22px; }
+.school-fig { margin-bottom: 34px; }
+.campus-toggle { position: relative; display: block; width: 100%; padding: 0; border: 0; background: none; cursor: pointer; }
+.campus-hint { position: absolute; left: 50%; bottom: 12%; transform: translateX(-50%); background: rgba(34,32,39,.82); color: #fff; font-size: 13px; font-weight: 700; padding: 6px 15px; border-radius: 99px; box-shadow: 0 4px 14px rgba(0,0,0,.2); white-space: nowrap; transition: background .2s; }
+.campus-toggle:hover .campus-hint, .campus-toggle:focus-visible .campus-hint { background: var(--primary); }
+.campus-toggle:focus-visible { outline-offset: -4px; }
 
 /* ---------- 블록 사이 이음새 ---------- */
 .seam { height: 100px; }
@@ -853,7 +858,7 @@ p { margin: 0; }
           <p class="st-hook">같은 대학교, 교양 수업 같이 듣는 사이</p>
           <dl class="st-kv">
             <dt>언제</dt><dd>10/23(금) 3교시</dd>
-            <dt>어디</dt><dd><a href="#campus">나니와예대</a> 교양 '미학 입문'</dd>
+            <dt>어디</dt><dd><a href="#school">나니와예대</a> 교양 '미학 입문'</dd>
             <dt>당신</dt><dd>같은 수업을 듣는 나니와예대생</dd>
           </dl>
         </div>
@@ -871,14 +876,15 @@ p { margin: 0; }
   <div class="wrap campus-head">
     <p class="eyebrow">STAGE</p>
     <h2 class="sec">무대는 오사카<small>실제 지명·역·축제 이름이 그대로 나와요</small></h2>
-    <p class="campus-lead rv">지하철역, 서점, 상점가, 축제까지 오사카 시내 어디든 무대가 돼요. 그리고 마시로가 다니는 학교는 여기.</p>
   </div>
   <figure class="campus-img city-img rv"><div class="slot" data-img="osaka"><span class="slot-label">오사카 정경 (3:1)</span></div></figure>
   <div class="wrap campus-head school-head">
-    <h3 class="campus-sub campus-name">나니와종합예술대학<span lang="ja">難波総合芸術大学</span></h3>
+    <p class="campus-lead rv">지하철역, 서점, 상점가, 축제까지 오사카 시내 어디든 무대가 돼요. 그리고 마시로가 다니는 학교는 여기.</p>
+    <h3 class="campus-sub campus-name" id="school">나니와종합예술대학<span lang="ja">難波総合芸術大学</span></h3>
   </div>
-  <figure class="campus-img rv"><div class="slot" data-img="campus"><span class="slot-label">캠퍼스 (3:1)</span></div></figure>
-  <div class="wrap campus-body">
+  <!-- 학교: 캠퍼스 그림을 누르면 아래 상세가 열리고 닫힌다 -->
+  <figure class="campus-img school-fig rv"><button class="campus-toggle" type="button" id="school-toggle" aria-expanded="false" aria-controls="school-detail"><span class="slot" data-img="campus"><span class="slot-label">캠퍼스 (3:1)</span></span><span class="campus-hint" id="school-hint">학교 자세히 보기 ▾</span></button></figure>
+  <div class="wrap campus-body" id="school-detail" hidden>
     <div class="facts rv">
       <div><span>위치</span><b>오사카부 가난초</b><small>도심이 아닌 교외 캠퍼스</small></div>
       <div><span>통학</span><b>기시역 + 스쿨버스</b><small>아베노바시역에서 긴테쓰 약 25분, 버스로 10분</small></div>
@@ -1081,7 +1087,7 @@ p { margin: 0; }
       </div>
       <p class="muted" style="margin-top:12px">* 표시는 꼭 적어 주세요.</p>
       <ul class="plain" style="margin-top:10px">
-        <li>나니와예대생으로 시작한다면(🥞 추천), <a href="#campus">학교에 대한 설정</a>은 이 페이지의 나니와종합예술대학 칸을 참고해 주세요. 실제 학교를 모티프로 이름만 바꾼 정도예요.</li>
+        <li>나니와예대생으로 시작한다면(🥞 추천), <a href="#school">학교에 대한 설정</a>은 이 페이지의 나니와종합예술대학 칸을 참고해 주세요. 실제 학교를 모티프로 이름만 바꾼 정도예요.</li>
         <li>오사카라는 도시 자체에 대한 고증을 상세하게 지키도록 지시되어 있어요.</li>
       </ul>
     </div>
@@ -1357,6 +1363,22 @@ toTop.addEventListener("click", function () { window.scrollTo({ top: 0, behavior
   const mobile = window.matchMedia("(max-width: 719px)");
   props.addEventListener("click", function () { if (mobile.matches) props.classList.add("closed"); });
   open.addEventListener("click", function () { props.classList.remove("closed"); });
+})();
+
+/* 무대: 캠퍼스 그림을 누르면 학교 상세가 열린다.
+   학교 설명으로 가는 링크(#school)를 누르거나, 주소 끝이 #campus·#school인 채로 들어오면 열린 상태로 보여 준다. */
+(function () {
+  const tg = document.getElementById("school-toggle");
+  const detail = document.getElementById("school-detail");
+  const hint = document.getElementById("school-hint");
+  function setSchool(open) {
+    detail.hidden = !open;
+    tg.setAttribute("aria-expanded", String(open));
+    hint.textContent = open ? "접기 ▴" : "학교 자세히 보기 ▾";
+  }
+  tg.addEventListener("click", function () { setSchool(detail.hidden); });
+  document.querySelectorAll('a[href="#school"]').forEach(function (a) { a.addEventListener("click", function () { setSchool(true); }); });
+  if (location.hash === "#campus" || location.hash === "#school") setSchool(true);
 })();
 
 /* 마시로 작업 BGM
